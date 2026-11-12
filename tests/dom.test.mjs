@@ -106,3 +106,14 @@ test('entry panels reveal one reading group and preserve filters across panel an
  s.click('#reader-tab-overview');s.q('#reader-tab-overview').dispatchEvent(new s.w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert.equal(s.q('#reader-panel-analysis').hidden,false);assert.equal(s.w.document.activeElement.id,'reader-tab-analysis');
  }finally{s.close();}
 });
+
+test('category index starts compact and expands only the selected category',async()=>{
+ const s=await setup({hash:'#/ai'});try{
+ const items=[...s.w.document.querySelectorAll('.category-row')];assert.equal(items.length,7);
+ assert.equal(items.filter(el=>el.open).length,0);
+ s.click('[data-category-id="care"] > summary');await tick();assert.equal(items[0].open,true);
+ s.click('[data-category-id="connection"] > summary');await tick();assert.equal(items[0].open,false);assert.equal(items.filter(el=>el.open).length,1);
+ s.click('[data-category-id="attachment"] > summary');await tick();s.click('[data-open-category="attachment"]');
+ assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
+ }finally{s.close();}
+});

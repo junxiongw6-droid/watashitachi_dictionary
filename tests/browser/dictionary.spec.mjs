@@ -1,10 +1,16 @@
 import {test,expect} from '@playwright/test';
+import {readFileSync} from 'node:fs';
+const source=JSON.parse(readFileSync(new URL('../../data/dictionary.json',import.meta.url),'utf8'));
 for(const width of [375,390,430,768,1280]) {
  test(`${width}px — all routes fit and touch interactions work`,async({page},testInfo)=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.setViewportSize({width,height:844});
   await page.goto('./');await expect(page.locator('.word-entry')).toHaveCount(3);
   await page.evaluate(()=>document.fonts.ready);
+  if(width<=430){
+   const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);
+   expect(bottom).toBeLessThanOrEqual(844);
+  }
   await page.screenshot({path:testInfo.outputPath('home.png'),fullPage:true});
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
@@ -15,7 +21,16 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('#reader-panel-overview')).toBeVisible();
   await expect(page.locator('#reader-panel-answers')).toBeHidden();
   await page.screenshot({path:testInfo.outputPath('ai.png'),fullPage:true});
-  await page.locator('.category-row summary').first().click();await expect(page.locator('.category-row details').first()).toHaveAttribute('open','');
+  await expect(page.locator('.category-row[open]')).toHaveCount(0);
+  await page.locator('.category-row summary').first().click();await expect(page.locator('.category-row').first()).toHaveAttribute('open','');
+  await page.locator('.category-row summary').nth(1).click();await expect(page.locator('.category-row[open]')).toHaveCount(1);
+  await expect(page.locator('.category-row').first()).not.toHaveAttribute('open','');
+  await expect(page.getByText('言葉を選ぶ',{exact:true})).toBeVisible();
+  await expect(page.getByText('読む内容',{exact:true})).toBeVisible();
+  if(width<=430){
+   expect(await page.locator('#reader-tab-answers').evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
+   expect(await page.locator('#reader-tab-answers').evaluate(el=>el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48);
+  }
   await page.locator('#reader-tab-answers').click();
   await expect(page.locator('#reader-panel-answers')).toBeVisible();await expect(page.locator('#reader-panel-overview')).toBeHidden();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -70,9 +85,27 @@ test('entry reading tabs support deep links, keyboard control and category short
  await page.screenshot({path:testInfo.outputPath('ai-analysis.png'),fullPage:true});
  await page.goBack();await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await page.locator('#reader-tab-overview').click();
+ await page.locator('[data-category-id="attachment"] > summary').click();
  await page.locator('[data-open-category="attachment"]').click();
  await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await expect(page.locator('#response-list .response-card')).toHaveCount(1);
  await page.goto('./#/kazoku?person=p01');await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await expect(page.locator('#response-list .response-card')).toHaveCount(1);
+});
+
+test('printable class review contains all exact originals and unfilled confirmation fields',async({page},testInfo)=>{
+ await page.goto('./#/about');
+ await page.getByRole('link',{name:'確認用シートをひらく ↗'}).click();
+ await expect(page.getByRole('heading',{level:1})).toContainText('クラスで確かめる');
+ await expect(page.getByText('確認状況：未確認。本人・クラスによる確認は、これから行います。',{exact:true})).toBeVisible();
+ await expect(page.locator('tr[data-record]')).toHaveCount(source.responses.length);
+ for(const r of source.responses){
+  const row=page.locator(`tr[data-record="${r.id}"]`);
+  expect(await row.locator('.original').textContent()).toBe(r.text);
+  const name=source.respondents.find(p=>p.id===r.respondentId).name;
+  expect(await row.locator('td').first().locator('.raw').textContent()).toBe(name);
+ }
+ await page.setViewportSize({width:375,height:844});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:testInfo.outputPath('class-review.png'),fullPage:false});
 });

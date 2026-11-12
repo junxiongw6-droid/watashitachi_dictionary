@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 from convert_excel import ROOT, read_workbook, find_source
 from validate_data import validate
+from generate_review import render_review
 
 
 def assemble(raw, editorial, mode='anonymous'):
@@ -40,6 +41,11 @@ def main():
     (dist/'.nojekyll').touch()
     (dist/'data').mkdir()
     (dist/'data/dictionary.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+    review=render_review(data)
+    (ROOT/'review').mkdir(exist_ok=True)
+    (ROOT/'review/index.html').write_text(review)
+    (dist/'review').mkdir()
+    (dist/'review/index.html').write_text(review)
     # Content versions ensure a new release never reuses cached scripts, styles or data.
     def version(path):
         return hashlib.sha256((dist/path).read_bytes()).hexdigest()[:16]
@@ -47,6 +53,7 @@ def main():
     app_text=app.read_text()
     app_text=app_text.replace("'./core.mjs'", "'./core.mjs?v="+version('js/core.mjs')+"'")
     app_text=app_text.replace("'../data/dictionary.json'", "'../data/dictionary.json?v="+version('data/dictionary.json')+"'")
+    app_text=app_text.replace('href="./review/index.html"', 'href="./review/index.html?v='+version('review/index.html')+'"')
     app.write_text(app_text)
     index=dist/'index.html'
     html=index.read_text()
