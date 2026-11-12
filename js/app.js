@@ -1,6 +1,6 @@
 import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData} from './core.mjs';
 const main=document.querySelector('main');
-let data, warnings=[], route, previousHash='', lastRandom='';
+let data, warnings=[], route, previousHash='';
 const positions=new Map();
 const titles={kazoku:'家族',ai:'愛',jiyuu:'自由'};
 const wordLink=w=>`#/${w.id}`;
@@ -14,17 +14,10 @@ function responseCard(r, showWord=false) {
   const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
   return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')}</a><span>${showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a> · `:''}${e(c?.title || '分類情報なし')}</span></div><blockquote>${e(r.text)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}<small class="record">記録 ${e(r.id)}</small></article>`;
 }
-function randomCard() {
-  const candidates=data.responses.filter(r=>r.id!==lastRandom);
-  const r=candidates[Math.floor(Math.random()*candidates.length)] || data.responses[0];
-  if (!r) return '<p>まだ回答がありません。</p>';
-  lastRandom=r.id;
-  return `<a class="random-word" href="#/${r.wordId}">${e(titles[r.wordId])} <span>について</span></a><blockquote>${e(r.text)}</blockquote><a class="random-person" href="#/people?id=${r.respondentId}">— ${e(person(r.respondentId)?.name || '回答者')}</a>`;
-}
 function home() {
  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><span></span> A DICTIONARY WOVEN BY US</p><h1>私たちの<br>言葉辞典</h1><p class="hero-subtitle">家族・愛・自由</p><div class="hero-intro"><p>同じ言葉でも、<br>思い浮かべる景色は一人ひとり違う。</p><p>クラスのみんなが、自分の言葉で綴った<br class="desktop-break">小さな辞典です。</p></div></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="vertical-line"></div><p class="vertical-poem">言葉の向こうに、<br>一人ひとりの景色。</p><span class="red-seal">私たち<br>の言葉</span><span class="art-caption">${data.respondents.length}人の声、三つの言葉。</span></div><div class="hero-foot"><span>日本語クラス 共同編纂プロジェクト</span><span>${data.respondents.length}人の声 <i>／</i> ${data.responses.length}の回答 <i>／</i> 3つの言葉</span></div></section>
  <section class="entries" id="entries"><div class="section-top"><div><p class="eyebrow">THE THREE WORDS</p><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section>
- <section class="explore-section"><div class="search-panel"><p class="eyebrow">FIND A VOICE</p><h2>気になる言葉から探す</h2><p>言葉や回答者の名前を、ひとつ。</p><form id="home-search"><label class="sr-only" for="home-query">キーワード・回答者名</label><div class="search-input"><span aria-hidden="true">⌕</span><input id="home-query" name="q" placeholder="キーワード・回答者名" type="search"><button type="submit">探す ↗</button></div></form><a class="text-link" href="#/people">回答者から探す <span>↗</span></a></div><div class="random-panel"><div class="random-heading"><p class="eyebrow">A LITTLE DISCOVERY</p><button class="quiet-button" id="random">もうひとこと ↻</button></div><h2>今日のひとこと</h2><div id="random-content" aria-live="polite">${randomCard()}</div></div></section>
+ <section class="explore-section"><div class="search-panel"><p class="eyebrow">FIND A VOICE</p><h2>気になる言葉から探す</h2><p>言葉や回答者の名前を、ひとつ。</p><form id="home-search"><label class="sr-only" for="home-query">キーワード・回答者名</label><div class="search-input"><span aria-hidden="true">⌕</span><input id="home-query" name="q" placeholder="キーワード・回答者名" type="search"><button type="submit">探す ↗</button></div></form><a class="text-link" href="#/people">回答者から探す <span>↗</span></a></div></section>
  <section class="about-teaser"><span class="small-seal">編</span><div><h2>辞書を編むことは、<br>お互いを知ること。</h2><p>集め、比べ、意味を見つける。<br>一人ひとりの答えを残しながら、私たちなりの定義を編みました。</p><a class="text-link" href="#/about">この辞典ができるまで <span>↗</span></a></div></section>`;
 }
 function filterBar(word) {
@@ -138,7 +131,6 @@ main.addEventListener('change',event=>{if(event.target.id==='person-select')loca
 main.addEventListener('submit',event=>{if(event.target.id==='home-search'){event.preventDefault();location.hash='#/search?q='+encodeURIComponent(new FormData(event.target).get('q') || '');}});
 main.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;
- if(button.id==='random'){document.querySelector('#random-content').innerHTML=randomCard();}
  if(button.id==='share')share();
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
  if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});

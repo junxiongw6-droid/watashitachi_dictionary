@@ -47,7 +47,7 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('[data-category="unconditional"]')).toHaveAttribute('aria-pressed','true');
   await page.goto('./#/people?id=p01');await expect(page.locator('.person-answers .response-card')).toHaveCount(3);
   await page.locator('#person-select').selectOption('p07');await expect(page.locator('.person-answers blockquote').first()).toHaveText('    血がつながっている人');
-  await page.goto('./');const before=await page.locator('#random-content blockquote').textContent();await page.locator('#random').click();expect(await page.locator('#random-content blockquote').textContent()).not.toBe(before);
+  await page.goto('./');await expect(page.getByRole('heading',{name:'今日のひとこと',exact:true})).toHaveCount(0);await expect(page.locator('.search-panel')).toBeVisible();
   await page.goto('./#/about');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
  });
