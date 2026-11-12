@@ -8,7 +8,7 @@ const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
 function toast(text) {const el=document.querySelector('#toast');el.textContent=text;el.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.hidden=true,3500);}
-function evidence(ids=[]) {return `<div class="evidence"><span>根拠となる回答</span>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div>`;}
+function evidence(ids=[]) {return `<details class="evidence"><summary>根拠となる回答を見る</summary><div>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div></details>`;}
 function responseCard(r, showWord=false) {
   const w=data.editorial.words.find(w=>w.id===r.wordId);
   const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
@@ -37,13 +37,48 @@ function searchInput() {
 function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
  const index=data.editorial.words.indexOf(w);
- return `<div class="page-wrap"><div class="breadcrumb"><a href="#/">辞典の表紙</a><span>／</span><span>${w.title}</span></div><header class="word-header"><div><p class="eyebrow">第${w.number}章 <span>—</span> ${total}人の言葉から</p><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div><button class="quiet-button share" id="share">リンクをコピー ↗</button></header><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav>
- <section class="definition"><p class="section-label">01 <span>私たちの定義</span></p><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
- <section class="content-section"><div class="section-top"><div><p class="section-label">02 <span>意味のまとまり</span></p><h2>同じ言葉、さまざまな輪郭。</h2></div><p>主分類は一人につき一つ</p></div><p class="section-description">${e(data.editorial.method)}</p><div class="category-list">${counts.map((c,i)=>`<article class="category-row"><button class="category-button" data-open-category="${e(c.id)}"><span class="category-number">${String(i+1).padStart(2,'0')}</span><span class="category-info"><strong>${e(c.title)}</strong><span>${e(c.description)}</span><span class="bar-track"><span style="width:${total?c.count/total*100:0}%"></span></span></span><span class="category-count">${c.count}<small>人</small><span>回答を読む ↗</span></span></button><details><summary>代表的な回答・所属回答者</summary><div class="representatives">${(c.representativeIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div><p class="member-list">所属回答者：${(c.responseIds || []).map(id=>{const r=response(id);return r?e(person(r.respondentId)?.name || '回答者'):'';}).join('、')}</p></details></article>`).join('') || '<p>分類情報は準備中です。下の原文をお読みください。</p>'}</div></section>
- <section class="content-section" id="responses"><div class="section-top"><div><p class="section-label">03 <span>みんなの回答</span></p><h2>一人ひとりの言葉を、そのままに。</h2></div><span class="total-badge">全 ${total} 件</span></div><p class="section-description">表記や空白を含め、回答原文をそのまま掲載しています。</p>${searchInput()}${filterBar(w)}<div id="person-filter"></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div></section>
- <section class="analysis-grid content-section"><div><p class="section-label">04 <span>共通点と違い</span></p><h2>${e(w.common.title)}</h2><p>${e(w.common.text)}</p>${evidence(w.common.evidenceIds)}</div><aside><span class="large-quote" aria-hidden="true">“</span><p>違いを残すことで、<br>言葉の意味が<br>少し、広くなる。</p></aside></section>
- <section class="content-section"><p class="section-label">05 <span>新しい発見</span></p><div class="discovery-grid">${w.discoveries.map(d=>`<article><span class="discovery-star" aria-hidden="true">✳</span><h2>${e(d.title)}</h2><p>${e(d.text)}</p>${evidence(d.evidenceIds)}</article>`).join('')}</div></section>
- <section class="summary-section"><p class="section-label">06 <span>まとめ</span></p><h2>この言葉から、見えてきたこと。</h2><p>${e(w.summary)}</p><small>このページの定義・分類・分析・まとめは、すべて編者による編集内容です。</small></section><nav class="page-navigation" aria-label="次の言葉"><a href="#/${data.editorial.words[(index+2)%3].id}">← 前の言葉<span>${data.editorial.words[(index+2)%3].title}</span></a><a href="#/">表紙へ</a><a href="#/${data.editorial.words[(index+1)%3].id}">次の言葉 →<span>${data.editorial.words[(index+1)%3].title}</span></a></nav></div>`;
+ return `<div class="page-wrap entry-page"><div class="breadcrumb"><a href="#/">辞典の表紙</a><span>／</span><span>${w.title}</span></div>
+ <header class="word-header"><div><p class="eyebrow">第${w.number}章 <span>—</span> ${total}人の言葉から</p><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div><button class="quiet-button share" id="share">リンクをコピー ↗</button></header>
+ <nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav>
+ <div class="reader-tabs" role="tablist" aria-label="この言葉の読み方">
+  <button type="button" id="reader-tab-overview" role="tab" aria-controls="reader-panel-overview" data-view="overview"><span>01</span> 定義・分類</button>
+  <button type="button" id="reader-tab-answers" role="tab" aria-controls="reader-panel-answers" data-view="answers"><span>02</span> みんなの回答 <small>${total}</small></button>
+  <button type="button" id="reader-tab-analysis" role="tab" aria-controls="reader-panel-analysis" data-view="analysis"><span>03</span> 分析・まとめ</button>
+ </div>
+ <div class="reader-content">
+  <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
+   <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
+   <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2><p>分類を選ぶと、その回答を読めます。</p></div>
+    <div class="category-list">${counts.map(c=>`<article class="category-row"><button class="category-button" data-open-category="${e(c.id)}" aria-label="${e(c.title)}の回答を読む（${c.count}人）"><span class="category-info"><strong>${e(c.title)}</strong><span>${e(c.description)}</span><span class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></span></span><span class="category-count">${c.count}<small>人</small><span>回答へ ↗</span></span></button><details><summary>代表回答とメンバーを見る</summary><div class="representatives">${(c.representativeIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div><p class="member-list">所属回答者：${(c.responseIds || []).map(id=>{const r=response(id);return r?e(person(r.respondentId)?.name || '回答者'):'';}).join('、')}</p></details></article>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
+    <details class="method-details"><summary>分類方法について</summary><p>${e(data.editorial.method)}</p></details>
+   </section>
+   <div class="reader-next"><span>一人ひとりの言葉を、そのままに。</span><button data-view="answers">みんなの回答を読む →</button></div>
+  </div>
+  <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
+   <section id="responses"><div class="section-top"><h2>みんなの回答</h2><span class="total-badge">全 ${total} 件</span></div><p class="section-description">表記や空白を含め、回答原文をそのまま掲載しています。</p>
+    <div class="response-tools">${searchInput()}${filterBar(w)}<div id="person-filter"></div></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div>
+   </section>
+   <div class="reader-next"><span>共通点や違いから、言葉をもう少し深く。</span><button data-view="analysis">分析・まとめを読む →</button></div>
+  </div>
+  <div id="reader-panel-analysis" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-analysis" tabindex="0" hidden>
+   <section class="reader-analysis"><p class="analysis-label">共通点と違い</p><h2>${e(w.common.title)}</h2><p>${e(w.common.text)}</p>${evidence(w.common.evidenceIds)}</section>
+   <section class="content-section"><h2>新しい発見</h2><div class="discovery-grid">${w.discoveries.map(d=>`<article><h3>${e(d.title)}</h3><p>${e(d.text)}</p>${evidence(d.evidenceIds)}</article>`).join('')}</div></section>
+   <section class="summary-section"><p class="analysis-label">まとめ</p><h2>この言葉から、見えてきたこと。</h2><p>${e(w.summary)}</p><small>このページの定義・分類・分析・まとめは、すべて編者による編集内容です。</small></section>
+  </div>
+ </div>
+ <nav class="page-navigation" aria-label="次の言葉"><a href="#/${data.editorial.words[(index+2)%3].id}">← 前の言葉<span>${data.editorial.words[(index+2)%3].title}</span></a><a href="#/">表紙へ</a><a href="#/${data.editorial.words[(index+1)%3].id}">次の言葉 →<span>${data.editorial.words[(index+1)%3].title}</span></a></nav></div>`;
+}
+function syncReaderView() {
+ const panels=document.querySelectorAll('.reader-panel');
+ if(!panels.length)return;
+ const requested=route.params.get('view');
+ const view=['overview','answers','analysis'].includes(requested)?requested:
+  (['q','category','person'].some(k=>route.params.get(k))?'answers':'overview');
+ panels.forEach(panel=>panel.hidden=panel.id!==`reader-panel-${view}`);
+ document.querySelectorAll('.reader-tabs [data-view]').forEach(tab=>{
+  const active=tab.dataset.view===view;
+  tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;
+ });
 }
 function peoplePage() {
  const selected=route.params.get('id');
@@ -60,6 +95,7 @@ function updateResponses() {
  const wordId=route.path.slice(1), isWord=!!titles[wordId];
  const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
  const list=document.querySelector('#response-list');
+ syncReaderView();
  if (!list)return;
  list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
@@ -67,10 +103,11 @@ function updateResponses() {
  const personFilter=document.querySelector('#person-filter');
  if(personFilter) {const p=person(route.params.get('person'));personFilter.innerHTML=p?`<p>回答者：${e(p.name)} <button data-reset>絞り込みを解除</button></p>`:'';}
 }
-function updateParams(updates) {
+function updateParams(updates, {push=false}={}) {
+ if(push)positions.set(location.hash,scrollY);
  for (const [k,v] of Object.entries(updates)) v?route.params.set(k,v):route.params.delete(k);
  const hash=`#${route.path}${route.params.size?'?'+route.params.toString():''}`;
- history.replaceState(null,'',hash);previousHash=hash;
+ history[push?'pushState':'replaceState'](null,'',hash);previousHash=hash;
  updateResponses();
 }
 function reset() {const input=document.querySelector('#response-query');if(input)input.value='';updateParams({q:'',category:'',person:''});}
@@ -104,8 +141,21 @@ main.addEventListener('click',event=>{
  if(button.id==='share')share();
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
  if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});
- if(button.hasAttribute('data-open-category')){updateParams({category:button.dataset.openCategory,q:'',person:''});document.querySelector('#response-query').value='';document.querySelector('#responses').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+ if(button.hasAttribute('data-open-category')){updateParams({category:button.dataset.openCategory,q:'',person:'',view:'answers'});document.querySelector('#response-query').value='';document.querySelector('#responses').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+ if(button.hasAttribute('data-view')){
+  updateParams({view:button.dataset.view},{push:true});
+  document.querySelector('.reader-tabs').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  document.querySelector(`#reader-tab-${button.dataset.view}`).focus({preventScroll:true});
+  announce(document.querySelector(`#reader-tab-${button.dataset.view}`).textContent.trim()+'を表示しました。');
+ }
  if(button.id==='retry')load();
+});
+main.addEventListener('keydown',event=>{
+ const current=event.target.closest('.reader-tabs [role="tab"]');
+ if(!current || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+ event.preventDefault();const tabs=[...document.querySelectorAll('.reader-tabs [role="tab"]')];const index=tabs.indexOf(current);
+ const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+ tabs[next].click();
 });
 document.addEventListener('click',event=>{const a=event.target.closest('a');if(a?.getAttribute('href')?.startsWith('#/'))positions.set(location.hash,scrollY);if(a?.getAttribute('href')==='#entries'){event.preventDefault();document.querySelector('#entries')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}});
 window.addEventListener('scroll',()=>{positions.set(previousHash,scrollY);document.querySelector('#top').hidden=scrollY<600;},{passive:true});

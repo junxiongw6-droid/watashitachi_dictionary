@@ -12,12 +12,18 @@ for(const width of [375,390,430,768,1280]) {
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.goto('./#/ai');
+  await expect(page.locator('#reader-panel-overview')).toBeVisible();
+  await expect(page.locator('#reader-panel-answers')).toBeHidden();
   await page.screenshot({path:testInfo.outputPath('ai.png'),fullPage:true});
+  await page.locator('.category-row summary').first().click();await expect(page.locator('.category-row details').first()).toHaveAttribute('open','');
+  await page.locator('#reader-tab-answers').click();
+  await expect(page.locator('#reader-panel-answers')).toBeVisible();await expect(page.locator('#reader-panel-overview')).toBeHidden();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:testInfo.outputPath('ai-answers.png'),fullPage:true});
   await page.locator('#response-query').fill('執念');await expect(page.locator('#response-list .response-card')).toHaveCount(1);
   await page.locator('#response-query').fill('ZZZZZZ');await expect(page.getByText('該当する回答が見つかりませんでした。')).toBeVisible();
   await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(3);
-  await page.locator('summary').first().click();await expect(page.locator('details').first()).toHaveAttribute('open','');
   await page.locator('#share').click();
   await expect(page.locator('#toast:not([hidden]), #share-fallback')).toBeVisible();
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
@@ -38,7 +44,7 @@ test('load failure presents retry control',async({page})=>{
 test('long original answers fit narrow viewport and are never truncated',async({page})=>{
  await page.setViewportSize({width:375,height:844});
  await page.route('**/data/dictionary.json*',async route=>{const result=await route.fetch();const data=await result.json();data.responses[0].text='とても長い原文'.repeat(500);await route.fulfill({json:data});});
- await page.goto('./#/kazoku');await expect(page.locator('#response-list blockquote').first()).toHaveText('とても長い原文'.repeat(500));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.goto('./#/kazoku?view=answers');await expect(page.locator('#response-list blockquote').first()).toHaveText('とても長い原文'.repeat(500));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
 test('published about page loads versioned code and removes requested privacy block',async({page},testInfo)=>{
@@ -51,4 +57,22 @@ test('published about page loads versioned code and removes requested privacy bl
  await expect(page.locator('script[type="module"]')).toHaveAttribute('src',/app\.js\?v=[a-f0-9]{16}$/);
  await page.evaluate(()=>document.fonts.ready);
  await page.screenshot({path:testInfo.outputPath('about-privacy-removed.png'),fullPage:true});
+});
+
+test('entry reading tabs support deep links, keyboard control and category shortcuts',async({page},testInfo)=>{
+ await page.goto('./#/ai');
+ await expect(page.locator('.reader-panel:visible')).toHaveCount(1);
+ await page.locator('#reader-tab-overview').focus();await page.keyboard.press('ArrowRight');
+ await expect(page.locator('#reader-tab-answers')).toHaveAttribute('aria-selected','true');
+ await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await page.keyboard.press('End');await expect(page.locator('#reader-panel-analysis')).toBeVisible();
+ await expect(page.locator('#reader-panel-answers')).toBeHidden();
+ await page.screenshot({path:testInfo.outputPath('ai-analysis.png'),fullPage:true});
+ await page.goBack();await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await page.locator('#reader-tab-overview').click();
+ await page.locator('[data-open-category="attachment"]').click();
+ await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await expect(page.locator('#response-list .response-card')).toHaveCount(1);
+ await page.goto('./#/kazoku?person=p01');await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await expect(page.locator('#response-list .response-card')).toHaveCount(1);
 });

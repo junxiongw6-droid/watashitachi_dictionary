@@ -93,3 +93,16 @@ test('zero responses, missing categories, long HTML-like text remain readable',a
 test('fast route changes finish on the last requested word',async()=>{
  const s=await setup();try{for(const key of ['kazoku','ai','jiyuu','kazoku','jiyuu'])s.w.location.hash='#/'+key;await tick();assert.match(s.q('h1').textContent,/自由/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);}finally{s.close();}
 });
+
+test('entry panels reveal one reading group and preserve filters across panel and history changes',async()=>{
+ const s=await setup({hash:'#/ai'});try{
+ assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('#reader-panel-answers').hidden,true);assert.equal(s.q('#reader-panel-analysis').hidden,true);
+ s.click('#reader-tab-answers');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#reader-panel-overview').hidden,true);
+ s.input('#response-query','見返り');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,2);
+ s.click('#reader-tab-analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
+ s.w.history.back();await tick();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#response-query').value,'見返り');
+ s.click('#reader-tab-overview');s.click('[data-open-category="attachment"]');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
+ await s.navigate('#/kazoku?person=p01');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
+ s.click('#reader-tab-overview');s.q('#reader-tab-overview').dispatchEvent(new s.w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert.equal(s.q('#reader-panel-analysis').hidden,false);assert.equal(s.w.document.activeElement.id,'reader-tab-analysis');
+ }finally{s.close();}
+});
