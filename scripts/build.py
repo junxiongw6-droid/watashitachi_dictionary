@@ -1,5 +1,6 @@
 """Explicit allowlist deployment: never copy Excel, private/, or source .git."""
 import argparse
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -39,6 +40,19 @@ def main():
     (dist/'.nojekyll').touch()
     (dist/'data').mkdir()
     (dist/'data/dictionary.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+    # Content versions ensure a new release never reuses cached scripts, styles or data.
+    def version(path):
+        return hashlib.sha256((dist/path).read_bytes()).hexdigest()[:16]
+    app=dist/'js/app.js'
+    app_text=app.read_text()
+    app_text=app_text.replace("'./core.mjs'", "'./core.mjs?v="+version('js/core.mjs')+"'")
+    app_text=app_text.replace("'../data/dictionary.json'", "'../data/dictionary.json?v="+version('data/dictionary.json')+"'")
+    app.write_text(app_text)
+    index=dist/'index.html'
+    html=index.read_text()
+    for resource in ['js/app.js','css/style.css','css/fonts.css']:
+        html=html.replace('./'+resource+'"', './'+resource+'?v='+version(resource)+'"')
+    index.write_text(html)
     if args.mode=='anonymous':
         # Check the entire public output, not only the visible name field.
         for file in dist.rglob('*'):

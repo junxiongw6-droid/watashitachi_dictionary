@@ -32,11 +32,23 @@ for(const width of [375,390,430,768,1280]) {
  });
 }
 test('load failure presents retry control',async({page})=>{
- await page.route('**/data/dictionary.json',route=>route.fulfill({status:404,body:'missing'}));
+ await page.route('**/data/dictionary.json*',route=>route.fulfill({status:404,body:'missing'}));
  await page.goto('./');await expect(page.getByRole('heading',{name:'辞典を読み込めませんでした。'})).toBeVisible();await expect(page.locator('#retry')).toBeVisible();
 });
 test('long original answers fit narrow viewport and are never truncated',async({page})=>{
  await page.setViewportSize({width:375,height:844});
- await page.route('**/data/dictionary.json',async route=>{const result=await route.fetch();const data=await result.json();data.responses[0].text='とても長い原文'.repeat(500);await route.fulfill({json:data});});
+ await page.route('**/data/dictionary.json*',async route=>{const result=await route.fetch();const data=await result.json();data.responses[0].text='とても長い原文'.repeat(500);await route.fulfill({json:data});});
  await page.goto('./#/kazoku');await expect(page.locator('#response-list blockquote').first()).toHaveText('とても長い原文'.repeat(500));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('published about page loads versioned code and removes requested privacy block',async({page},testInfo)=>{
+ await page.goto('./?release=privacy-removal-v2#/about');
+ await expect(page.getByRole('heading',{name:'この辞典について',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'プライバシーについて',exact:true})).toHaveCount(0);
+ await expect(page.locator('main')).not.toContainText('名前はすべて仮名であることを確認し');
+ await expect(page.locator('main')).not.toContainText('公開前に内容と同意を確認してください');
+ await expect(page.getByRole('heading',{name:'読むための小さな案内',exact:true})).toBeVisible();
+ await expect(page.locator('script[type="module"]')).toHaveAttribute('src',/app\.js\?v=[a-f0-9]{16}$/);
+ await page.evaluate(()=>document.fonts.ready);
+ await page.screenshot({path:testInfo.outputPath('about-privacy-removed.png'),fullPage:true});
 });

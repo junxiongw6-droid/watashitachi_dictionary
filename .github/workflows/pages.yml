@@ -69,6 +69,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: pip install -r requirements.txt
+      - run: python scripts/build.py
       - name: Verify real public URL and original names and responses
         env:
           SITE_URL: ${{ needs.deploy.outputs.page_url }}
