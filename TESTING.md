@@ -72,3 +72,21 @@ npm run test:browser
 ```
 
 本机预览只提供dist目录。此前共享环境的 `sites-preview` 转发服务多次超时，因此改由仓库中的GitHub Actions运行浏览器测试，未绕过云环境网络限制。
+
+
+## 2026-11-13：按顺序改进可读性与课堂复核
+
+源码版本：fba056f33a329d2e4e84ab6912d209d2427fa7a3。
+
+运行记录：https://github.com/junxiongw6-droid/watashitachi_dictionary/actions/runs/43246873881
+
+- 本地23项JavaScript/DOM与11项Python测试通过。
+- 发布前20项Chromium/WebKit测试通过（26.3秒），发布后在真实网站再跑20项全部通过（40.8秒）。
+- 375／390／430px时三个词条入口均位于844px高的首屏内；五种宽度无横向溢出。
+- 手机阅读页签字体至少14px，点击高度至少48px；主内容、分类说明和辅助文字已放大。
+- 「言葉を選ぶ」按钮组与「読む内容」页签分开；分类目录默认全部折叠，一次只打开一个，筛选跳转有效。
+- 线上HTML、CSS、JS、JSON及review核对表逐字节匹配本次构建。
+- 核对表54条原文与姓名均按记录ID逐条比对，包括空白字符；确认栏未填写，明确标记尚待本人及课堂复核。
+- 已查看375px WebKit首页与词条截图、1280px Chromium首页截图。真实iPhone Safari验收仍未执行。
+
+可打印核对表：https://junxiongw6-droid.github.io/watashitachi_dictionary/review/index.html

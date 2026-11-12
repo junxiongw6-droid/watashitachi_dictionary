@@ -6,6 +6,14 @@
 
 二维码：[PNG](qr/dictionary-qr.png) · [SVG](qr/dictionary-qr.svg)。PNG为492×492像素，黑白、四模块静区，独立ZXing解码验证通过，指向上述实际网站地址。
 
+## 2026-11-13 更新
+
+已发布手机可读性、导航区分、紧凑分类目录和首页入口前移的改进，并提供[可打印的课堂核对表](https://junxiongw6-droid.github.io/watashitachi_dictionary/review/index.html)。源代码版本为 `fba056f33a329d2e4e84ab6912d209d2427fa7a3`。
+
+[本次部署和线上检查](https://github.com/junxiongw6-droid/watashitachi_dictionary/actions/runs/43246873881)全部成功。发布前后各20项Chromium/WebKit浏览器测试通过；54条原文与原始化名保持不变。核对表的本人确认仍待课堂实际完成。
+
+以下保留初版发布信息。
+
 ## 发布内容
 
 - 18位回答者；家族18、愛18、自由18，合计54条原始回答。
