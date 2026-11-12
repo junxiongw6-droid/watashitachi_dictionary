@@ -121,14 +121,14 @@ python scripts/validate_data.py --data dist/data/dictionary.json
 
 `npm test` 使用 Node 的实验性 VM Module 测试加载器，会出现 ExperimentalWarning；该加载器仅用于测试，不用于网站运行。
 
-已有浏览器测试（本轮未执行）：
+浏览器测试（已在 GitHub Actions 实际通过14项，可本机复现）：
 
 ```sh
 npx playwright install --with-deps chromium webkit
 npm run test:browser
 ```
 
-它会启动本地预览，对 Chromium / WebKit 分别检查 375、390、430、768、1280px 宽度的交互与溢出，以及加载失败、长回答。WebKit 测试也不等于真实 iPhone Safari。请再用真实 iPhone Safari、Android Chrome 和 Edge 验收。详细状态见 `TESTING.md`，不能将未运行的项目当作通过。
+本机运行时会启动本地预览，对 Chromium / WebKit 分别检查 375、390、430、768、1280px 宽度的交互与溢出，以及加载失败、长回答。WebKit 测试也不等于真实 iPhone Safari。请再用真实 iPhone Safari、Android Chrome 和 Edge 验收。详细状态见 `TESTING.md`，不能将未运行的项目当作通过。
 
 ## 8. GitHub Pages 部署
 
@@ -193,5 +193,5 @@ python scripts/build.py --mode anonymous
 - **分类合计超过人数**：每条回答只能有一个主分类，其他观点使用 tags；校验会拒绝遗漏或重复。
 - **复制链接失败**：网站会显示选中后的真实 URL，长按或手动复制；关闭后返回复制按钮。
 - **字体加载慢**：使用系统日文字体回退、`font-display: swap` 和 Unicode 分片；首次加载后浏览器可缓存。
-- **Safari 是否已测**：没有。本轮预览转发服务超时；DOM 测试不等于浏览器测试，详见测试报告。
+- **Safari 是否已测**：Chromium和WebKit的14项浏览器测试已在GitHub Actions通过，但未进行真实iPhone Safari验收；详见测试报告。
 - **部署结果**：请查看 `DEPLOYMENT.md` 和 GitHub Actions 的最新结果；只有成功发布并验证后才生成二维码。
