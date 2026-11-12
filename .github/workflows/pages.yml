@@ -42,6 +42,8 @@ jobs:
           path: dist
   deploy:
     needs: build
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       pages: write
       id-token: write
@@ -53,3 +55,43 @@ jobs:
       - name: Deploy approved dictionary artifact
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: pip install -r requirements.txt
+      - name: Verify real public URL and original names and responses
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: python scripts/check_site.py "$SITE_URL"
+      - name: Generate QR from successful deployment URL
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: python scripts/generate_qr.py "$SITE_URL" --output work/qr
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dictionary-qr
+          path: work/qr/
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Test live GitHub Pages site
+        env:
+          DICTIONARY_BASE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: npm run test:browser
+      - name: Retain live browser report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-browser-tests
+          path: |
+            test-results/
+            playwright-report/
