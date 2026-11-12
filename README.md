@@ -2,9 +2,13 @@
 
 一本由日本语课堂回答编成的原创电子辞书：**家族・愛・自由**。
 
+**网站已上线：** https://junxiongw6-droid.github.io/watashitachi_dictionary/
+
+**课堂二维码：** [下载PNG](qr/dictionary-qr.png) · [下载SVG](qr/dictionary-qr.svg)
+
 > 同じ言葉でも、思い浮かべる景色は一人ひとり違う。
 
-项目已实际完成原生静态网页、辞书内容、Excel 导入、匿名构建及自动化测试。项目所有者已于2026-11-12明确确认所有姓名均为化名，并授权使用 Excel 原始化名及54条原始回答公开发布。当前版本使用完整显示模式（`full`），网页注明姓名为「仮名」。部署结果见仓库的 `DEPLOYMENT.md`。
+项目已实际完成原生静态网页、辞书内容、Excel导入、两种显示模式、自动化测试与GitHub Pages发布。项目所有者已于2026-11-12明确确认所有姓名均为化名，并授权使用 Excel 原始化名及54条原始回答公开发布。当前版本使用完整显示模式（`full`），网页注明姓名为「仮名」。部署结果见仓库的 `DEPLOYMENT.md`。
 
 ## 1. 项目目标与当前数据
 
@@ -139,7 +143,7 @@ npm run test:browser
 3. GitHub 仓库 Settings → Pages → Source 选择 **GitHub Actions**。
 4. Actions → **Publish dictionary to GitHub Pages** → **Run workflow**。工作流在 main 分支推送及手动触发时执行。
 5. 工作流通过数据／交互校验并仅上传 `dist/`。部署作业返回真实 `page_url`，从该结果复制网址；不要仅依据仓库名猜地址。
-6. 打开实际网址，测试词条、搜索、Safari、匿名数据与触摸操作，再生成二维码。
+6. 打开实际网址，测试词条、搜索、Safari、显示模式与触摸操作，再生成二维码。
 
 如环境支持 GitHub Environment 审核，可为 `github-pages` 增加人工审核规则。
 
@@ -153,7 +157,7 @@ npm run test:browser
 python scripts/generate_qr.py "已验证的实际HTTPS网址" --output work/qr
 ```
 
-脚本检查 HTTPS 地址可访问后输出 `dictionary-qr.png`、`dictionary-qr.svg` 和 `url.txt`。黑白、保留四模块静区，无中央图案。将 SVG 或 PNG 放入 PPT 后，用 iPhone 相机实际扫描验证。当前尚未发布，因此没有生成占位二维码。
+脚本检查 HTTPS 地址可访问后输出 `dictionary-qr.png`、`dictionary-qr.svg` 和 `url.txt`。黑白、保留四模块静区，无中央图案。将 SVG 或 PNG 放入 PPT 后，用 iPhone 相机实际扫描验证。本项目已成功发布，生成的真实二维码位于 `qr/`，并通过独立解码器核对网址。
 
 ## 10. 更新回答数据
 
@@ -194,4 +198,4 @@ python scripts/build.py --mode anonymous
 - **复制链接失败**：网站会显示选中后的真实 URL，长按或手动复制；关闭后返回复制按钮。
 - **字体加载慢**：使用系统日文字体回退、`font-display: swap` 和 Unicode 分片；首次加载后浏览器可缓存。
 - **Safari 是否已测**：Chromium和WebKit的14项浏览器测试已在GitHub Actions通过，但未进行真实iPhone Safari验收；详见测试报告。
-- **部署结果**：请查看 `DEPLOYMENT.md` 和 GitHub Actions 的最新结果；只有成功发布并验证后才生成二维码。
+- **部署结果**：已成功发布，线上数据核对及14项线上浏览器测试通过；网址和二维码见本文开头与 `DEPLOYMENT.md`。

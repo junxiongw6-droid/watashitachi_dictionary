@@ -39,12 +39,24 @@ https://github.com/junxiongw6-droid/watashitachi_dictionary/actions/runs/4315828
 - JSON 404重试、零回答、缺失分类、超长文本、HTML转义。
 - 数据异常：重复提交保留并报告、空白行／姓名／回答、公式拒绝、原文或姓名对应篡改、回答遗漏、重复分类、虚构代表和证据。
 
-## 尚未完成
+## GitHub Pages线上验收
+
+已成功发布：https://junxiongw6-droid.github.io/watashitachi_dictionary/
+
+部署及线上验证：[GitHub Actions记录](https://github.com/junxiongw6-droid/watashitachi_dictionary/actions/runs/43158449411)。
+
+- deploy和verify-live均为success。
+- 线上HTML、CSS、JS、JSON资源请求成功；线上数据与已授权源数据完全一致，保留18个原始化名和54条回答。
+- 真实公开网址再次通过14项Chromium/WebKit测试，日志明确为 `14 passed (33.9s)`。
+- PNG/SVG二维码以GitHub返回的实际page_url生成，PNG经独立ZXing解码核对，地址一致。
+- 发布前46项检查与发布后14项浏览器检查均通过；后者是在实际网站上重跑同一套浏览器用例。
+
+## 真机验收限制
 
 - 真实iPhone Safari、Android Chrome和Microsoft Edge真机验收。WebKit测试不能等同于真实Safari。
-- GitHub Pages线上验收及二维码：尚待所有者在 Settings → Pages → Source 启用 GitHub Actions。部署曾返回404并明确要求启用Pages。
 
-项目中的 `verify-live` 作业会在部署成功后核对实际URL、18位化名与54条回答，生成PNG/SVG二维码，并对真实站点再次运行Chromium与WebKit测试。结果必须以该作业实际执行结果为准。
+
+项目中的 `verify-live` 作业已完成线上核对、二维码生成及线上浏览器测试，相关报告和截图保存在该次运行的 `live-browser-tests` 工件中。
 
 ## 本机复现
 
