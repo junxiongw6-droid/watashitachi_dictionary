@@ -5,13 +5,23 @@ for(const width of [375,390,430,768,1280]) {
  test(`${width}px — all routes fit and touch interactions work`,async({page},testInfo)=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.setViewportSize({width,height:844});
-  await page.goto('./');await expect(page.locator('.word-entry')).toHaveCount(3);
+  await page.goto('./');await expect(page.locator('#open-dictionary')).toBeVisible();
+  await expect(page.locator('.word-entry')).toHaveCount(0);await expect(page.locator('.search-panel')).toHaveCount(0);
+  await expect(page.locator('.site-footer')).toBeHidden();
+  await page.evaluate(()=>document.fonts.ready);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(await page.evaluate(()=>document.documentElement.scrollHeight)).toBeLessThanOrEqual(846);
+  await page.screenshot({path:testInfo.outputPath('cover.png'),fullPage:true});
+  await page.locator('#open-dictionary').click();await expect(page.locator('.word-entry')).toHaveCount(3);
+  await expect(page.locator('.hero')).toHaveCount(0);await expect(page.locator('.site-footer')).toBeVisible();
+  await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();
+  await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);
   await page.evaluate(()=>document.fonts.ready);
   if(width<=430){
    const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);
    expect(bottom).toBeLessThanOrEqual(844);
   }
-  await page.screenshot({path:testInfo.outputPath('home.png'),fullPage:true});
+  await page.screenshot({path:testInfo.outputPath('contents.png'),fullPage:true});
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
@@ -47,7 +57,7 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('[data-category="unconditional"]')).toHaveAttribute('aria-pressed','true');
   await page.goto('./#/people?id=p01');await expect(page.locator('.person-answers .response-card')).toHaveCount(3);
   await page.locator('#person-select').selectOption('p07');await expect(page.locator('.person-answers blockquote').first()).toHaveText('    血がつながっている人');
-  await page.goto('./');await expect(page.getByRole('heading',{name:'今日のひとこと',exact:true})).toHaveCount(0);await expect(page.locator('.search-panel')).toBeVisible();
+  await page.goto('./#/contents');await expect(page.getByRole('heading',{name:'今日のひとこと',exact:true})).toHaveCount(0);await expect(page.locator('.search-panel')).toBeVisible();
   await page.goto('./#/about');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
  });

@@ -26,7 +26,8 @@ async function setup({hash='#/',data=structuredClone(fixture),fail=false,clipboa
 }
 test('home, three entry links, direct routes, tab switches, unknown route',async()=>{
  const s=await setup();try{
- assert.equal(s.w.document.querySelectorAll('.word-entry').length,3);
+ assert.equal(s.w.document.querySelectorAll('.word-entry').length,0);assert.ok(s.q('#open-dictionary'));assert.equal(s.q('.search-panel'),null);
+ s.click('#open-dictionary');await tick();assert.equal(s.w.document.querySelectorAll('.word-entry').length,3);assert.equal(s.q('.hero'),null);
  s.click('.word-entry.kazoku');await tick();assert.match(s.q('h1').textContent,/家族/);
  for(const key of ['ai','jiyuu','kazoku']){await s.navigate('#/'+key);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);assert.ok(s.q('.definition-text').textContent);}
  await s.navigate('#/not-a-page');assert.match(s.q('main').textContent,/ページが見つかりません/);
@@ -52,8 +53,8 @@ test('respondent selector and missing answer fallback',async()=>{
  assert.equal(s.q('.person-answers blockquote').textContent,'    血がつながっている人');
  }finally{s.close();}
 });
-test('home search and realtime global search',async()=>{
- const s=await setup();try{
+test('catalogue search and realtime global search',async()=>{
+ const s=await setup({hash:'#/contents'});try{
  s.q('#home-query').value=fixture.respondents[0].name;s.q('#home-search').dispatchEvent(new s.w.Event('submit',{bubbles:true,cancelable:true}));await tick();
  assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
  s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
