@@ -53,11 +53,15 @@ test('respondent selector and missing answer fallback',async()=>{
  assert.equal(s.q('.person-answers blockquote').textContent,'    血がつながっている人');
  }finally{s.close();}
 });
-test('catalogue search and realtime global search',async()=>{
+test('search is separate from catalogue and supports names, keywords and clearing',async()=>{
  const s=await setup({hash:'#/contents'});try{
- s.q('#home-query').value=fixture.respondents[0].name;s.q('#home-search').dispatchEvent(new s.w.Event('submit',{bubbles:true,cancelable:true}));await tick();
- assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
+ assert.equal(s.q('#home-search'),null);assert.equal(s.q('.search-panel'),null);assert.equal(s.q('.about-teaser'),null);
+ assert.equal(s.q('.site-header [data-nav="search"]').textContent,'検索');assert.equal(s.q('.site-header a[href="#/people"]'),null);
+ s.click('.site-header [data-nav="search"]');await tick();
+ assert.match(s.q('h1').textContent,/検索/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);
+ s.input('#response-query',fixture.respondents[0].name);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
  s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
+ s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.ok(s.q('.search-placeholder'));
  }finally{s.close();}
 });
 test('share API copies exact URL including filters',async()=>{

@@ -20,10 +20,9 @@ function home() {
 
 function contentsPage() {
  return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1>辞典の目次</h1><p>言葉や名前から、読みたいページへ。</p></div><a class="text-link" href="#/">表紙に戻る <span>↗</span></a></header>
- <section class="entries" id="entries"><div class="section-top"><div><p class="eyebrow">THE THREE WORDS</p><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section>
- <section class="explore-section"><div class="search-panel"><p class="eyebrow">FIND A VOICE</p><h2>気になる言葉から探す</h2><p>言葉や回答者の名前を、ひとつ。</p><form id="home-search"><label class="sr-only" for="home-query">キーワード・回答者名</label><div class="search-input"><span aria-hidden="true">⌕</span><input id="home-query" name="q" placeholder="キーワード・回答者名" type="search"><button type="submit">探す ↗</button></div></form><a class="text-link" href="#/people">回答者から探す <span>↗</span></a></div></section>
- <section class="about-teaser"><span class="small-seal">編</span><div><h2>辞書を編むことは、<br>お互いを知ること。</h2><p>集め、比べ、意味を見つける。<br>一人ひとりの答えを残しながら、私たちなりの定義を編みました。</p><a class="text-link" href="#/about">この辞典ができるまで <span>↗</span></a></div></section></div>`;
+ <section class="entries" id="entries"><div class="section-top"><div><p class="eyebrow">THE THREE WORDS</p><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
 }
+
 function filterBar(word) {
  const counts=categoryCounts(data,word);
  return `<div class="filter-chips" role="group" aria-label="意味の分類で絞り込む"><button data-category="" aria-pressed="${!route.params.get('category')}">すべて表示</button>${counts.map(c=>`<button data-category="${e(c.id)}" aria-pressed="${route.params.get('category')===c.id}">${e(c.title)} <span>${c.count}</span></button>`).join('')}</div>`;
@@ -84,8 +83,9 @@ function peoplePage() {
  return `<div class="page-wrap narrow"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>回答者から探す</span></div><header class="simple-header"><p class="eyebrow">THE PEOPLE BEHIND THE WORDS</p><h1>回答者から探す</h1><p>一人の視点で、三つの言葉を読み比べる。</p></header><label class="field-label" for="person-select">回答者を選ぶ（${data.respondents.length}人）</label><select id="person-select"><option value="">選択してください</option>${data.respondents.map(p=>`<option value="${p.id}" ${selected===p.id?'selected':''}>${e(p.name)}</option>`).join('')}</select>${p?`<section class="person-answers"><h2>${e(p.name)} の言葉</h2>${data.editorial.words.map(w=>{const rs=filterResponses(data,{wordId:w.id,personId:p.id});return `<section class="person-word"><h3><a href="#/${w.id}">${w.title} <small>${w.reading}</small> ↗</a></h3>${rs.length?rs.map(r=>responseCard(r)).join(''):'<p class="empty">回答なし</p>'}</section>`;}).join('')}</section>`:`<div class="people-grid">${data.respondents.map(p=>`<a href="#/people?id=${p.id}">${e(p.name)} <span>↗</span></a>`).join('')}</div>`}</div>`;
 }
 function searchPage() {
- return `<div class="page-wrap narrow"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>回答を探す</span></div><header class="simple-header"><p class="eyebrow">FIND A VOICE</p><h1>言葉から探す</h1><p>三つの言葉、すべての回答から。</p></header>${searchInput()}<p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div></div>`;
+ return `<div class="page-wrap narrow search-page"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>検索</span></div><header class="simple-header"><p class="eyebrow">FIND A VOICE</p><h1>検索</h1><p>言葉や回答者の名前を、ひとつ。</p></header><section class="search-panel" aria-label="回答を検索">${searchInput()}<p class="search-hint">「家族」「支える」などの言葉や、回答者の名前で探せます。</p><a class="search-people-link" href="#/people">回答者の一覧を見る →</a><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div></section></div>`;
 }
+
 function aboutPage() {
  return `<div class="page-wrap narrow"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>この辞典について</span></div><header class="simple-header"><p class="eyebrow">HOW WE WOVE THIS DICTIONARY</p><h1>この辞典について</h1><p>一つの正解より、一人ひとりの言葉を。</p></header><section class="prose"><h2>私たちの小さな辞典</h2><p>日本語の授業で集めた「家族」「愛」「自由」への回答から編んだ、オリジナルの辞典です。同じ言葉の中にある共通点と、一人ひとりの違いを大切にしています。</p><h2>言葉が辞典になるまで</h2><ol class="process"><li>自分の言葉で説明する</li><li>全員の回答を集める</li><li>共通点と違いを比べる</li><li>意味のまとまりに分類する</li><li>編者が定義と分析をまとめる</li><li>原文とともに、一冊の辞典にする</li></ol><h2>データと編纂方針</h2><p>Excelの有効記録は${data.respondents.length}件、回答は${data.responses.length}件です。${data.editorial.words.map(w=>`${w.title}は${data.responses.filter(r=>r.wordId===w.id).length}件`).join('、')}。空白の回答は補わず、重複の疑いがある提出も自動削除しません。</p><p>回答原文の表記、文法、空白は修正していません。「わからない」も有効な回答です。各回答の記録IDから、開発時に元のシート・行・列を照合できます。</p><p>${e(data.editorial.method)} 補助タグは人数に重複して加算しません。代表的な回答と分析の根拠は、実際の回答を参照しています。</p><p>「私たちの定義」は<strong>回答をもとに編者がまとめた定義</strong>です。定義・分類・分析・まとめを、全員が投票で承認したものとはしていません。回答者の心理や個人的な背景は推測しません。</p><h2>クラスで内容を確かめる</h2><p>原文と編者による分類・定義を並べた確認用シートを用意しました。印刷して、一人ひとりの意見や修正案を書き込めます。</p><p><a class="text-link" href="./review/index.html">確認用シートをひらく ↗</a></p><h2>読むための小さな案内</h2><p>キーワード・名前で検索したり、分類で絞り込んだりできます。回答者のページでは三つの答えを読み比べられます。言葉の「リンクをコピー」から、そのページを共有できます。</p><p class="editor-caption">日本語クラス 共同編纂プロジェクト<br>私たちの言葉辞典 — 家族・愛・自由</p></section></div>`;
 }
@@ -95,6 +95,11 @@ function updateResponses() {
  const list=document.querySelector('#response-list');
  syncReaderView();
  if (!list)return;
+ if(route.path==='/search' && !(route.params.get('q') || '').trim()){
+  list.innerHTML='<div class="search-placeholder"><p>キーワードを入力すると、三つの言葉の回答から探せます。</p></div>';
+  document.querySelector('#result-count').textContent='';
+  return;
+ }
  list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===(route.params.get('category') || ''))));
@@ -121,11 +126,11 @@ function render() {
  else if(route.path==='/contents'){main.innerHTML=contentsPage();document.title='辞典の目次 — 私たちの言葉辞典';}
  else if(titles[route.path.slice(1)]) {const w=data.editorial.words.find(w=>w.id===route.path.slice(1));main.innerHTML=wordPage(w);document.title=`${w.title} — 私たちの言葉辞典`;}
  else if(route.path==='/people'){main.innerHTML=peoplePage();document.title='回答者から探す — 私たちの言葉辞典';}
- else if(route.path==='/search'){main.innerHTML=searchPage();document.title='言葉から探す — 私たちの言葉辞典';}
+ else if(route.path==='/search'){main.innerHTML=searchPage();document.title='検索 — 私たちの言葉辞典';}
  else if(route.path==='/about'){main.innerHTML=aboutPage();document.title='この辞典について — 私たちの言葉辞典';}
  else {main.innerHTML='<div class="page-wrap narrow empty"><h1>ページが見つかりません。</h1><a href="#/contents">辞典の目次へ戻る →</a></div>';}
  if(warnings.length)main.insertAdjacentHTML('afterbegin',`<div class="data-warning" role="status">${warnings.map(e).join('<br>')}</div>`);
- document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===(route.path==='/people'?'people':route.path==='/about'?'about':route.path==='/'?'':'home');if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+ document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===((route.path==='/people'||route.path==='/search')?'search':route.path==='/about'?'about':route.path==='/'?'':'home');if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  updateResponses();
  const saved=positions.get(location.hash);
  window.scrollTo({top:saved || 0,behavior:'instant'});
@@ -134,7 +139,6 @@ function render() {
 }
 main.addEventListener('input',event=>{if(event.target.id==='response-query')updateParams({q:event.target.value});});
 main.addEventListener('change',event=>{if(event.target.id==='person-select')location.hash=`#/people${event.target.value?'?id='+event.target.value:''}`;});
-main.addEventListener('submit',event=>{if(event.target.id==='home-search'){event.preventDefault();location.hash='#/search?q='+encodeURIComponent(new FormData(event.target).get('q') || '');}});
 main.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;
  if(button.id==='share')share();
