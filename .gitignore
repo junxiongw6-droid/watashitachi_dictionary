@@ -1,0 +1,8 @@
+work/
+private/
+node_modules/
+__pycache__/
+.venv/
+dist/
+playwright-report/
+test-results/

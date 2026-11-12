@@ -1,0 +1,1160 @@
+{
+  "schemaVersion": 1,
+  "mode": "full",
+  "sourceSHA256": "88fe15a72285ab2774ba4d55cf6c4fe8528068e88261c0ce54ef405b078efab2",
+  "respondents": [
+    {
+      "id": "p01",
+      "name": "ジョ　カユ",
+      "label": "回答者01",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 2
+      }
+    },
+    {
+      "id": "p02",
+      "name": "ヤン",
+      "label": "回答者02",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 3
+      }
+    },
+    {
+      "id": "p03",
+      "name": "カク",
+      "label": "回答者03",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 4
+      }
+    },
+    {
+      "id": "p04",
+      "name": "ウキン",
+      "label": "回答者04",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 5
+      }
+    },
+    {
+      "id": "p05",
+      "name": "趙",
+      "label": "回答者05",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 6
+      }
+    },
+    {
+      "id": "p06",
+      "name": "KHIN PHYOE WAI ",
+      "label": "回答者06",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 7
+      }
+    },
+    {
+      "id": "p07",
+      "name": "シャヒ",
+      "label": "回答者07",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 8
+      }
+    },
+    {
+      "id": "p08",
+      "name": "チョウ セイウン",
+      "label": "回答者08",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 9
+      }
+    },
+    {
+      "id": "p09",
+      "name": "ワン",
+      "label": "回答者09",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 10
+      }
+    },
+    {
+      "id": "p10",
+      "name": "テンイチ",
+      "label": "回答者10",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 11
+      }
+    },
+    {
+      "id": "p11",
+      "name": "バワナ",
+      "label": "回答者11",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 12
+      }
+    },
+    {
+      "id": "p12",
+      "name": "サク　チン",
+      "label": "回答者12",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 13
+      }
+    },
+    {
+      "id": "p13",
+      "name": "シンギ",
+      "label": "回答者13",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 14
+      }
+    },
+    {
+      "id": "p14",
+      "name": "ドゥラーラ",
+      "label": "回答者14",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 15
+      }
+    },
+    {
+      "id": "p15",
+      "name": "ハリ",
+      "label": "回答者15",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 16
+      }
+    },
+    {
+      "id": "p16",
+      "name": "ラウサン",
+      "label": "回答者16",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 17
+      }
+    },
+    {
+      "id": "p17",
+      "name": "ミズキ",
+      "label": "回答者17",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 18
+      }
+    },
+    {
+      "id": "p18",
+      "name": "ズン",
+      "label": "回答者18",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 19
+      }
+    }
+  ],
+  "responses": [
+    {
+      "id": "p01-kazoku",
+      "respondentId": "p01",
+      "wordId": "kazoku",
+      "text": "深い絆",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 2,
+        "column": 3
+      }
+    },
+    {
+      "id": "p01-ai",
+      "respondentId": "p01",
+      "wordId": "ai",
+      "text": "執念、執着",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 2,
+        "column": 4
+      }
+    },
+    {
+      "id": "p01-jiyuu",
+      "respondentId": "p01",
+      "wordId": "jiyuu",
+      "text": "精神的に自立し、何にも縛られない。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 2,
+        "column": 5
+      }
+    },
+    {
+      "id": "p02-kazoku",
+      "respondentId": "p02",
+      "wordId": "kazoku",
+      "text": "人生で初めての恋",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 3,
+        "column": 3
+      }
+    },
+    {
+      "id": "p02-ai",
+      "respondentId": "p02",
+      "wordId": "ai",
+      "text": "柔らかい、触れない、でも感じられる",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 3,
+        "column": 4
+      }
+    },
+    {
+      "id": "p02-jiyuu",
+      "respondentId": "p02",
+      "wordId": "jiyuu",
+      "text": "自然の中遊ぶ",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 3,
+        "column": 5
+      }
+    },
+    {
+      "id": "p03-kazoku",
+      "respondentId": "p03",
+      "wordId": "kazoku",
+      "text": "困ったときに、遠慮せずに頼れる人たち",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 4,
+        "column": 3
+      }
+    },
+    {
+      "id": "p03-ai",
+      "respondentId": "p03",
+      "wordId": "ai",
+      "text": "他の人のために努力する気持ち",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 4,
+        "column": 4
+      }
+    },
+    {
+      "id": "p03-jiyuu",
+      "respondentId": "p03",
+      "wordId": "jiyuu",
+      "text": "行きたいところに行き、食べたいものを食べられる。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 4,
+        "column": 5
+      }
+    },
+    {
+      "id": "p04-kazoku",
+      "respondentId": "p04",
+      "wordId": "kazoku",
+      "text": "無条件で支持するとお互いに理解することができる",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 5,
+        "column": 3
+      }
+    },
+    {
+      "id": "p04-ai",
+      "respondentId": "p04",
+      "wordId": "ai",
+      "text": "配慮しないで、何を言っても大丈夫だ",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 5,
+        "column": 4
+      }
+    },
+    {
+      "id": "p04-jiyuu",
+      "respondentId": "p04",
+      "wordId": "jiyuu",
+      "text": "自分のやりたいことができて、それに責任を持つこと。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 5,
+        "column": 5
+      }
+    },
+    {
+      "id": "p05-kazoku",
+      "respondentId": "p05",
+      "wordId": "kazoku",
+      "text": "血縁があるみたい人",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 6,
+        "column": 3
+      }
+    },
+    {
+      "id": "p05-ai",
+      "respondentId": "p05",
+      "wordId": "ai",
+      "text": "わからない",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 6,
+        "column": 4
+      }
+    },
+    {
+      "id": "p05-jiyuu",
+      "respondentId": "p05",
+      "wordId": "jiyuu",
+      "text": "するでもしないでもどうでも欲しい物が得って、嫌い物が失う",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 6,
+        "column": 5
+      }
+    },
+    {
+      "id": "p06-kazoku",
+      "respondentId": "p06",
+      "wordId": "kazoku",
+      "text": "お互いに助け合い、支え合いながら生活する人たちのことです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 7,
+        "column": 3
+      }
+    },
+    {
+      "id": "p06-ai",
+      "respondentId": "p06",
+      "wordId": "ai",
+      "text": "誰かを大切に思い、優しくしたり、支えたりする気持ち",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 7,
+        "column": 4
+      }
+    },
+    {
+      "id": "p06-jiyuu",
+      "respondentId": "p06",
+      "wordId": "jiyuu",
+      "text": "自分で考えて、自分の意思で決めたり、行動したりできること",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 7,
+        "column": 5
+      }
+    },
+    {
+      "id": "p07-kazoku",
+      "respondentId": "p07",
+      "wordId": "kazoku",
+      "text": "    血がつながっている人",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 8,
+        "column": 3
+      }
+    },
+    {
+      "id": "p07-ai",
+      "respondentId": "p07",
+      "wordId": "ai",
+      "text": "    好きになってから、長い時間がたっても、まだ好き",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 8,
+        "column": 4
+      }
+    },
+    {
+      "id": "p07-jiyuu",
+      "respondentId": "p07",
+      "wordId": "jiyuu",
+      "text": "言いたいことを言って、やりたいことをやる",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 8,
+        "column": 5
+      }
+    },
+    {
+      "id": "p08-kazoku",
+      "respondentId": "p08",
+      "wordId": "kazoku",
+      "text": "お金や愛情をなんほどでも送り会えるグループだ。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 9,
+        "column": 3
+      }
+    },
+    {
+      "id": "p08-ai",
+      "respondentId": "p08",
+      "wordId": "ai",
+      "text": "相手からまたは相手に温かい感情だ",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 9,
+        "column": 4
+      }
+    },
+    {
+      "id": "p08-jiyuu",
+      "respondentId": "p08",
+      "wordId": "jiyuu",
+      "text": "やりたくない事をやらない権力だ。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 9,
+        "column": 5
+      }
+    },
+    {
+      "id": "p09-kazoku",
+      "respondentId": "p09",
+      "wordId": "kazoku",
+      "text": "一緒に暮らしている親や子どもなどの血縁関係がある人",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 10,
+        "column": 3
+      }
+    },
+    {
+      "id": "p09-ai",
+      "respondentId": "p09",
+      "wordId": "ai",
+      "text": "大切にする気持ち、好きという気持ち",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 10,
+        "column": 4
+      }
+    },
+    {
+      "id": "p09-jiyuu",
+      "respondentId": "p09",
+      "wordId": "jiyuu",
+      "text": "縛らないで、好きなことができること。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 10,
+        "column": 5
+      }
+    },
+    {
+      "id": "p10-kazoku",
+      "respondentId": "p10",
+      "wordId": "kazoku",
+      "text": "一緒にご飯を食べて普通の日だと感じる人",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 11,
+        "column": 3
+      }
+    },
+    {
+      "id": "p10-ai",
+      "respondentId": "p10",
+      "wordId": "ai",
+      "text": "見返りを求めない貢献",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 11,
+        "column": 4
+      }
+    },
+    {
+      "id": "p10-jiyuu",
+      "respondentId": "p10",
+      "wordId": "jiyuu",
+      "text": "何々する時間を自分で決める",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 11,
+        "column": 5
+      }
+    },
+    {
+      "id": "p11-kazoku",
+      "respondentId": "p11",
+      "wordId": "kazoku",
+      "text": "家族は 私にとって一番 大切な 存在です。はなれていても いつも心の支えです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 12,
+        "column": 3
+      }
+    },
+    {
+      "id": "p11-ai",
+      "respondentId": "p11",
+      "wordId": "ai",
+      "text": "愛とは 相手を思いやり 大切にすることです。言葉だけでなく 行動で 伝えることも大切です。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 12,
+        "column": 4
+      }
+    },
+    {
+      "id": "p11-jiyuu",
+      "respondentId": "p11",
+      "wordId": "jiyuu",
+      "text": "自由とは 自分で考え 自分の責任で行動することです。自由には 責任も必要です。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 12,
+        "column": 5
+      }
+    },
+    {
+      "id": "p12-kazoku",
+      "respondentId": "p12",
+      "wordId": "kazoku",
+      "text": "愛がない人にとって、血縁者だけ。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 13,
+        "column": 3
+      }
+    },
+    {
+      "id": "p12-ai",
+      "respondentId": "p12",
+      "wordId": "ai",
+      "text": "見返りを求めない。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 13,
+        "column": 4
+      }
+    },
+    {
+      "id": "p12-jiyuu",
+      "respondentId": "p12",
+      "wordId": "jiyuu",
+      "text": "ルールや法律などは違反じゃなくて、他の方に影響がない範囲で、何をしてもいい。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 13,
+        "column": 5
+      }
+    },
+    {
+      "id": "p13-kazoku",
+      "respondentId": "p13",
+      "wordId": "kazoku",
+      "text": "血縁関係のある人たちのこと",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 14,
+        "column": 3
+      }
+    },
+    {
+      "id": "p13-ai",
+      "respondentId": "p13",
+      "wordId": "ai",
+      "text": "恋人同士の間に生まれる感情",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 14,
+        "column": 4
+      }
+    },
+    {
+      "id": "p13-jiyuu",
+      "respondentId": "p13",
+      "wordId": "jiyuu",
+      "text": "いつでもしたいことをすることができること",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 14,
+        "column": 5
+      }
+    },
+    {
+      "id": "p14-kazoku",
+      "respondentId": "p14",
+      "wordId": "kazoku",
+      "text": "いつも自分をささえてくれる大切な人たちです。うれしいとき　も　かなしときいしょにいくれるそんざいです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 15,
+        "column": 3
+      }
+    },
+    {
+      "id": "p14-ai",
+      "respondentId": "p14",
+      "wordId": "ai",
+      "text": "あいてをじぶんをおもいあいてのしあわせをねがうきちです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 15,
+        "column": 4
+      }
+    },
+    {
+      "id": "p14-jiyuu",
+      "respondentId": "p14",
+      "wordId": "jiyuu",
+      "text": "自分で考えてじぶんのすきなことをえらぶこができることです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 15,
+        "column": 5
+      }
+    },
+    {
+      "id": "p15-kazoku",
+      "respondentId": "p15",
+      "wordId": "kazoku",
+      "text": "幸せ、どこにお互いに支え合う人たちがいます",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 16,
+        "column": 3
+      }
+    },
+    {
+      "id": "p15-ai",
+      "respondentId": "p15",
+      "wordId": "ai",
+      "text": "人や物に対する感情的なつながり。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 16,
+        "column": 4
+      }
+    },
+    {
+      "id": "p15-jiyuu",
+      "respondentId": "p15",
+      "wordId": "jiyuu",
+      "text": "自分で考え、話し、行動すること。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 16,
+        "column": 5
+      }
+    },
+    {
+      "id": "p16-kazoku",
+      "respondentId": "p16",
+      "wordId": "kazoku",
+      "text": "家族とは、いつも自分のことを心配して、困ったときに助けてくれる大切な人たちです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 17,
+        "column": 3
+      }
+    },
+    {
+      "id": "p16-ai",
+      "respondentId": "p16",
+      "wordId": "ai",
+      "text": "愛とは、相手の幸せを自分の幸せのように考え、大切にする気持ちだと思います。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 17,
+        "column": 4
+      }
+    },
+    {
+      "id": "p16-jiyuu",
+      "respondentId": "p16",
+      "wordId": "jiyuu",
+      "text": "自由とは、自分で考えて、自分の好きな道を選ぶことができることです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 17,
+        "column": 5
+      }
+    },
+    {
+      "id": "p17-kazoku",
+      "respondentId": "p17",
+      "wordId": "kazoku",
+      "text": "血のつながりだけではなく、自分を大切にしてくれる人や、自分が大切に思う人、そして心から親しいと感じる人も、みんな家族だと思います。たとえば、友達は自分で選んだ家族です。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 18,
+        "column": 3
+      }
+    },
+    {
+      "id": "p17-ai",
+      "respondentId": "p17",
+      "wordId": "ai",
+      "text": "相手を理解し、尊重し、大切にすることだ。相手を自分のものにすることではなく、その人の幸せを心から願うことです。　愛には、家族への愛、友情、恋愛感情など、さまざまな形があり、自分自身を大切にすることも愛の一つです。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 18,
+        "column": 4
+      }
+    },
+    {
+      "id": "p17-jiyuu",
+      "respondentId": "p17",
+      "wordId": "jiyuu",
+      "text": "自分のできる範囲で、自分の良心や社会の道德に反しないことであれば、何でもする。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 18,
+        "column": 5
+      }
+    },
+    {
+      "id": "p18-kazoku",
+      "respondentId": "p18",
+      "wordId": "kazoku",
+      "text": "お互いに助け合い、支え合いながら生活する大切な存在です。",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 19,
+        "column": 3
+      }
+    },
+    {
+      "id": "p18-ai",
+      "respondentId": "p18",
+      "wordId": "ai",
+      "text": "家族以外の人に対する無条件の愛",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 19,
+        "column": 4
+      }
+    },
+    {
+      "id": "p18-jiyuu",
+      "respondentId": "p18",
+      "wordId": "jiyuu",
+      "text": "自由とは、自分の考えで物事を決め、自分らしく生きることができることです",
+      "source": {
+        "sheet": "フォームの回答 1",
+        "row": 19,
+        "column": 5
+      }
+    }
+  ],
+  "editorial": {
+    "notice": "回答をもとに編者がまとめた定義",
+    "method": "各回答に主分類を一つ付け、必要に応じて補助タグを付けています。分類は編者による解釈であり、回答者自身の選択やクラス全員の合意を示すものではありません。",
+    "words": [
+      {
+        "id": "kazoku",
+        "title": "家族",
+        "reading": "かぞく",
+        "number": "一",
+        "intro": "血のつながりから、心のつながりへ。",
+        "definition": "血のつながりを持つ人や、困ったときに頼り、支え合える大切な人たち。ともに過ごす日常や心の親しさによって結ばれ、血縁をこえて自分で選ぶこともある存在。",
+        "categories": [
+          {
+            "id": "kinship",
+            "title": "血縁・親族",
+            "description": "血のつながりや親子関係を中心に捉える回答。愛情の有無による違いを述べる回答も含む。",
+            "responseIds": [
+              "p05-kazoku",
+              "p07-kazoku",
+              "p09-kazoku",
+              "p12-kazoku",
+              "p13-kazoku"
+            ],
+            "representativeIds": [
+              "p09-kazoku",
+              "p12-kazoku"
+            ]
+          },
+          {
+            "id": "support",
+            "title": "支え合い・信頼",
+            "description": "助け合うこと、頼れること、理解や支持を通して結ばれる関係。",
+            "responseIds": [
+              "p01-kazoku",
+              "p03-kazoku",
+              "p04-kazoku",
+              "p06-kazoku",
+              "p08-kazoku",
+              "p14-kazoku",
+              "p15-kazoku",
+              "p16-kazoku",
+              "p18-kazoku"
+            ],
+            "representativeIds": [
+              "p03-kazoku",
+              "p06-kazoku",
+              "p14-kazoku"
+            ]
+          },
+          {
+            "id": "belonging",
+            "title": "日常と心のつながり",
+            "description": "一緒に食べる日常、離れていても感じる支え、親しさから広がる家族。",
+            "responseIds": [
+              "p10-kazoku",
+              "p11-kazoku",
+              "p17-kazoku"
+            ],
+            "representativeIds": [
+              "p10-kazoku",
+              "p17-kazoku"
+            ]
+          },
+          {
+            "id": "first-love",
+            "title": "初めての恋という表現",
+            "description": "家族を「人生で初めての恋」と表した一つの独自の視点。",
+            "responseIds": [
+              "p02-kazoku"
+            ],
+            "representativeIds": [
+              "p02-kazoku"
+            ]
+          }
+        ],
+        "common": {
+          "title": "関係を表す言葉、支えを表す言葉",
+          "text": "血縁をはっきり挙げる回答がある一方、助け合いや信頼を中心にした回答も多くあります。「一緒にご飯を食べて普通の日だと感じる人」は、特別な出来事ではなく日常を通して家族を捉えています。血縁と心のつながりは対立するだけでなく、一つの回答に重なることもあります。",
+          "evidenceIds": [
+            "p03-kazoku",
+            "p06-kazoku",
+            "p09-kazoku",
+            "p10-kazoku",
+            "p17-kazoku"
+          ]
+        },
+        "discoveries": [
+          {
+            "title": "「友達は自分で選んだ家族」",
+            "text": "この回答は、家族の範囲を血縁の外へ広げています。自分を大切にしてくれる人、自分が大切にする人という双方向の関係が、家族を考える手がかりになります。",
+            "evidenceIds": [
+              "p17-kazoku"
+            ]
+          },
+          {
+            "title": "「人生で初めての恋」",
+            "text": "家族に「恋」という言葉を重ねた表現です。血縁や支え合いとは異なる角度から、家族との結びつきを考えさせます。この一文だけから、具体的な経験や意図を決めることはできません。",
+            "evidenceIds": [
+              "p02-kazoku"
+            ]
+          }
+        ],
+        "summary": "家族を血のつながりとして捉える回答と、支え合う大切な人として捉える回答がありました。食事を共にする日常や、離れていても続く心のつながりも語られています。友達を家族に含める見方からは、家族の範囲が一つに決まらないことが見えてきます。"
+      },
+      {
+        "id": "ai",
+        "title": "愛",
+        "reading": "あい",
+        "number": "二",
+        "intro": "目に見えない気持ちを、言葉にする。",
+        "definition": "相手を大切に思い、幸せを願い、思いやりや行動でつながろうとする気持ち。見返りを求めない思いから恋人への感情まで形はさまざまで、執着と捉える見方もある。",
+        "categories": [
+          {
+            "id": "care",
+            "title": "思いやり・大切にする気持ち",
+            "description": "相手の幸せを願い、支えたり尊重したりする気持ちや行動。",
+            "responseIds": [
+              "p03-ai",
+              "p06-ai",
+              "p09-ai",
+              "p11-ai",
+              "p14-ai",
+              "p16-ai",
+              "p17-ai"
+            ],
+            "representativeIds": [
+              "p11-ai",
+              "p16-ai",
+              "p17-ai"
+            ]
+          },
+          {
+            "id": "unconditional",
+            "title": "見返りを求めない愛",
+            "description": "返してもらうことを条件にしない貢献や、無条件という表現。",
+            "responseIds": [
+              "p10-ai",
+              "p12-ai",
+              "p18-ai"
+            ],
+            "representativeIds": [
+              "p10-ai",
+              "p18-ai"
+            ]
+          },
+          {
+            "id": "connection",
+            "title": "感情のつながり",
+            "description": "温かさ、長く続く好意、触れられなくても感じるものとしての愛。",
+            "responseIds": [
+              "p02-ai",
+              "p07-ai",
+              "p08-ai",
+              "p15-ai"
+            ],
+            "representativeIds": [
+              "p02-ai",
+              "p07-ai",
+              "p15-ai"
+            ]
+          },
+          {
+            "id": "trust",
+            "title": "気兼ねなく話せる関係",
+            "description": "何を言っても大丈夫だと感じる関係として表された愛。",
+            "responseIds": [
+              "p04-ai"
+            ],
+            "representativeIds": [
+              "p04-ai"
+            ]
+          },
+          {
+            "id": "romance",
+            "title": "恋人同士の感情",
+            "description": "恋人の間に生まれる感情を中心にした説明。",
+            "responseIds": [
+              "p13-ai"
+            ],
+            "representativeIds": [
+              "p13-ai"
+            ]
+          },
+          {
+            "id": "attachment",
+            "title": "執念・執着",
+            "description": "相手への強い思いを「執念、執着」と表した回答。",
+            "responseIds": [
+              "p01-ai"
+            ],
+            "representativeIds": [
+              "p01-ai"
+            ]
+          },
+          {
+            "id": "unresolved",
+            "title": "まだ言葉にならないもの",
+            "description": "「わからない」という回答も、一つの有効な回答として残す。",
+            "responseIds": [
+              "p05-ai"
+            ],
+            "representativeIds": [
+              "p05-ai"
+            ]
+          }
+        ],
+        "common": {
+          "title": "気持ちと行動、その両方から",
+          "text": "相手を大切にする気持ちと、努力や貢献などの行動を挙げる回答があります。恋人に限る説明もあれば、家族、友情、自分自身へと範囲を広げる説明もあります。「見返りを求めない」と「執着」は、愛と相手との距離について異なる問いを投げかけます。",
+          "evidenceIds": [
+            "p03-ai",
+            "p10-ai",
+            "p13-ai",
+            "p17-ai",
+            "p01-ai"
+          ]
+        },
+        "discoveries": [
+          {
+            "title": "愛と、相手を自分のものにすること",
+            "text": "「執念、執着」という短い回答と、「相手を自分のものにすることではなく」という回答を並べると、強い思いと相手の尊重との関係が浮かびます。どちらかを誤りとせず、言葉の幅として考えます。",
+            "evidenceIds": [
+              "p01-ai",
+              "p17-ai"
+            ]
+          },
+          {
+            "title": "「わからない」も残す",
+            "text": "意味をすぐに説明できないという回答を、空白とは区別して収録しています。言葉にしにくいものをどう辞書に残すかという、編纂そのものへの問いになります。",
+            "evidenceIds": [
+              "p05-ai"
+            ]
+          }
+        ],
+        "summary": "愛には、相手を大切にする気持ち、思いやりを行動にすること、見返りを求めないことなどが挙げられました。一方で、恋人との感情や執着という見方もあります。「わからない」も含めて読むことで、愛の意味や向かう先が、人によって異なることに気づきます。"
+      },
+      {
+        "id": "jiyuu",
+        "title": "自由",
+        "reading": "じゆう",
+        "number": "三",
+        "intro": "自分で選ぶ。その先を、考える。",
+        "definition": "自分で考え、行動や生き方を選び、したいことができること。何かに縛られず、したくないことをしない面もある。自分の責任や、他の人への影響、ルールを伴うという見方もある。",
+        "categories": [
+          {
+            "id": "choice",
+            "title": "自己決定・自分らしさ",
+            "description": "自分の意思で考え、時間、行動や生き方を選ぶこと。",
+            "responseIds": [
+              "p06-jiyuu",
+              "p10-jiyuu",
+              "p14-jiyuu",
+              "p15-jiyuu",
+              "p16-jiyuu",
+              "p18-jiyuu"
+            ],
+            "representativeIds": [
+              "p06-jiyuu",
+              "p10-jiyuu",
+              "p18-jiyuu"
+            ]
+          },
+          {
+            "id": "wishes",
+            "title": "したいことができる",
+            "description": "遊ぶ、食べる、話すなど、自分の望むことができる状態。",
+            "responseIds": [
+              "p02-jiyuu",
+              "p03-jiyuu",
+              "p05-jiyuu",
+              "p07-jiyuu",
+              "p13-jiyuu"
+            ],
+            "representativeIds": [
+              "p02-jiyuu",
+              "p03-jiyuu",
+              "p07-jiyuu"
+            ]
+          },
+          {
+            "id": "release",
+            "title": "束縛からの解放",
+            "description": "何かに縛られないこと、したくないことをしないこと。",
+            "responseIds": [
+              "p01-jiyuu",
+              "p08-jiyuu",
+              "p09-jiyuu"
+            ],
+            "representativeIds": [
+              "p01-jiyuu",
+              "p08-jiyuu"
+            ]
+          },
+          {
+            "id": "responsibility",
+            "title": "責任・他者・ルール",
+            "description": "自分の責任、他者への影響、法律や良心と自由との関係。",
+            "responseIds": [
+              "p04-jiyuu",
+              "p11-jiyuu",
+              "p12-jiyuu",
+              "p17-jiyuu"
+            ],
+            "representativeIds": [
+              "p04-jiyuu",
+              "p12-jiyuu",
+              "p17-jiyuu"
+            ]
+          }
+        ],
+        "common": {
+          "title": "選べることと、選ぶときに考えること",
+          "text": "自分で決めることや、好きなことができることが共通する軸です。一方、責任や他の人への影響を条件にする回答もあります。自由の内容だけでなく、自由をどう使うかにも目が向けられています。",
+          "evidenceIds": [
+            "p03-jiyuu",
+            "p06-jiyuu",
+            "p10-jiyuu",
+            "p11-jiyuu",
+            "p12-jiyuu",
+            "p17-jiyuu",
+            "p18-jiyuu"
+          ]
+        },
+        "discoveries": [
+          {
+            "title": "「しない」という選択",
+            "text": "「やりたくない事をやらない」という説明は、何かをする自由だけでなく、断る自由にも目を向けています。「する」ことだけを集めると見えにくい自由の一面です。原文の「権力」は修正せず残しています。",
+            "evidenceIds": [
+              "p08-jiyuu"
+            ]
+          },
+          {
+            "title": "日常の自由、精神の自由",
+            "text": "自然の中で遊ぶことと、精神的に自立して縛られないこと。具体的な場面と内面の状態という違いから、自由を実感する場が一つではないと分かります。",
+            "evidenceIds": [
+              "p02-jiyuu",
+              "p01-jiyuu"
+            ]
+          }
+        ],
+        "summary": "自由には、自分で考えて決めることや、好きなことができることという共通の軸がありました。したくないことをしない自由や、精神的に縛られない状態も挙げられています。責任やルールを含む回答からは、自分の選択と他の人との関係を共に考える視点が見えてきます。"
+      }
+    ],
+    "tags": {
+      "p01-kazoku": [
+        "絆"
+      ],
+      "p09-kazoku": [
+        "共同生活"
+      ],
+      "p11-kazoku": [
+        "心の支え"
+      ],
+      "p12-kazoku": [
+        "愛情の有無"
+      ],
+      "p17-kazoku": [
+        "血縁をこえる",
+        "選ぶ家族"
+      ],
+      "p09-ai": [
+        "好意"
+      ],
+      "p17-ai": [
+        "尊重",
+        "友情",
+        "自己への愛"
+      ],
+      "p18-ai": [
+        "家族以外"
+      ],
+      "p05-ai": [
+        "わからない"
+      ],
+      "p04-jiyuu": [
+        "自己決定"
+      ],
+      "p09-jiyuu": [
+        "したいこと"
+      ],
+      "p17-jiyuu": [
+        "良心",
+        "道徳"
+      ],
+      "p05-jiyuu": [
+        "解釈に幅がある"
+      ]
+    },
+    "notes": {
+      "p05-jiyuu": "「欲しい物が得って、嫌い物が失う」に着目して仮に分類。文全体の意味には解釈の幅があるため、原文を参照してください。",
+      "p04-ai": "「何を言っても大丈夫だ」に着目した分類。配慮そのものへの一般的な主張とは断定しません。"
+    },
+    "sourceSHA256": "88fe15a72285ab2774ba4d55cf6c4fe8528068e88261c0ce54ef405b078efab2"
+  },
+  "nameKind": "pseudonym"
+}

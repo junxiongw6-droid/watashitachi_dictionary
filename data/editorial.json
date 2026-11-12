@@ -1,0 +1,394 @@
+{
+  "notice": "回答をもとに編者がまとめた定義",
+  "method": "各回答に主分類を一つ付け、必要に応じて補助タグを付けています。分類は編者による解釈であり、回答者自身の選択やクラス全員の合意を示すものではありません。",
+  "words": [
+    {
+      "id": "kazoku",
+      "title": "家族",
+      "reading": "かぞく",
+      "number": "一",
+      "intro": "血のつながりから、心のつながりへ。",
+      "definition": "血のつながりを持つ人や、困ったときに頼り、支え合える大切な人たち。ともに過ごす日常や心の親しさによって結ばれ、血縁をこえて自分で選ぶこともある存在。",
+      "categories": [
+        {
+          "id": "kinship",
+          "title": "血縁・親族",
+          "description": "血のつながりや親子関係を中心に捉える回答。愛情の有無による違いを述べる回答も含む。",
+          "responseIds": [
+            "p05-kazoku",
+            "p07-kazoku",
+            "p09-kazoku",
+            "p12-kazoku",
+            "p13-kazoku"
+          ],
+          "representativeIds": [
+            "p09-kazoku",
+            "p12-kazoku"
+          ]
+        },
+        {
+          "id": "support",
+          "title": "支え合い・信頼",
+          "description": "助け合うこと、頼れること、理解や支持を通して結ばれる関係。",
+          "responseIds": [
+            "p01-kazoku",
+            "p03-kazoku",
+            "p04-kazoku",
+            "p06-kazoku",
+            "p08-kazoku",
+            "p14-kazoku",
+            "p15-kazoku",
+            "p16-kazoku",
+            "p18-kazoku"
+          ],
+          "representativeIds": [
+            "p03-kazoku",
+            "p06-kazoku",
+            "p14-kazoku"
+          ]
+        },
+        {
+          "id": "belonging",
+          "title": "日常と心のつながり",
+          "description": "一緒に食べる日常、離れていても感じる支え、親しさから広がる家族。",
+          "responseIds": [
+            "p10-kazoku",
+            "p11-kazoku",
+            "p17-kazoku"
+          ],
+          "representativeIds": [
+            "p10-kazoku",
+            "p17-kazoku"
+          ]
+        },
+        {
+          "id": "first-love",
+          "title": "初めての恋という表現",
+          "description": "家族を「人生で初めての恋」と表した一つの独自の視点。",
+          "responseIds": [
+            "p02-kazoku"
+          ],
+          "representativeIds": [
+            "p02-kazoku"
+          ]
+        }
+      ],
+      "common": {
+        "title": "関係を表す言葉、支えを表す言葉",
+        "text": "血縁をはっきり挙げる回答がある一方、助け合いや信頼を中心にした回答も多くあります。「一緒にご飯を食べて普通の日だと感じる人」は、特別な出来事ではなく日常を通して家族を捉えています。血縁と心のつながりは対立するだけでなく、一つの回答に重なることもあります。",
+        "evidenceIds": [
+          "p03-kazoku",
+          "p06-kazoku",
+          "p09-kazoku",
+          "p10-kazoku",
+          "p17-kazoku"
+        ]
+      },
+      "discoveries": [
+        {
+          "title": "「友達は自分で選んだ家族」",
+          "text": "この回答は、家族の範囲を血縁の外へ広げています。自分を大切にしてくれる人、自分が大切にする人という双方向の関係が、家族を考える手がかりになります。",
+          "evidenceIds": [
+            "p17-kazoku"
+          ]
+        },
+        {
+          "title": "「人生で初めての恋」",
+          "text": "家族に「恋」という言葉を重ねた表現です。血縁や支え合いとは異なる角度から、家族との結びつきを考えさせます。この一文だけから、具体的な経験や意図を決めることはできません。",
+          "evidenceIds": [
+            "p02-kazoku"
+          ]
+        }
+      ],
+      "summary": "家族を血のつながりとして捉える回答と、支え合う大切な人として捉える回答がありました。食事を共にする日常や、離れていても続く心のつながりも語られています。友達を家族に含める見方からは、家族の範囲が一つに決まらないことが見えてきます。"
+    },
+    {
+      "id": "ai",
+      "title": "愛",
+      "reading": "あい",
+      "number": "二",
+      "intro": "目に見えない気持ちを、言葉にする。",
+      "definition": "相手を大切に思い、幸せを願い、思いやりや行動でつながろうとする気持ち。見返りを求めない思いから恋人への感情まで形はさまざまで、執着と捉える見方もある。",
+      "categories": [
+        {
+          "id": "care",
+          "title": "思いやり・大切にする気持ち",
+          "description": "相手の幸せを願い、支えたり尊重したりする気持ちや行動。",
+          "responseIds": [
+            "p03-ai",
+            "p06-ai",
+            "p09-ai",
+            "p11-ai",
+            "p14-ai",
+            "p16-ai",
+            "p17-ai"
+          ],
+          "representativeIds": [
+            "p11-ai",
+            "p16-ai",
+            "p17-ai"
+          ]
+        },
+        {
+          "id": "unconditional",
+          "title": "見返りを求めない愛",
+          "description": "返してもらうことを条件にしない貢献や、無条件という表現。",
+          "responseIds": [
+            "p10-ai",
+            "p12-ai",
+            "p18-ai"
+          ],
+          "representativeIds": [
+            "p10-ai",
+            "p18-ai"
+          ]
+        },
+        {
+          "id": "connection",
+          "title": "感情のつながり",
+          "description": "温かさ、長く続く好意、触れられなくても感じるものとしての愛。",
+          "responseIds": [
+            "p02-ai",
+            "p07-ai",
+            "p08-ai",
+            "p15-ai"
+          ],
+          "representativeIds": [
+            "p02-ai",
+            "p07-ai",
+            "p15-ai"
+          ]
+        },
+        {
+          "id": "trust",
+          "title": "気兼ねなく話せる関係",
+          "description": "何を言っても大丈夫だと感じる関係として表された愛。",
+          "responseIds": [
+            "p04-ai"
+          ],
+          "representativeIds": [
+            "p04-ai"
+          ]
+        },
+        {
+          "id": "romance",
+          "title": "恋人同士の感情",
+          "description": "恋人の間に生まれる感情を中心にした説明。",
+          "responseIds": [
+            "p13-ai"
+          ],
+          "representativeIds": [
+            "p13-ai"
+          ]
+        },
+        {
+          "id": "attachment",
+          "title": "執念・執着",
+          "description": "相手への強い思いを「執念、執着」と表した回答。",
+          "responseIds": [
+            "p01-ai"
+          ],
+          "representativeIds": [
+            "p01-ai"
+          ]
+        },
+        {
+          "id": "unresolved",
+          "title": "まだ言葉にならないもの",
+          "description": "「わからない」という回答も、一つの有効な回答として残す。",
+          "responseIds": [
+            "p05-ai"
+          ],
+          "representativeIds": [
+            "p05-ai"
+          ]
+        }
+      ],
+      "common": {
+        "title": "気持ちと行動、その両方から",
+        "text": "相手を大切にする気持ちと、努力や貢献などの行動を挙げる回答があります。恋人に限る説明もあれば、家族、友情、自分自身へと範囲を広げる説明もあります。「見返りを求めない」と「執着」は、愛と相手との距離について異なる問いを投げかけます。",
+        "evidenceIds": [
+          "p03-ai",
+          "p10-ai",
+          "p13-ai",
+          "p17-ai",
+          "p01-ai"
+        ]
+      },
+      "discoveries": [
+        {
+          "title": "愛と、相手を自分のものにすること",
+          "text": "「執念、執着」という短い回答と、「相手を自分のものにすることではなく」という回答を並べると、強い思いと相手の尊重との関係が浮かびます。どちらかを誤りとせず、言葉の幅として考えます。",
+          "evidenceIds": [
+            "p01-ai",
+            "p17-ai"
+          ]
+        },
+        {
+          "title": "「わからない」も残す",
+          "text": "意味をすぐに説明できないという回答を、空白とは区別して収録しています。言葉にしにくいものをどう辞書に残すかという、編纂そのものへの問いになります。",
+          "evidenceIds": [
+            "p05-ai"
+          ]
+        }
+      ],
+      "summary": "愛には、相手を大切にする気持ち、思いやりを行動にすること、見返りを求めないことなどが挙げられました。一方で、恋人との感情や執着という見方もあります。「わからない」も含めて読むことで、愛の意味や向かう先が、人によって異なることに気づきます。"
+    },
+    {
+      "id": "jiyuu",
+      "title": "自由",
+      "reading": "じゆう",
+      "number": "三",
+      "intro": "自分で選ぶ。その先を、考える。",
+      "definition": "自分で考え、行動や生き方を選び、したいことができること。何かに縛られず、したくないことをしない面もある。自分の責任や、他の人への影響、ルールを伴うという見方もある。",
+      "categories": [
+        {
+          "id": "choice",
+          "title": "自己決定・自分らしさ",
+          "description": "自分の意思で考え、時間、行動や生き方を選ぶこと。",
+          "responseIds": [
+            "p06-jiyuu",
+            "p10-jiyuu",
+            "p14-jiyuu",
+            "p15-jiyuu",
+            "p16-jiyuu",
+            "p18-jiyuu"
+          ],
+          "representativeIds": [
+            "p06-jiyuu",
+            "p10-jiyuu",
+            "p18-jiyuu"
+          ]
+        },
+        {
+          "id": "wishes",
+          "title": "したいことができる",
+          "description": "遊ぶ、食べる、話すなど、自分の望むことができる状態。",
+          "responseIds": [
+            "p02-jiyuu",
+            "p03-jiyuu",
+            "p05-jiyuu",
+            "p07-jiyuu",
+            "p13-jiyuu"
+          ],
+          "representativeIds": [
+            "p02-jiyuu",
+            "p03-jiyuu",
+            "p07-jiyuu"
+          ]
+        },
+        {
+          "id": "release",
+          "title": "束縛からの解放",
+          "description": "何かに縛られないこと、したくないことをしないこと。",
+          "responseIds": [
+            "p01-jiyuu",
+            "p08-jiyuu",
+            "p09-jiyuu"
+          ],
+          "representativeIds": [
+            "p01-jiyuu",
+            "p08-jiyuu"
+          ]
+        },
+        {
+          "id": "responsibility",
+          "title": "責任・他者・ルール",
+          "description": "自分の責任、他者への影響、法律や良心と自由との関係。",
+          "responseIds": [
+            "p04-jiyuu",
+            "p11-jiyuu",
+            "p12-jiyuu",
+            "p17-jiyuu"
+          ],
+          "representativeIds": [
+            "p04-jiyuu",
+            "p12-jiyuu",
+            "p17-jiyuu"
+          ]
+        }
+      ],
+      "common": {
+        "title": "選べることと、選ぶときに考えること",
+        "text": "自分で決めることや、好きなことができることが共通する軸です。一方、責任や他の人への影響を条件にする回答もあります。自由の内容だけでなく、自由をどう使うかにも目が向けられています。",
+        "evidenceIds": [
+          "p03-jiyuu",
+          "p06-jiyuu",
+          "p10-jiyuu",
+          "p11-jiyuu",
+          "p12-jiyuu",
+          "p17-jiyuu",
+          "p18-jiyuu"
+        ]
+      },
+      "discoveries": [
+        {
+          "title": "「しない」という選択",
+          "text": "「やりたくない事をやらない」という説明は、何かをする自由だけでなく、断る自由にも目を向けています。「する」ことだけを集めると見えにくい自由の一面です。原文の「権力」は修正せず残しています。",
+          "evidenceIds": [
+            "p08-jiyuu"
+          ]
+        },
+        {
+          "title": "日常の自由、精神の自由",
+          "text": "自然の中で遊ぶことと、精神的に自立して縛られないこと。具体的な場面と内面の状態という違いから、自由を実感する場が一つではないと分かります。",
+          "evidenceIds": [
+            "p02-jiyuu",
+            "p01-jiyuu"
+          ]
+        }
+      ],
+      "summary": "自由には、自分で考えて決めることや、好きなことができることという共通の軸がありました。したくないことをしない自由や、精神的に縛られない状態も挙げられています。責任やルールを含む回答からは、自分の選択と他の人との関係を共に考える視点が見えてきます。"
+    }
+  ],
+  "tags": {
+    "p01-kazoku": [
+      "絆"
+    ],
+    "p09-kazoku": [
+      "共同生活"
+    ],
+    "p11-kazoku": [
+      "心の支え"
+    ],
+    "p12-kazoku": [
+      "愛情の有無"
+    ],
+    "p17-kazoku": [
+      "血縁をこえる",
+      "選ぶ家族"
+    ],
+    "p09-ai": [
+      "好意"
+    ],
+    "p17-ai": [
+      "尊重",
+      "友情",
+      "自己への愛"
+    ],
+    "p18-ai": [
+      "家族以外"
+    ],
+    "p05-ai": [
+      "わからない"
+    ],
+    "p04-jiyuu": [
+      "自己決定"
+    ],
+    "p09-jiyuu": [
+      "したいこと"
+    ],
+    "p17-jiyuu": [
+      "良心",
+      "道徳"
+    ],
+    "p05-jiyuu": [
+      "解釈に幅がある"
+    ]
+  },
+  "notes": {
+    "p05-jiyuu": "「欲しい物が得って、嫌い物が失う」に着目して仮に分類。文全体の意味には解釈の幅があるため、原文を参照してください。",
+    "p04-ai": "「何を言っても大丈夫だ」に着目した分類。配慮そのものへの一般的な主張とは断定しません。"
+  },
+  "sourceSHA256": "88fe15a72285ab2774ba4d55cf6c4fe8528068e88261c0ce54ef405b078efab2"
+}
