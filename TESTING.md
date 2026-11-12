@@ -90,3 +90,16 @@ npm run test:browser
 - 已查看375px WebKit首页与词条截图、1280px Chromium首页截图。真实iPhone Safari验收仍未执行。
 
 可打印核对表：https://junxiongw6-droid.github.io/watashitachi_dictionary/review/index.html
+
+
+## 2026-11-13：独立封面与目录
+
+默认 `#/` 为独立封面，词条目录、搜索和编纂介绍位于 `#/contents`。封面按钮及页眉的「辞典をひらく」进入目录；品牌返回封面；词条中的「目次へ」返回目录。
+
+部署源码：410c124。运行记录：https://github.com/junxiongw6-droid/watashitachi_dictionary/actions/runs/43253083145
+
+- 本地22项JavaScript/DOM测试通过。
+- 发布前及真实线上浏览器检查全部通过，build、deploy、verify-live均为success。
+- 五种宽度均验证封面上没有词条卡片或搜索区，普通页脚隐藏，封面高度适配844px视窗且无横向溢出。
+- 验证打开目录、后退到封面、前进回目录、词条导航及搜索。
+- 已查看1280px Chromium与375px WebKit的独立封面截图。
