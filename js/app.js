@@ -7,7 +7,6 @@ const wordLink=w=>`#/${w.id}`;
 const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
-function toast(text) {const el=document.querySelector('#toast');el.textContent=text;el.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.hidden=true,3500);}
 function evidence(ids=[]) {return `<details class="evidence"><summary>根拠となる回答を見る</summary><div>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div></details>`;}
 function responseCard(r, showWord=false) {
   const w=data.editorial.words.find(w=>w.id===r.wordId);
@@ -34,7 +33,7 @@ function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
  const index=data.editorial.words.indexOf(w);
  return `<div class="page-wrap entry-page"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>${w.title}</span></div>
- <header class="word-header"><div><p class="eyebrow">第${w.number}章 <span>—</span> ${total}人の言葉から</p><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div><button class="quiet-button share" id="share">リンクをコピー ↗</button></header>
+ <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div></header>
  <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
  <p class="nav-caption reader-caption">読む内容</p>
  <div class="reader-tabs" role="tablist" aria-label="読む内容の切り替え">
@@ -87,7 +86,7 @@ function searchPage() {
 }
 
 function aboutPage() {
- return `<div class="page-wrap narrow"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>この辞典について</span></div><header class="simple-header"><p class="eyebrow">HOW WE WOVE THIS DICTIONARY</p><h1>この辞典について</h1><p>一つの正解より、一人ひとりの言葉を。</p></header><section class="prose"><h2>私たちの小さな辞典</h2><p>日本語の授業で集めた「家族」「愛」「自由」への回答から編んだ、オリジナルの辞典です。同じ言葉の中にある共通点と、一人ひとりの違いを大切にしています。</p><h2>言葉が辞典になるまで</h2><ol class="process"><li>自分の言葉で説明する</li><li>全員の回答を集める</li><li>共通点と違いを比べる</li><li>意味のまとまりに分類する</li><li>編者が定義と分析をまとめる</li><li>原文とともに、一冊の辞典にする</li></ol><h2>データと編纂方針</h2><p>Excelの有効記録は${data.respondents.length}件、回答は${data.responses.length}件です。${data.editorial.words.map(w=>`${w.title}は${data.responses.filter(r=>r.wordId===w.id).length}件`).join('、')}。空白の回答は補わず、重複の疑いがある提出も自動削除しません。</p><p>回答原文の表記、文法、空白は修正していません。「わからない」も有効な回答です。各回答の記録IDから、開発時に元のシート・行・列を照合できます。</p><p>${e(data.editorial.method)} 補助タグは人数に重複して加算しません。代表的な回答と分析の根拠は、実際の回答を参照しています。</p><p>「私たちの定義」は<strong>回答をもとに編者がまとめた定義</strong>です。定義・分類・分析・まとめを、全員が投票で承認したものとはしていません。回答者の心理や個人的な背景は推測しません。</p><h2>クラスで内容を確かめる</h2><p>原文と編者による分類・定義を並べた確認用シートを用意しました。印刷して、一人ひとりの意見や修正案を書き込めます。</p><p><a class="text-link" href="./review/index.html">確認用シートをひらく ↗</a></p><h2>読むための小さな案内</h2><p>キーワード・名前で検索したり、分類で絞り込んだりできます。回答者のページでは三つの答えを読み比べられます。言葉の「リンクをコピー」から、そのページを共有できます。</p><p class="editor-caption">日本語クラス 共同編纂プロジェクト<br>私たちの言葉辞典 — 家族・愛・自由</p></section></div>`;
+ return `<div class="page-wrap narrow"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>この辞典について</span></div><header class="simple-header"><p class="eyebrow">HOW WE WOVE THIS DICTIONARY</p><h1>この辞典について</h1><p>一つの正解より、一人ひとりの言葉を。</p></header><section class="prose"><h2>私たちの小さな辞典</h2><p>日本語の授業で集めた「家族」「愛」「自由」への回答から編んだ、オリジナルの辞典です。同じ言葉の中にある共通点と、一人ひとりの違いを大切にしています。</p><h2>言葉が辞典になるまで</h2><ol class="process"><li>自分の言葉で説明する</li><li>全員の回答を集める</li><li>共通点と違いを比べる</li><li>意味のまとまりに分類する</li><li>編者が定義と分析をまとめる</li><li>原文とともに、一冊の辞典にする</li></ol><h2>データと編纂方針</h2><p>Excelの有効記録は${data.respondents.length}件、回答は${data.responses.length}件です。${data.editorial.words.map(w=>`${w.title}は${data.responses.filter(r=>r.wordId===w.id).length}件`).join('、')}。空白の回答は補わず、重複の疑いがある提出も自動削除しません。</p><p>回答原文の表記、文法、空白は修正していません。「わからない」も有効な回答です。各回答の記録IDから、開発時に元のシート・行・列を照合できます。</p><p>${e(data.editorial.method)} 補助タグは人数に重複して加算しません。代表的な回答と分析の根拠は、実際の回答を参照しています。</p><p>「私たちの定義」は<strong>回答をもとに編者がまとめた定義</strong>です。定義・分類・分析・まとめを、全員が投票で承認したものとはしていません。回答者の心理や個人的な背景は推測しません。</p><h2>クラスで内容を確かめる</h2><p>原文と編者による分類・定義を並べた確認用シートを用意しました。印刷して、一人ひとりの意見や修正案を書き込めます。</p><p><a class="text-link" href="./review/index.html">確認用シートをひらく ↗</a></p><h2>読むための小さな案内</h2><p>キーワード・名前で検索したり、分類で絞り込んだりできます。回答者のページでは三つの答えを読み比べられます。</p><p class="editor-caption">日本語クラス 共同編纂プロジェクト<br>私たちの言葉辞典 — 家族・愛・自由</p></section></div>`;
 }
 function updateResponses() {
  const wordId=route.path.slice(1), isWord=!!titles[wordId];
@@ -114,10 +113,6 @@ function updateParams(updates, {push=false}={}) {
  updateResponses();
 }
 function reset() {const input=document.querySelector('#response-query');if(input)input.value='';updateParams({q:'',category:'',person:''});}
-async function share() {
- try {if(!navigator.clipboard?.writeText)throw new Error('No clipboard');await navigator.clipboard.writeText(location.href);toast('リンクをコピーしました。');}
- catch {const existing=document.querySelector('#share-fallback');if(existing)existing.remove();const div=document.createElement('div');div.id='share-fallback';div.className='copy-fallback';div.innerHTML='<label for="share-url">リンクを選択してコピーしてください。</label><input id="share-url" readonly><button id="close-share">閉じる</button>';document.querySelector('.word-header').after(div);const input=div.querySelector('input');input.value=location.href;input.focus();input.select();div.querySelector('button').onclick=()=>{div.remove();document.querySelector('#share').focus();};announce('リンクを選択してコピーしてください。');}
-}
 function render() {
  if(!data)return;
  route=parseRoute(location.hash);
@@ -143,7 +138,6 @@ main.addEventListener('input',event=>{if(event.target.id==='response-query')upda
 main.addEventListener('change',event=>{if(event.target.id==='person-select')location.hash=`#/people${event.target.value?'?id='+event.target.value:''}`;});
 main.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;
- if(button.id==='share')share();
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
  if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});
  if(button.hasAttribute('data-open-category')){updateParams({category:button.dataset.openCategory,q:'',person:'',view:'answers'});document.querySelector('#response-query').value='';document.querySelector('#responses').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}

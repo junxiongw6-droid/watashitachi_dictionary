@@ -26,6 +26,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
+   await expect(page.locator('.word-header .eyebrow, #share')).toHaveCount(0);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.goto('./#/ai');
@@ -50,8 +51,6 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('#response-query').fill('ZZZZZZ');await expect(page.getByText('該当する回答が見つかりませんでした。')).toBeVisible();
   await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(3);
-  await page.locator('#share').click();
-  await expect(page.locator('#toast:not([hidden]), #share-fallback')).toBeVisible();
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
   await page.locator('.word-tabs a[href="#/jiyuu"]').click();await page.goBack();
