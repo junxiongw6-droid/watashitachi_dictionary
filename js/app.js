@@ -25,7 +25,7 @@ function home() {
 
 function contentsPage() {
  return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1>辞典の目次</h1><p>言葉や名前から、読みたいページへ。</p></div><a class="text-link" href="#/">表紙に戻る <span>↗</span></a></header>
- <section class="entries" id="entries"><div class="section-top"><div><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
+ <section class="entries" id="entries"><div class="section-top"><div><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
 }
 
 function filterBar(word) {
