@@ -119,16 +119,16 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 
 /* Watercolor insets: keep the existing cover, controls and reading panels. */
 .word-illustration{margin:0;min-width:0;line-height:0}
-.word-illustration img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;border:0;box-shadow:none;mix-blend-mode:multiply}
+.word-illustration img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain;border:0;box-shadow:none;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(ellipse at center,#000 52%,rgba(0,0,0,.92) 65%,transparent 100%);mask-image:radial-gradient(ellipse at center,#000 52%,rgba(0,0,0,.92) 65%,transparent 100%)}
 .contents-page .word-grid{align-items:stretch}
 .contents-page .word-entry{display:flex;flex-direction:column;gap:0;padding:20px 22px;min-width:0}
 .contents-page .word-entry .entry-top{display:flex;justify-content:space-between}
 .contents-page .card-illustration{width:100%;margin:17px 0 18px;overflow:hidden}
 .contents-page .card-illustration img{transition:transform .35s ease}
-.contents-page .word-entry .entry-title{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0 0 12px}
+.contents-page .word-entry .entry-title{align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0 0 12px}
 .contents-page .word-entry .entry-title h3{font-size:42px;line-height:1.4}
 .contents-page .word-entry .entry-title>span{font-size:13px;color:var(--muted)}
-.contents-page .word-entry>p{margin:0 0 20px;min-height:0;font-size:13px;line-height:2}
+.contents-page .word-entry>p{align-self:stretch;margin:0 0 20px;min-height:0;font-size:13px;line-height:2}
 .contents-page .word-entry .entry-bottom{display:flex;justify-content:space-between;align-items:center;align-self:stretch;margin-top:auto;border-top:1px solid var(--line);padding-top:12px}
 .contents-page .word-entry .entry-bottom>span:first-child{display:inline}
 .entry-page .word-header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;gap:32px}
