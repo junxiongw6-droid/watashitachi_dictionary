@@ -18,15 +18,23 @@ for(const width of [375,390,430,768,1280]) {
   await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();await expect(page.locator('.site-header nav')).toBeHidden();
   await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);await expect(page.locator('.site-header nav')).toBeVisible();
   await page.evaluate(()=>document.fonts.ready);
-  if(width<=430){
-   const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);
-   expect(bottom).toBeLessThanOrEqual(844);
+  await expect(page.locator('.card-illustration img')).toHaveCount(3);
+  for(const img of await page.locator('.card-illustration img').all()){
+   await img.scrollIntoViewIfNeeded();await expect.poll(()=>img.evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
   }
+  const sizes=await page.locator('.word-entry').evaluateAll(cards=>cards.map(c=>({width:c.getBoundingClientRect().width,height:c.getBoundingClientRect().height})));
+  expect(Math.max(...sizes.map(s=>s.width))-Math.min(...sizes.map(s=>s.width))).toBeLessThan(2);
+  expect(Math.max(...sizes.map(s=>s.height))-Math.min(...sizes.map(s=>s.height))).toBeLessThan(2);
   await page.screenshot({path:testInfo.outputPath('contents.png'),fullPage:true});
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
    await expect(page.locator('.word-header .eyebrow, #share, .method-details, .page-navigation, #reader-panel-overview .reader-next')).toHaveCount(0);
+   const illustration=page.locator('.detail-illustration img');
+   await expect.poll(()=>illustration.evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
+   const titleBox=await page.locator('.word-header>div').boundingBox(), imageBox=await illustration.boundingBox();
+   if(width<=430)expect(imageBox.y).toBeGreaterThanOrEqual(titleBox.y+titleBox.height);
+   else if(width>=768)expect(imageBox.x).toBeGreaterThanOrEqual(titleBox.x+titleBox.width);
    const counts=await page.locator('.category-summary-count').allTextContents();
    const numbers=counts.map(n=>parseInt(n,10));expect(numbers).toEqual([...numbers].sort((a,b)=>b-a));expect(numbers.reduce((sum,n)=>sum+n,0)).toBe(18);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

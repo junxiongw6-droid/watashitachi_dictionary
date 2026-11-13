@@ -143,3 +143,21 @@ test('every category contains all its original answers and names without a repre
  }
  }finally{s.close();}
 });
+
+
+test('illustrations map to the correct entries with subpath-safe URLs and stable image dimensions',async()=>{
+ const s=await setup({hash:'#/contents'});try{
+ for(const word of fixture.editorial.words){
+  const image=s.q(`.word-entry.${word.id} .card-illustration img`);
+  assert.equal(image.src,`https://example.test/dictionary/assets/illustrations/${word.id}.webp`);
+  assert.equal(image.loading || image.getAttribute('loading'),'lazy');
+  assert.equal(image.getAttribute('width'),'960');assert.equal(image.getAttribute('height'),'480');assert.ok(image.alt);
+ }
+ for(const word of fixture.editorial.words){
+  await s.navigate('#/'+word.id);
+  assert.equal(s.q('.detail-illustration img').src,`https://example.test/dictionary/assets/illustrations/${word.id}.webp`);
+  assert.equal(s.q('.detail-illustration img').getAttribute('loading'),'eager');
+ }
+ await s.navigate('#/');assert.equal(s.q('.word-illustration'),null);
+ }finally{s.close();}
+});

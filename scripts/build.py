@@ -63,7 +63,7 @@ def main():
     if args.mode=='anonymous':
         # Check the entire public output, not only the visible name field.
         for file in dist.rglob('*'):
-            if file.is_file() and file.suffix != '.woff2':
+            if file.is_file() and file.suffix not in {'.woff2','.webp','.png','.jpg','.jpeg','.avif'}:
                 content=file.read_text(encoding='utf-8')
                 for person in raw['respondents']:
                     if person['name'].strip() and person['name'].strip() in content:

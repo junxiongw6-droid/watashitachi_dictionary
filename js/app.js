@@ -4,6 +4,12 @@ let data, warnings=[], route, previousHash='', resetWordScrollFor='';
 const positions=new Map();
 const titles={kazoku:'家族',ai:'愛',jiyuu:'自由'};
 const wordLink=w=>`#/${w.id}`;
+const illustrationDescriptions={kazoku:'家族がテーブルを囲み、本を読む子どもを見守る水彩画',ai:'二つの手がハートをそっと包む水彩画',jiyuu:'開いた鳥かごから鳥が空へ飛び立つ水彩画'};
+function wordIllustration(w,detail=false){
+ const src=new URL(`../assets/illustrations/${w.id}.webp`,import.meta.url).href;
+ return `<figure class="word-illustration ${detail?'detail-illustration':'card-illustration'}"><img src="${e(src)}" alt="${e(illustrationDescriptions[w.id])}" width="960" height="480" loading="${detail?'eager':'lazy'}" decoding="async"></figure>`;
+}
+
 const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
@@ -19,7 +25,7 @@ function home() {
 
 function contentsPage() {
  return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1>辞典の目次</h1><p>言葉や名前から、読みたいページへ。</p></div><a class="text-link" href="#/">表紙に戻る <span>↗</span></a></header>
- <section class="entries" id="entries"><div class="section-top"><div><p class="eyebrow">THE THREE WORDS</p><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
+ <section class="entries" id="entries"><div class="section-top"><div><p class="eyebrow">THE THREE WORDS</p><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-top"><span>第${w.number}章</span><span>${String(data.responses.filter(r=>r.wordId===w.id).length).padStart(2,'0')} の声</span></div>${wordIllustration(w)}<div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
 }
 
 function filterBar(word) {
@@ -32,7 +38,7 @@ function searchInput() {
 function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
  return `<div class="page-wrap entry-page"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>${w.title}</span></div>
- <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div></header>
+ <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div>${wordIllustration(w,true)}</header>
  <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
  <p class="nav-caption reader-caption">読む内容</p>
  <div class="reader-tabs" role="tablist" aria-label="読む内容の切り替え">
