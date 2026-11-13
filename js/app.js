@@ -40,7 +40,7 @@ function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
  return `<div class="page-wrap entry-page"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>${w.title}</span></div>
  <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div>${wordIllustration(w)}</header>
- <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
+ <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" data-word="${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
  <p class="nav-caption reader-caption">読む内容</p>
  <div class="reader-tabs" role="tablist" aria-label="読む内容の切り替え">
   <button type="button" id="reader-tab-overview" role="tab" aria-controls="reader-panel-overview" data-view="overview">定義・分類</button>
@@ -74,6 +74,9 @@ function syncReaderView() {
  const requested=route.params.get('view');
  const view=['overview','answers','analysis'].includes(requested)?requested:
   (['q','category','person'].some(k=>route.params.get(k))?'answers':'overview');
+ document.querySelectorAll('.word-tabs [data-word]').forEach(link=>{
+  link.setAttribute('href',`#/${link.dataset.word}${view==='overview'?'':'?view='+view}`);
+ });
  panels.forEach(panel=>panel.hidden=panel.id!==`reader-panel-${view}`);
  document.querySelectorAll('.reader-tabs [data-view]').forEach(tab=>{
   const active=tab.dataset.view===view;

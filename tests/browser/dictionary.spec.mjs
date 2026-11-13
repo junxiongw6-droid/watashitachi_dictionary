@@ -67,7 +67,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(3);
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
-  await page.locator('.word-tabs a[href="#/jiyuu"]').click();await page.goBack();
+  await page.locator('.word-tabs a[data-word="jiyuu"]').click();await page.goBack();
   await expect(page.locator('[data-category="unconditional"]')).toHaveAttribute('aria-pressed','true');
   await page.goto('./#/people?id=p01');await expect(page.locator('.person-answers .response-card')).toHaveCount(3);
   await page.locator('#person-select').selectOption('p07');await expect(page.locator('.person-answers blockquote').first()).toHaveText('    血がつながっている人');
@@ -197,4 +197,21 @@ test('category expansion displays every original answer inline on mobile',async(
  }
  await page.goto('./#/kazoku');await page.locator('[data-category-id="support"] > summary').click();
  await page.screenshot({path:testInfo.outputPath('all-category-answers.png'),fullPage:true});
+});
+
+
+test('changing words keeps answers selected and browser back restores the previous view',async({page})=>{
+ await page.goto('./#/ai?view=answers');
+ for(const id of ['kazoku','jiyuu','ai']){
+  await page.locator(`.word-tabs [data-word="${id}"]`).click();
+  await expect(page).toHaveURL(new RegExp('#/'+id+'\\?view=answers$'));
+  await expect(page.locator('#reader-tab-answers')).toHaveAttribute('aria-selected','true');
+  await expect(page.locator('#reader-panel-answers')).toBeVisible();await expect(page.locator('#reader-panel-overview')).toBeHidden();
+  await expect(page.locator('#response-list .response-card')).toHaveCount(18);await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+ }
+ await page.goBack();await expect(page).toHaveURL(/#\/jiyuu\?view=answers$/);await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await page.locator('#reader-tab-analysis').click();await page.locator('.word-tabs [data-word="kazoku"]').click();
+ await expect(page.locator('#reader-panel-analysis')).toBeVisible();
+ await page.locator('#reader-tab-overview').click();await page.locator('.word-tabs [data-word="ai"]').click();
+ await expect(page).toHaveURL(/#\/ai$/);await expect(page.locator('#reader-panel-overview')).toBeVisible();
 });

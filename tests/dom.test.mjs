@@ -68,7 +68,7 @@ test('search is separate from catalogue and supports names, keywords and clearin
 test('browser history restores category, query and scroll',async()=>{
  const s=await setup({hash:'#/ai'});try{
  s.input('#response-query','見返り');s.click('[data-category="unconditional"]');s.w.scrollTo({top:900});s.w.dispatchEvent(new s.w.Event('scroll'));
- s.click('.word-tabs a[href="#/jiyuu"]');await tick();s.w.history.back();await tick();
+ s.click('.word-tabs a[data-word="jiyuu"]');await tick();s.w.history.back();await tick();
  assert.equal(s.q('#response-query').value,'見返り');assert.equal(s.q('[data-category="unconditional"]').getAttribute('aria-pressed'),'true');assert.equal(s.scroll(),900);
  s.click('#top');assert.equal(s.scroll(),0);
  }finally{s.close();}
@@ -156,5 +156,23 @@ test('contents stays text-only while entry illustrations use subpath-safe URLs',
   assert.equal(s.q('.detail-illustration img').getAttribute('loading'),'eager');
  }
  await s.navigate('#/');assert.equal(s.q('.word-illustration'),null);
+ }finally{s.close();}
+});
+
+
+test('word changes preserve the reading panel and reset word-specific filters',async()=>{
+ const s=await setup({hash:'#/ai?category=care&q=大切'});try{
+ for(const key of ['kazoku','jiyuu','ai']){
+  assert.equal(s.q('#reader-panel-answers').hidden,false);
+  s.click(`.word-tabs [data-word="${key}"]`);await tick();
+  assert.equal(s.w.location.hash,`#/${key}?view=answers`);
+  assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#reader-panel-overview').hidden,true);
+  assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
+ }
+ s.click('#reader-tab-analysis');s.click('.word-tabs [data-word="kazoku"]');await tick();
+ assert.equal(s.w.location.hash,'#/kazoku?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
+ s.w.history.back();await tick();assert.equal(s.w.location.hash,'#/ai?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
+ s.click('#reader-tab-overview');s.click('.word-tabs [data-word="jiyuu"]');await tick();
+ assert.equal(s.w.location.hash,'#/jiyuu');assert.equal(s.q('#reader-panel-overview').hidden,false);
  }finally{s.close();}
 });
