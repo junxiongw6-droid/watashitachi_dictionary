@@ -116,3 +116,13 @@ test('category index starts compact and expands only the selected category',asyn
  assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  }finally{s.close();}
 });
+
+test('all three word buttons reset scroll on revisits and repeated current-word clicks',async()=>{
+ const s=await setup({hash:'#/kazoku'});try{
+ for(const key of ['ai','jiyuu','kazoku','ai','ai']){
+  s.w.scrollTo({top:700});s.w.dispatchEvent(new s.w.Event('scroll'));
+  s.click(`.word-tabs a[href="#/${key}"]`);await tick();
+  assert.equal(s.w.location.hash,'#/'+key);assert.equal(s.scroll(),0);
+ }
+ }finally{s.close();}
+});

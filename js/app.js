@@ -1,6 +1,6 @@
 import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData} from './core.mjs';
 const main=document.querySelector('main');
-let data, warnings=[], route, previousHash='';
+let data, warnings=[], route, previousHash='', resetWordScrollFor='';
 const positions=new Map();
 const titles={kazoku:'家族',ai:'愛',jiyuu:'自由'};
 const wordLink=w=>`#/${w.id}`;
@@ -133,7 +133,8 @@ function render() {
  if(warnings.length)main.insertAdjacentHTML('afterbegin',`<div class="data-warning" role="status">${warnings.map(e).join('<br>')}</div>`);
  document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===((route.path==='/people'||route.path==='/search')?'search':route.path==='/about'?'about':route.path==='/'?'':'home');if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  updateResponses();
- const saved=positions.get(location.hash);
+ const saved=resetWordScrollFor===location.hash?0:positions.get(location.hash);
+ resetWordScrollFor='';
  window.scrollTo({top:saved || 0,behavior:'instant'});
  main.focus({preventScroll:true});
  previousHash=location.hash;
@@ -166,7 +167,21 @@ main.addEventListener('keydown',event=>{
  const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
  tabs[next].click();
 });
-document.addEventListener('click',event=>{const a=event.target.closest('a');if(a?.getAttribute('href')?.startsWith('#/'))positions.set(location.hash,scrollY);if(a?.getAttribute('href')==='#entries'){event.preventDefault();document.querySelector('#entries')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}});
+document.addEventListener('click',event=>{
+ const a=event.target.closest('a');if(!a)return;
+ const href=a.getAttribute('href');
+ if(a.matches('.word-tabs a') && event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.defaultPrevented){
+  event.preventDefault();positions.set(location.hash,scrollY);
+  if(location.hash===href){
+   positions.set(href,0);window.scrollTo({top:0,behavior:'instant'});main.focus({preventScroll:true});
+  }else{
+   resetWordScrollFor=href;location.hash=href;
+  }
+  return;
+ }
+ if(href?.startsWith('#/'))positions.set(location.hash,scrollY);
+ if(href==='#entries'){event.preventDefault();document.querySelector('#entries')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+});
 window.addEventListener('scroll',()=>{positions.set(previousHash,scrollY);document.querySelector('#top').hidden=scrollY<600;},{passive:true});
 document.querySelector('#top').onclick=()=>window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
 window.addEventListener('hashchange',render);

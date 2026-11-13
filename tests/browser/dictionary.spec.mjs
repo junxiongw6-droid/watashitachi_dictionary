@@ -134,3 +134,13 @@ test('printable class review contains all exact originals and unfilled confirmat
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:testInfo.outputPath('class-review.png'),fullPage:false});
 });
+
+test('word selection always starts at page top including already visited and current words',async({page})=>{
+ await page.goto('./#/kazoku');await expect(page.locator('.word-tabs')).toBeVisible();
+ for(const key of ['ai','jiyuu','kazoku','ai','ai']){
+  await page.evaluate(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
+  await page.locator(`.word-tabs a[href="#/${key}"]`).click();
+  await expect(page).toHaveURL(new RegExp('#/'+key+'$'));
+  await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+ }
+});
