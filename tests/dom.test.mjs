@@ -145,14 +145,11 @@ test('every category contains all its original answers and names without a repre
 });
 
 
-test('illustrations map to the correct entries with subpath-safe URLs and stable image dimensions',async()=>{
+test('contents stays text-only while entry illustrations use subpath-safe URLs',async()=>{
  const s=await setup({hash:'#/contents'});try{
- for(const word of fixture.editorial.words){
-  const image=s.q(`.word-entry.${word.id} .card-illustration img`);
-  assert.equal(image.src,`https://example.test/dictionary/assets/illustrations/${word.id}.webp`);
-  assert.equal(image.loading || image.getAttribute('loading'),'lazy');
-  assert.equal(image.getAttribute('width'),'960');assert.equal(image.getAttribute('height'),'480');assert.ok(image.alt);
- }
+ assert.equal(s.q('.contents-page img'),null);
+ assert.equal(s.q('[data-nav="home"]').textContent,'辞典の目次');
+ assert.equal(s.q('[data-nav="home"]').getAttribute('href'),'#/contents');
  for(const word of fixture.editorial.words){
   await s.navigate('#/'+word.id);
   assert.equal(s.q('.detail-illustration img').src,`https://example.test/dictionary/assets/illustrations/${word.id}.webp`);

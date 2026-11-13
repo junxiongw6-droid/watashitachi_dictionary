@@ -18,13 +18,12 @@ for(const width of [375,390,430,768,1280]) {
   await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();await expect(page.locator('.site-header nav')).toBeHidden();
   await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);await expect(page.locator('.site-header nav')).toBeVisible();
   await page.evaluate(()=>document.fonts.ready);
-  await expect(page.locator('.card-illustration img')).toHaveCount(3);
-  for(const img of await page.locator('.card-illustration img').all()){
-   await img.scrollIntoViewIfNeeded();await expect.poll(()=>img.evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
+  await expect(page.locator('.contents-page img')).toHaveCount(0);
+  await expect(page.locator('[data-nav="home"]')).toHaveText('辞典の目次');
+  if(width<=430){
+   const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);
+   expect(bottom).toBeLessThanOrEqual(844);
   }
-  const sizes=await page.locator('.word-entry').evaluateAll(cards=>cards.map(c=>({width:c.getBoundingClientRect().width,height:c.getBoundingClientRect().height})));
-  expect(Math.max(...sizes.map(s=>s.width))-Math.min(...sizes.map(s=>s.width))).toBeLessThan(2);
-  expect(Math.max(...sizes.map(s=>s.height))-Math.min(...sizes.map(s=>s.height))).toBeLessThan(2);
   await page.screenshot({path:testInfo.outputPath('contents.png'),fullPage:true});
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
