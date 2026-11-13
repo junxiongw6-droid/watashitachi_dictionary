@@ -26,7 +26,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
-   await expect(page.locator('.word-header .eyebrow, #share')).toHaveCount(0);
+   await expect(page.locator('.word-header .eyebrow, #share, .method-details, .page-navigation')).toHaveCount(0);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.goto('./#/ai');

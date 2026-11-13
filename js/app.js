@@ -31,7 +31,6 @@ function searchInput() {
 }
 function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
- const index=data.editorial.words.indexOf(w);
  return `<div class="page-wrap entry-page"><div class="breadcrumb"><a href="#/contents">辞典の目次</a><span>／</span><span>${w.title}</span></div>
  <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div></header>
  <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
@@ -46,7 +45,6 @@ function wordPage(w) {
    <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2><p>分類をひらいて、説明や回答を読む。</p></div>
     <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}" name="categories-${w.id}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><button class="category-answer" data-open-category="${e(c.id)}">この分類の回答を読む（${c.count}人） →</button><div class="representatives"><h3>代表的な回答</h3>${(c.representativeIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div><p class="member-list">所属回答者：${(c.responseIds || []).map(id=>{const r=response(id);return r?e(person(r.respondentId)?.name || '回答者'):'';}).join('、')}</p></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
-    <details class="method-details"><summary>分類方法について</summary><p>${e(data.editorial.method)}</p></details>
    </section>
    <div class="reader-next"><span>一人ひとりの言葉を、そのままに。</span><button data-view="answers">みんなの回答を読む →</button></div>
   </div>
@@ -62,7 +60,7 @@ function wordPage(w) {
    <section class="summary-section"><p class="analysis-label">まとめ</p><h2>この言葉から、見えてきたこと。</h2><p>${e(w.summary)}</p><small>このページの定義・分類・分析・まとめは、すべて編者による編集内容です。</small></section>
   </div>
  </div>
- <nav class="page-navigation" aria-label="次の言葉"><a href="#/${data.editorial.words[(index+2)%3].id}">← 前の言葉<span>${data.editorial.words[(index+2)%3].title}</span></a><a href="#/contents">目次へ</a><a href="#/${data.editorial.words[(index+1)%3].id}">次の言葉 →<span>${data.editorial.words[(index+1)%3].title}</span></a></nav></div>`;
+</div>`;
 }
 function syncReaderView() {
  const panels=document.querySelectorAll('.reader-panel');
