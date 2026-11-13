@@ -5,7 +5,14 @@ import {filterResponses,categoryCounts,parseRoute,escapeHTML,normalize,inspectDa
 const data=JSON.parse(readFileSync(new URL('../data/dictionary.json',import.meta.url)));
 test('all 54 original responses are discoverable',()=>assert.equal(filterResponses(data).length,54));
 test('each word and every primary category have exact counts',()=>{
- for(const w of data.editorial.words){const counts=categoryCounts(data,w);assert.equal(counts.reduce((a,c)=>a+c.count,0),18);for(const c of counts)assert.equal(filterResponses(data,{wordId:w.id,category:c.id}).length,c.count);}
+ for(const w of data.editorial.words){
+ const original=w.categories.map(c=>c.id), counts=categoryCounts(data,w);
+ assert.equal(counts.reduce((a,c)=>a+c.count,0),18);
+ assert.deepEqual(counts.map(c=>c.count),counts.map(c=>c.count).sort((a,b)=>b-a));
+ for(let i=1;i<counts.length;i++)if(counts[i-1].count===counts[i].count)assert.ok(original.indexOf(counts[i-1].id)<original.indexOf(counts[i].id));
+ assert.deepEqual(w.categories.map(c=>c.id),original);
+ for(const c of counts)assert.equal(filterResponses(data,{wordId:w.id,category:c.id}).length,c.count);
+ }
 });
 test('Japanese content, names, word reading and combined terms are searchable',()=>{
  assert.equal(filterResponses(data,{query:data.respondents[0].name}).length,3);

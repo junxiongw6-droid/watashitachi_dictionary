@@ -27,6 +27,8 @@ for(const width of [375,390,430,768,1280]) {
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
    await expect(page.locator('.word-header .eyebrow, #share, .method-details, .page-navigation, #reader-panel-overview .reader-next')).toHaveCount(0);
+   const counts=await page.locator('.category-summary-count').allTextContents();
+   const numbers=counts.map(n=>parseInt(n,10));expect(numbers).toEqual([...numbers].sort((a,b)=>b-a));expect(numbers.reduce((sum,n)=>sum+n,0)).toBe(18);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.goto('./#/ai');

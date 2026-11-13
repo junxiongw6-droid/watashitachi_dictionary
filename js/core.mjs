@@ -13,7 +13,7 @@ export function filterResponses(data, {wordId='', category='', query='', personI
 }
 export function categoryCounts(data, word) {
   const ids=new Set(data.responses.filter(r=>r.wordId===word.id).map(r=>r.id));
-  return word.categories.map(c=>({...c,count:(c.responseIds || []).filter(id=>ids.has(id)).length}));
+  return word.categories.map(c=>({...c,count:(c.responseIds || []).filter(id=>ids.has(id)).length})).sort((a,b)=>b.count-a.count);
 }
 export function parseRoute(hash) {
   const [path,query='']=(hash.replace(/^#/, '') || '/').split('?');
