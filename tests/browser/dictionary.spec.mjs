@@ -14,6 +14,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.screenshot({path:testInfo.outputPath('cover.png'),fullPage:true});
   await page.locator('#open-dictionary').click();await expect(page.locator('.word-entry')).toHaveCount(3);
   await expect(page.locator('.hero')).toHaveCount(0);await expect(page.locator('.site-footer')).toBeVisible();
+  await expect(page.locator('.site-footer')).not.toContainText('編纂・データについて');await expect(page.locator('.site-footer')).not.toContainText('日本語クラス 共同編纂プロジェクト');
   await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();
   await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);
   await page.evaluate(()=>document.fonts.ready);
@@ -61,6 +62,7 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('.site-header a[href="#/people"]')).toHaveCount(0);
   await page.locator('.site-header [data-nav="search"]').click();
   await expect(page.getByRole('heading',{name:'検索',exact:true})).toBeVisible();
+  await expect(page.locator('.site-footer')).not.toContainText('編纂・データについて');await expect(page.locator('.site-footer')).not.toContainText('日本語クラス 共同編纂プロジェクト');
   await expect(page.locator('.site-header [data-nav="search"]')).toHaveAttribute('aria-current','page');
   await expect(page.locator('#response-list .response-card')).toHaveCount(0);
   await page.locator('#response-query').fill(source.respondents[0].name);
