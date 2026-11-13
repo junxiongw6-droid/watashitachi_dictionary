@@ -61,7 +61,7 @@ test('search is separate from catalogue and supports names, keywords and clearin
  assert.match(s.q('h1').textContent,/検索/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);
  s.input('#response-query',fixture.respondents[0].name);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
  s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
- s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.ok(s.q('.search-placeholder'));
+ s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.equal(s.q('.search-placeholder'),null);assert.equal(s.q('#response-list').textContent,'');
  }finally{s.close();}
 });
 test('share API copies exact URL including filters',async()=>{

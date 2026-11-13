@@ -70,7 +70,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('#response-list .response-meta span a').first().click();await page.goBack();
   await expect(page.locator('#response-query')).toHaveValue(source.respondents[0].name);
   await expect(page.locator('#response-list .response-card')).toHaveCount(3);
-  await page.locator('#clear-search').click();await expect(page.locator('.search-placeholder')).toBeVisible();
+  await page.locator('#clear-search').click();await expect(page.locator('.search-placeholder')).toHaveCount(0);await expect(page.locator('#response-list')).toBeEmpty();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath('search.png'),fullPage:true});
   await page.goto('./#/about');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

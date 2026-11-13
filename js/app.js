@@ -96,7 +96,7 @@ function updateResponses() {
  syncReaderView();
  if (!list)return;
  if(route.path==='/search' && !(route.params.get('q') || '').trim()){
-  list.innerHTML='<div class="search-placeholder"><p>キーワードを入力すると、三つの言葉の回答から探せます。</p></div>';
+  list.innerHTML='';
   document.querySelector('#result-count').textContent='';
   return;
  }
