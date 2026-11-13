@@ -9,6 +9,7 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('.word-entry')).toHaveCount(0);await expect(page.locator('.search-panel')).toHaveCount(0);
   await expect(page.locator('.site-footer')).toBeHidden();await expect(page.locator('.site-header nav')).toBeHidden();
   await page.evaluate(()=>document.fonts.ready);
+  await expect.poll(()=>page.locator('.cover-vignette').evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollHeight)).toBeLessThanOrEqual(846);
   await page.screenshot({path:testInfo.outputPath('cover.png'),fullPage:true});

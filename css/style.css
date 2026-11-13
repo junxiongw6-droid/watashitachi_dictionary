@@ -129,3 +129,8 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
  .entry-page .detail-illustration{max-width:360px;justify-self:center;margin:0 0 5px}
 }
 @media(prefers-reduced-motion:reduce){.word-illustration img{transition:none}}
+
+/* A small watercolor book gives the cover a quiet focal point. */
+.cover-vignette{display:block;width:210px;max-width:65%;height:auto;aspect-ratio:3/2;object-fit:contain;margin:0 0 20px;opacity:.92;pointer-events:none}
+@media(max-width:700px){.cover-route .hero{padding-top:16px}.cover-route .hero-copy{padding-top:0}.cover-vignette{width:190px;margin:0 0 20px}.cover-route .hero h1{margin-top:16px}.cover-route .hero-intro{margin-top:21px}.cover-route .cover-open{margin-top:22px}}
+@media(max-height:700px){.cover-vignette{width:140px;margin-bottom:12px}}
