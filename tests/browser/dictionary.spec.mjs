@@ -7,16 +7,16 @@ for(const width of [375,390,430,768,1280]) {
   await page.setViewportSize({width,height:844});
   await page.goto('./');await expect(page.locator('#open-dictionary')).toBeVisible();
   await expect(page.locator('.word-entry')).toHaveCount(0);await expect(page.locator('.search-panel')).toHaveCount(0);
-  await expect(page.locator('.site-footer')).toBeHidden();
+  await expect(page.locator('.site-footer')).toBeHidden();await expect(page.locator('.site-header nav')).toBeHidden();
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollHeight)).toBeLessThanOrEqual(846);
   await page.screenshot({path:testInfo.outputPath('cover.png'),fullPage:true});
   await page.locator('#open-dictionary').click();await expect(page.locator('.word-entry')).toHaveCount(3);
-  await expect(page.locator('.hero')).toHaveCount(0);await expect(page.locator('.site-footer')).toBeVisible();
+  await expect(page.locator('.hero')).toHaveCount(0);await expect(page.locator('.site-footer')).toBeVisible();await expect(page.locator('.site-header nav')).toBeVisible();
   await expect(page.locator('.site-footer')).not.toContainText('編纂・データについて');await expect(page.locator('.site-footer')).not.toContainText('日本語クラス 共同編纂プロジェクト');
-  await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();
-  await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);
+  await page.goBack();await expect(page.locator('#open-dictionary')).toBeVisible();await expect(page.locator('.site-header nav')).toBeHidden();
+  await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);await expect(page.locator('.site-header nav')).toBeVisible();
   await page.evaluate(()=>document.fonts.ready);
   if(width<=430){
    const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);

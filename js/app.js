@@ -122,6 +122,7 @@ function render() {
  if(!data)return;
  route=parseRoute(location.hash);
  document.body.classList.toggle('cover-route',route.path==='/');
+ document.querySelector('.site-header nav').hidden=route.path==='/';
  if(route.path==='/') {main.innerHTML=home();document.title='私たちの言葉辞典 — 家族・愛・自由';}
  else if(route.path==='/contents'){main.innerHTML=contentsPage();document.title='辞典の目次 — 私たちの言葉辞典';}
  else if(titles[route.path.slice(1)]) {const w=data.editorial.words.find(w=>w.id===route.path.slice(1));main.innerHTML=wordPage(w);document.title=`${w.title} — 私たちの言葉辞典`;}
