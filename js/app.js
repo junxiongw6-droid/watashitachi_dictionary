@@ -63,7 +63,7 @@ function wordPage(w) {
   <div id="reader-panel-analysis" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-analysis" tabindex="0" hidden>
    <section class="reader-analysis"><p class="analysis-label">共通点と違い</p><h2>${e(w.common.title)}</h2><p>${e(w.common.text)}</p>${evidence(w.common.evidenceIds)}</section>
    <section class="content-section"><h2>新しい発見</h2><div class="discovery-grid">${w.discoveries.map(d=>`<article><h3>${e(d.title)}</h3><p>${e(d.text)}</p>${evidence(d.evidenceIds)}</article>`).join('')}</div></section>
-   <section class="summary-section"><p class="analysis-label">まとめ</p><h2>この言葉から、見えてきたこと。</h2><p>${e(w.summary)}</p><small>このページの定義・分類・分析・まとめは、すべて編者による編集内容です。</small></section>
+   <section class="summary-section"><p class="analysis-label">まとめ</p><h2>この言葉から、見えてきたこと。</h2><p>${e(w.summary)}</p></section>
   </div>
  </div>
 </div>`;
