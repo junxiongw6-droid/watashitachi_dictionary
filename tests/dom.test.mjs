@@ -176,3 +176,18 @@ test('word changes preserve the reading panel and reset word-specific filters',a
  assert.equal(s.w.location.hash,'#/jiyuu');assert.equal(s.q('#reader-panel-overview').hidden,false);
  }finally{s.close();}
 });
+
+
+test('four main navigation links distinguish contents from word pages and return to the last word view',async()=>{
+ const s=await setup({hash:'#/contents'});try{
+ assert.deepEqual([...s.w.document.querySelectorAll('.site-header nav a')].map(a=>a.textContent),['辞典の目次','言葉','検索','この辞典について']);
+ assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
+ s.click('[data-nav="words"]');await tick();assert.equal(s.w.location.hash,'#/kazoku');
+ assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'words');assert.equal(s.q('[data-nav="home"]').hasAttribute('aria-current'),false);
+ await s.navigate('#/ai?view=answers');s.click('[data-nav="search"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'search');
+ s.click('[data-nav="words"]');await tick();assert.equal(s.w.location.hash,'#/ai?view=answers');assert.equal(s.q('#reader-panel-answers').hidden,false);
+ s.click('[data-nav="about"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'about');
+ s.click('[data-nav="home"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
+ await s.navigate('#/');assert.equal(s.q('.site-header nav').hidden,true);
+ }finally{s.close();}
+});

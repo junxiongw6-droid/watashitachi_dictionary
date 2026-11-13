@@ -24,7 +24,8 @@ for(const width of [375,390,430,768,1280]) {
   await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);await expect(page.locator('.site-header nav')).toBeVisible();
   await page.evaluate(()=>document.fonts.ready);
   await expect(page.locator('.contents-page img')).toHaveCount(0);
-  await expect(page.locator('[data-nav="home"]')).toHaveText('辞典の目次');
+  await expect(page.locator('.site-header nav a')).toHaveText(['辞典の目次','言葉','検索','この辞典について']);
+  await expect(page.locator('[data-nav="home"]')).toHaveAttribute('aria-current','page');
   if(width<=430){
    const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);
    expect(bottom).toBeLessThanOrEqual(844);
@@ -34,6 +35,8 @@ for(const width of [375,390,430,768,1280]) {
   for(const key of ['kazoku','ai','jiyuu']) {
    await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
    await expect(page.locator('.word-header .eyebrow, #share, .method-details, .page-navigation, #reader-panel-overview .reader-next')).toHaveCount(0);
+   await expect(page.locator('[data-nav="words"]')).toHaveAttribute('aria-current','page');
+   await expect(page.locator('[data-nav="home"]')).not.toHaveAttribute('aria-current','page');
    const illustration=page.locator('.detail-illustration img');
    await expect.poll(()=>illustration.evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
    const titleBox=await page.locator('.word-header>div').boundingBox(), imageBox=await illustration.boundingBox();
@@ -214,4 +217,14 @@ test('changing words keeps answers selected and browser back restores the previo
  await expect(page.locator('#reader-panel-analysis')).toBeVisible();
  await page.locator('#reader-tab-overview').click();await page.locator('.word-tabs [data-word="ai"]').click();
  await expect(page).toHaveURL(/#\/ai$/);await expect(page.locator('#reader-panel-overview')).toBeVisible();
+});
+
+
+test('words navigation returns to the previous entry and reading view',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto('./#/ai?view=answers');
+ await expect(page.locator('[data-nav="words"]')).toHaveAttribute('aria-current','page');
+ await page.locator('[data-nav="search"]').click();await expect(page.locator('[data-nav="search"]')).toHaveAttribute('aria-current','page');
+ await page.locator('[data-nav="words"]').click();await expect(page).toHaveURL(/#\/ai\?view=answers$/);await expect(page.locator('#reader-panel-answers')).toBeVisible();
+ await page.locator('[data-nav="home"]').click();await expect(page).toHaveURL(/#\/contents$/);await expect(page.locator('[data-nav="home"]')).toHaveAttribute('aria-current','page');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

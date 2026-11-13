@@ -71,6 +71,7 @@ function wordPage(w) {
 function syncReaderView() {
  const panels=document.querySelectorAll('.reader-panel');
  if(!panels.length)return;
+ document.querySelector('[data-nav="words"]').setAttribute('href',location.hash);
  const requested=route.params.get('view');
  const view=['overview','answers','analysis'].includes(requested)?requested:
   (['q','category','person'].some(k=>route.params.get(k))?'answers':'overview');
@@ -141,7 +142,8 @@ function render() {
  else if(route.path==='/about'){main.innerHTML=aboutPage();document.title='この辞典について — 私たちの言葉辞典';}
  else {main.innerHTML='<div class="page-wrap narrow empty"><h1>ページが見つかりません。</h1><a href="#/contents">辞典の目次へ戻る →</a></div>';}
  if(warnings.length)main.insertAdjacentHTML('afterbegin',`<div class="data-warning" role="status">${warnings.map(e).join('<br>')}</div>`);
- document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===((route.path==='/people'||route.path==='/search')?'search':route.path==='/about'?'about':route.path==='/'?'':'home');if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+ const navKey=titles[route.path.slice(1)]?'words':route.path==='/contents'?'home':(route.path==='/people'||route.path==='/search')?'search':route.path==='/about'?'about':'';
+ document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===navKey)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  updateResponses();
  const saved=resetWordScrollFor===location.hash?0:positions.get(location.hash);
  resetWordScrollFor='';
