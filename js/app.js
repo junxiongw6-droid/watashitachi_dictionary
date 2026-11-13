@@ -44,7 +44,7 @@ function wordPage(w) {
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
    <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2><p>分類をひらいて、説明や回答を読む。</p></div>
-    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}" name="categories-${w.id}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><button class="category-answer" data-open-category="${e(c.id)}">この分類の回答を読む（${c.count}人） →</button><div class="representatives"><h3>代表的な回答</h3>${(c.representativeIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div><p class="member-list">所属回答者：${(c.responseIds || []).map(id=>{const r=response(id);return r?e(person(r.respondentId)?.name || '回答者'):'';}).join('、')}</p></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
+    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}" name="categories-${w.id}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
@@ -145,7 +145,6 @@ main.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
  if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});
- if(button.hasAttribute('data-open-category')){updateParams({category:button.dataset.openCategory,q:'',person:'',view:'answers'});document.querySelector('#response-query').value='';document.querySelector('#responses').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
  if(button.hasAttribute('data-view')){
   updateParams({view:button.dataset.view},{push:true});
   document.querySelector('.reader-tabs').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});

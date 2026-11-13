@@ -33,14 +33,13 @@ test('home, three entry links, direct routes, tab switches, unknown route',async
  await s.navigate('#/not-a-page');assert.match(s.q('main').textContent,/ページが見つかりません/);
  }finally{s.close();}
 });
-test('live search, empty state, clear, category filtering and representative expansion',async()=>{
+test('live search, empty state, clear, category filtering and category expansion',async()=>{
  const s=await setup({hash:'#/ai'});try{
  s.input('#response-query','執着');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  s.input('#response-query','ZZZZZZ');assert.match(s.q('#response-list').textContent,/該当する回答が見つかりませんでした/);
  s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
  s.click('[data-category="unconditional"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
  s.click('[data-category=""]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
- s.click('[data-open-category="attachment"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);assert.equal(s.q('#response-query').value,'');
  assert.equal(s.w.document.querySelector('details').open,false);s.click('summary');assert.equal(s.w.document.querySelector('details').open,true);
  }finally{s.close();}
 });
@@ -96,7 +95,7 @@ test('entry panels reveal one reading group and preserve filters across panel an
  s.input('#response-query','見返り');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,2);
  s.click('#reader-tab-analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
  s.w.history.back();await tick();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#response-query').value,'見返り');
- s.click('#reader-tab-overview');s.click('[data-open-category="attachment"]');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
+ s.click('#reader-tab-overview');s.click('[data-category-id="attachment"] > summary');assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('[data-category-id="attachment"]').querySelectorAll('.response-card').length,1);
  await s.navigate('#/kazoku?person=p01');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  s.click('#reader-tab-overview');s.q('#reader-tab-overview').dispatchEvent(new s.w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert.equal(s.q('#reader-panel-analysis').hidden,false);assert.equal(s.w.document.activeElement.id,'reader-tab-analysis');
  }finally{s.close();}
@@ -108,8 +107,8 @@ test('category index starts compact and expands only the selected category',asyn
  assert.equal(items.filter(el=>el.open).length,0);
  s.click('[data-category-id="care"] > summary');await tick();assert.equal(items[0].open,true);
  s.click('[data-category-id="connection"] > summary');await tick();assert.equal(items[0].open,false);assert.equal(items.filter(el=>el.open).length,1);
- s.click('[data-category-id="attachment"] > summary');await tick();s.click('[data-open-category="attachment"]');
- assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
+ s.click('[data-category-id="attachment"] > summary');await tick();
+ assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('[data-category-id="attachment"]').querySelectorAll('.response-card').length,1);
  }finally{s.close();}
 });
 
@@ -119,6 +118,28 @@ test('all three word buttons reset scroll on revisits and repeated current-word 
   s.w.scrollTo({top:700});s.w.dispatchEvent(new s.w.Event('scroll'));
   s.click(`.word-tabs a[href="#/${key}"]`);await tick();
   assert.equal(s.w.location.hash,'#/'+key);assert.equal(s.scroll(),0);
+ }
+ }finally{s.close();}
+});
+
+
+test('every category contains all its original answers and names without a representative subset or shortcut',async()=>{
+ const s=await setup();try{
+ for(const word of fixture.editorial.words){
+  await s.navigate('#/'+word.id);
+  assert.equal(s.q('[data-open-category]'),null);
+  assert.equal(s.q('.category-list').textContent.includes('代表的な回答'),false);
+  for(const category of word.categories){
+   const row=s.q(`[data-category-id="${category.id}"]`);
+   const cards=[...row.querySelectorAll('.category-responses .response-card')];
+   assert.equal(cards.length,category.responseIds.length);
+   for(const [index,id] of category.responseIds.entries()){
+    const answer=fixture.responses.find(r=>r.id===id);
+    const author=fixture.respondents.find(p=>p.id===answer.respondentId);
+    assert.equal(cards[index].querySelector('blockquote').textContent,answer.text);
+    assert.equal(cards[index].querySelector('.response-meta > a').textContent,author.name);
+   }
+  }
  }
  }finally{s.close();}
 });

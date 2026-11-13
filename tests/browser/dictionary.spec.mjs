@@ -104,7 +104,7 @@ test('published about page loads versioned code and removes requested privacy bl
  await page.screenshot({path:testInfo.outputPath('about-privacy-removed.png'),fullPage:true});
 });
 
-test('entry reading tabs support deep links, keyboard control and category shortcuts',async({page},testInfo)=>{
+test('entry reading tabs support deep links, keyboard control and inline category answers',async({page},testInfo)=>{
  await page.goto('./#/ai');
  await expect(page.locator('.reader-panel:visible')).toHaveCount(1);
  await page.locator('#reader-tab-overview').focus();await page.keyboard.press('ArrowRight');
@@ -116,9 +116,9 @@ test('entry reading tabs support deep links, keyboard control and category short
  await page.goBack();await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await page.locator('#reader-tab-overview').click();
  await page.locator('[data-category-id="attachment"] > summary').click();
- await page.locator('[data-open-category="attachment"]').click();
- await expect(page.locator('#reader-panel-answers')).toBeVisible();
- await expect(page.locator('#response-list .response-card')).toHaveCount(1);
+ await expect(page.locator('[data-open-category]')).toHaveCount(0);
+ await expect(page.locator('#reader-panel-overview')).toBeVisible();
+ await expect(page.locator('[data-category-id="attachment"] .category-responses .response-card')).toHaveCount(1);
  await page.goto('./#/kazoku?person=p01');await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await expect(page.locator('#response-list .response-card')).toHaveCount(1);
 });
@@ -164,4 +164,25 @@ test('exact term search shows one word link and opens the entry at the top',asyn
   await page.goBack();await expect(page.locator('#response-query')).toHaveValue(query);
  }
  await page.screenshot({path:testInfo.outputPath('single-word-search.png'),fullPage:true});
+});
+
+
+test('category expansion displays every original answer inline on mobile',async({page},testInfo)=>{
+ await page.setViewportSize({width:390,height:844});
+ for(const word of source.editorial.words){
+  await page.goto('./#/'+word.id);
+  for(const category of word.categories){
+   const row=page.locator(`[data-category-id="${category.id}"]`);
+   await row.locator('summary').click();
+   const cards=row.locator('.category-responses .response-card');
+   await expect(cards).toHaveCount(category.responseIds.length);
+   await expect(cards.last()).toBeVisible();
+   expect(await cards.locator('blockquote').allTextContents()).toEqual(category.responseIds.map(id=>source.responses.find(r=>r.id===id).text));
+   await expect(row.locator('[data-open-category]')).toHaveCount(0);
+   await expect(row).not.toContainText('代表的な回答');
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+ }
+ await page.goto('./#/kazoku');await page.locator('[data-category-id="support"] > summary').click();
+ await page.screenshot({path:testInfo.outputPath('all-category-answers.png'),fullPage:true});
 });
