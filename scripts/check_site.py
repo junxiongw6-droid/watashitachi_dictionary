@@ -23,7 +23,7 @@ app=(dist/'js/app.js').read_text()
 paths+=['js/'+p for p in re.findall(r"from '\./([^']+)'",app)]
 paths+=re.findall(r'href="\./(review/[^"]+)"',app)
 paths+=['data/'+p for p in re.findall(r"new URL\('\.\./data/([^']+)'",app)]
-paths += [str(p.relative_to(dist)) for p in (dist/'assets/illustrations').glob('*.webp')]
+paths += [str(p.relative_to(dist)) for p in (dist/'assets').rglob('*.webp')]
 # Retry briefly for CDN propagation; compare actual bytes rather than only HTTP 200.
 for attempt in range(6):
     try:

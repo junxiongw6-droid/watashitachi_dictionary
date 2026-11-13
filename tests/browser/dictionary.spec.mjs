@@ -8,6 +8,10 @@ for(const width of [375,390,430,768,1280]) {
   await page.goto('./');await expect(page.locator('#open-dictionary')).toBeVisible();
   await expect(page.locator('.word-entry')).toHaveCount(0);await expect(page.locator('.search-panel')).toHaveCount(0);
   await expect(page.locator('.site-footer')).toBeHidden();await expect(page.locator('.site-header nav')).toBeHidden();
+  const background=await page.evaluate(()=>getComputedStyle(document.body,'::before').backgroundImage);
+  expect(background).toContain(width<=700?'washi-botanical-mobile.webp':'washi-botanical.webp');
+  const backgroundURL=background.match(/url\(["']?(.*?)["']?\)/)[1];
+  const backgroundResponse=await page.request.get(backgroundURL);expect(backgroundResponse.status()).toBe(200);expect(backgroundResponse.headers()['content-type']).toContain('image/webp');
   await page.evaluate(()=>document.fonts.ready);
   await expect.poll(()=>page.locator('.cover-vignette').evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
