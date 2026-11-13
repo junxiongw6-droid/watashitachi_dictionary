@@ -60,7 +60,9 @@ test('search is separate from catalogue and supports names, keywords and clearin
  s.click('.site-header [data-nav="search"]');await tick();
  assert.match(s.q('h1').textContent,/検索/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);
  s.input('#response-query',fixture.respondents[0].name);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
- s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
+ s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.equal(s.q('.search-entry').getAttribute('href'),'#/kazoku');
+ s.click('.search-entry');await tick();assert.equal(s.w.location.hash,'#/kazoku');assert.equal(s.scroll(),0);
+ s.w.history.back();await tick();assert.equal(s.q('#response-query').value,'かぞく');assert.ok(s.q('.search-entry'));
  s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.equal(s.q('.search-placeholder'),null);assert.equal(s.q('#response-list').textContent,'');
  }finally{s.close();}
 });

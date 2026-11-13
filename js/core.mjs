@@ -1,5 +1,11 @@
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const normalize = value => String(value ?? '').normalize('NFKC').toLocaleLowerCase('ja').replace(/\s+/g,' ').trim();
+export function findEntryMatch(data, query) {
+  const key=value=>normalize(value).replace(/[\u30a1-\u30f6]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60));
+  const input=key(query);
+  if(!input)return null;
+  return data.editorial.words.find(w=>key(w.title)===input || key(w.reading)===input) || null;
+}
 export function filterResponses(data, {wordId='', category='', query='', personId=''}={}) {
   const word = data.editorial.words.find(w=>w.id===wordId);
   const members = word?.categories.find(c=>c.id===category)?.responseIds;

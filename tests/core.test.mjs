@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {filterResponses,categoryCounts,parseRoute,escapeHTML,normalize,inspectData} from '../js/core.mjs';
+import {filterResponses,categoryCounts,parseRoute,escapeHTML,normalize,inspectData,findEntryMatch} from '../js/core.mjs';
 const data=JSON.parse(readFileSync(new URL('../data/dictionary.json',import.meta.url)));
 test('all 54 original responses are discoverable',()=>assert.equal(filterResponses(data).length,54));
 test('each word and every primary category have exact counts',()=>{
@@ -32,3 +32,8 @@ test('all displayed text is HTML escaped',()=>assert.equal(escapeHTML('<script>"
 test('incomplete classification warns without hiding responses',()=>{const copy=structuredClone(data);copy.editorial.words[0].categories=[];assert.equal(inspectData(copy).length,1);assert.equal(filterResponses(copy,{wordId:'kazoku'}).length,18);});
 test('missing category list is recoverable',()=>{const copy=structuredClone(data);delete copy.editorial.words[0].categories;assert.ok(inspectData(copy).length);assert.deepEqual(copy.editorial.words[0].categories,[]);});
 test('malformed top-level data is rejected clearly',()=>assert.throws(()=>inspectData({}),/形式/));
+
+test('complete dictionary terms and kana resolve to one entry; ordinary queries remain response searches',()=>{
+ for(const [query,id] of [['家族','kazoku'],[' 愛 ','ai'],['自由','jiyuu'],['かぞく','kazoku'],['あい','ai'],['じゆう','jiyuu'],['カゾク','kazoku'],['ｶｿﾞｸ','kazoku']])assert.equal(findEntryMatch(data,query)?.id,id);
+ for(const query of ['', '家', '支える', '家族 愛', data.respondents[0].name])assert.equal(findEntryMatch(data,query),null);
+});

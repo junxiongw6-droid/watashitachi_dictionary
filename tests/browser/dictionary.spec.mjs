@@ -71,6 +71,10 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('#response-list .response-meta span a').first().click();await page.goBack();
   await expect(page.locator('#response-query')).toHaveValue(source.respondents[0].name);
   await expect(page.locator('#response-list .response-card')).toHaveCount(3);
+  await page.locator('#response-query').fill('家族');
+  await expect(page.locator('.search-entry')).toHaveCount(1);await expect(page.locator('#response-list .response-card')).toHaveCount(0);
+  await page.locator('.search-entry').click();await expect(page).toHaveURL(/#\/kazoku$/);await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+  await page.goBack();await expect(page.locator('#response-query')).toHaveValue('家族');await expect(page.locator('.search-entry')).toHaveCount(1);
   await page.locator('#clear-search').click();await expect(page.locator('.search-placeholder')).toHaveCount(0);await expect(page.locator('#response-list')).toBeEmpty();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath('search.png'),fullPage:true});
@@ -144,4 +148,20 @@ test('word selection always starts at page top including already visited and cur
   await expect(page).toHaveURL(new RegExp('#/'+key+'$'));
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
  }
+});
+
+test('exact term search shows one word link and opens the entry at the top',async({page},testInfo)=>{
+ await page.goto('./#/kazoku');await expect(page.locator('.word-tabs')).toBeVisible();
+ await page.evaluate(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'instant'}));
+ await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(0);
+ await page.goto('./#/search');
+ for(const [query,id] of [['家族','kazoku'],['愛','ai'],['自由','jiyuu'],['かぞく','kazoku'],['カゾク','kazoku'],['ｶｿﾞｸ','kazoku']]){
+  await page.locator('#response-query').fill(query);
+  await expect(page.locator('.search-entry')).toHaveCount(1);await expect(page.locator('#response-list .response-card')).toHaveCount(0);
+  await expect(page.locator('.search-entry')).toHaveAttribute('href','#/'+id);
+  await page.locator('.search-entry').click();await expect(page).toHaveURL(new RegExp('#/'+id+'$'));
+  await expect(page.locator('#reader-panel-overview')).toBeVisible();await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+  await page.goBack();await expect(page.locator('#response-query')).toHaveValue(query);
+ }
+ await page.screenshot({path:testInfo.outputPath('single-word-search.png'),fullPage:true});
 });

@@ -111,3 +111,8 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 .search-page .result-count:empty{display:none}
 .contents-page{padding-bottom:30px}.contents-page .entries{padding-bottom:20px}
 @media(max-width:560px){.search-page .simple-header h1{font-size:30px}.search-page .search-hint,.search-page .search-people-link,.search-page .field-label{font-size:14px}.search-page .simple-header>p:last-child{font-size:16px}}
+
+/* A complete headword query opens a single dictionary entry instead of listing answers. */
+.search-entry{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:24px 0;padding:23px 26px;min-height:100px;border:1px solid #bcc9b6;background:#edf0e6}
+.search-entry:hover{background:#e4eadb;border-color:var(--sage);color:var(--ink)}.search-term{display:flex;align-items:baseline;gap:20px}.search-term strong{font-family:var(--serif);font-size:32px;letter-spacing:.1em;font-weight:400}.search-term small{font-size:14px;letter-spacing:.15em;color:var(--muted)}.search-entry-arrow{font-size:26px;color:var(--sage)}
+@media(max-width:560px){.search-entry{padding:20px;min-height:92px;margin:20px 0}.search-term{gap:15px}.search-term strong{font-size:28px}.search-term small{font-size:14px}.search-entry-arrow{font-size:23px}}

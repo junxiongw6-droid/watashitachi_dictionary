@@ -1,4 +1,4 @@
-import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData} from './core.mjs';
+import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData, findEntryMatch} from './core.mjs';
 const main=document.querySelector('main');
 let data, warnings=[], route, previousHash='', resetWordScrollFor='';
 const positions=new Map();
@@ -87,7 +87,6 @@ function aboutPage() {
 }
 function updateResponses() {
  const wordId=route.path.slice(1), isWord=!!titles[wordId];
- const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
  const list=document.querySelector('#response-list');
  syncReaderView();
  if (!list)return;
@@ -96,6 +95,15 @@ function updateResponses() {
   document.querySelector('#result-count').textContent='';
   return;
  }
+ if(route.path==='/search'){
+  const entry=findEntryMatch(data,route.params.get('q'));
+  if(entry){
+   list.innerHTML=`<a class="search-entry" href="#/${entry.id}" aria-label="${e(entry.title)}のページをひらく"><span class="search-term"><strong>${e(entry.title)}</strong><small>${e(entry.reading)}</small></span><span class="search-entry-arrow" aria-hidden="true">→</span></a>`;
+   document.querySelector('#result-count').textContent='1件の言葉';
+   return;
+  }
+ }
+ const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
  list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===(route.params.get('category') || ''))));
@@ -161,7 +169,7 @@ main.addEventListener('keydown',event=>{
 document.addEventListener('click',event=>{
  const a=event.target.closest('a');if(!a)return;
  const href=a.getAttribute('href');
- if(a.matches('.word-tabs a') && event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.defaultPrevented){
+ if(a.matches('.word-tabs a, .search-entry') && event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.defaultPrevented){
   event.preventDefault();positions.set(location.hash,scrollY);
   if(location.hash===href){
    positions.set(href,0);window.scrollTo({top:0,behavior:'instant'});main.focus({preventScroll:true});
