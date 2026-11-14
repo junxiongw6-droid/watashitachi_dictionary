@@ -21,7 +21,7 @@ function responseCard(r, showWord=false) {
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
- return `<section class="hero"><div class="hero-copy"><img class="cover-vignette" src="${e(coverImage)}" alt="" aria-hidden="true" width="720" height="480" decoding="async" fetchpriority="high"><p class="eyebrow"><span></span> A DICTIONARY WOVEN BY US</p><h1>私たちの<br>言葉辞典</h1><div class="hero-intro"><p>同じ言葉でも、<br>思い浮かべる景色は一人ひとり違う。</p><p>クラスのみんなが、自分の言葉で綴った<br class="desktop-break">小さな辞典です。</p></div><a class="cover-open" id="open-dictionary" href="#/contents">辞典をひらく <span aria-hidden="true">→</span></a></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="vertical-line"></div><p class="vertical-poem">言葉の向こうに、<br>一人ひとりの景色。</p><span class="red-seal">私たち<br>の言葉</span></div><div class="hero-foot"><span>WA-08クラス 共同編纂プロジェクト</span></div></section>`;
+ return `<section class="hero"><div class="hero-copy"><img class="cover-vignette" src="${e(coverImage)}" alt="" aria-hidden="true" width="720" height="480" decoding="async" fetchpriority="high"><p class="eyebrow"><span></span> A DICTIONARY WOVEN BY US</p><h1>私たちの<br>言葉辞典</h1><div class="hero-intro"><p>同じ言葉でも、<br>思い浮かべる景色は一人ひとり違う。</p><p>クラスのみんなが、自分の言葉で綴った<br class="desktop-break">小さな辞典です。</p></div><a class="cover-open" id="open-dictionary" href="#/contents">辞典をひらく <span aria-hidden="true">→</span></a></div><div class="hero-art" aria-hidden="true"><p class="vertical-poem">言葉の向こうに、<br>一人ひとりの景色。</p><span class="red-seal">私たち<br>の言葉</span></div><div class="hero-foot"><span>WA-08クラス 共同編纂プロジェクト</span></div></section>`;
 }
 
 function contentsPage() {

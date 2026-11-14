@@ -150,3 +150,12 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
  .entry-page .word-header{padding:8px 0 20px;gap:20px}
  .search-page .simple-header,.about-page .simple-header{padding:12px 0 26px}
 }
+
+/* Desktop cover option A: pale mountain and lake watercolor behind live text. */
+@media(min-width:701px){
+ .cover-route .hero-art{height:440px;isolation:isolate}
+ .cover-route .hero-art:before{inset:0;width:100%;height:100%;background:url('../assets/illustrations/cover-mountains.webp') center/cover no-repeat;border-radius:0;filter:none;transform:none;opacity:1;z-index:-1;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(ellipse farthest-side,#000 68%,transparent 100%);mask-image:radial-gradient(ellipse farthest-side,#000 68%,transparent 100%)}
+ .cover-route .hero-art .vertical-poem{top:22px}
+ .cover-route .hero-art .red-seal{bottom:24px;left:17px}
+}
+@media(min-width:701px) and (max-width:900px){.cover-route .hero-art{height:360px}.cover-route .hero-art .vertical-poem{top:20px}.cover-route .hero-art .red-seal{left:5px;bottom:15px}}

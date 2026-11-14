@@ -12,6 +12,14 @@ for(const width of [375,390,430,768,1280]) {
   expect(background).toContain(width<=700?'washi-botanical-mobile.webp':'washi-botanical.webp');
   const backgroundURL=background.match(/url\(["']?(.*?)["']?\)/)[1];
   const backgroundResponse=await page.request.get(backgroundURL);expect(backgroundResponse.status()).toBe(200);expect(backgroundResponse.headers()['content-type']).toContain('image/webp');
+  if(width>700){
+   await expect(page.locator('.hero-art')).toBeVisible();
+   const mountain=await page.locator('.hero-art').evaluate(el=>getComputedStyle(el,'::before').backgroundImage);
+   expect(mountain).toContain('cover-mountains.webp');
+   const imageURL=mountain.match(/url\(["']?(.*?)["']?\)/)[1];
+   expect((await page.request.get(imageURL)).status()).toBe(200);
+   await expect(page.locator('.hero-art .vertical-poem')).toBeVisible();
+  }else await expect(page.locator('.hero-art')).toBeHidden();
   await page.evaluate(()=>document.fonts.ready);
   await expect.poll(()=>page.locator('.cover-vignette').evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
