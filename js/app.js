@@ -25,7 +25,7 @@ function home() {
 }
 
 function contentsPage() {
- return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1>辞典の目次</h1></div><a class="text-link" href="#/">表紙に戻る <span>↗</span></a></header>
+ return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1>辞典の目次</h1></div></header>
  <section class="entries" id="entries"><div class="section-top"><div><h2>言葉をひらく</h2></div><p>あなたにとって、どんな意味ですか。</p></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span>この言葉を読む</span><span class="circle-arrow">↗</span></div></a>`).join('')}</div></section></div>`;
 }
 
@@ -34,7 +34,7 @@ function filterBar(word) {
  return `<div class="filter-chips" role="group" aria-label="意味の分類で絞り込む"><button data-category="" aria-pressed="${!route.params.get('category')}">すべて表示</button>${counts.map(c=>`<button data-category="${e(c.id)}" aria-pressed="${route.params.get('category')===c.id}">${e(c.title)} <span>${c.count}</span></button>`).join('')}</div>`;
 }
 function searchInput() {
- return `<label class="field-label" for="response-query">キーワード・回答者名で検索</label><div class="search-input"><span aria-hidden="true">⌕</span><input type="search" id="response-query" value="${e(route.params.get('q') || '')}" placeholder="回答の中の言葉を探す"><button id="clear-search" aria-label="検索と絞り込みをクリア">クリア</button></div>`;
+ return `<div class="search-input"><span aria-hidden="true">⌕</span><input type="search" id="response-query" aria-label="キーワード・回答者名で検索" value="${e(route.params.get('q') || '')}" placeholder="回答の中の言葉を探す"><button id="clear-search" aria-label="検索と絞り込みをクリア">クリア</button></div>`;
 }
 function wordPage(w) {
  const counts=categoryCounts(data,w), total=data.responses.filter(r=>r.wordId===w.id).length;
@@ -50,7 +50,7 @@ function wordPage(w) {
  <div class="reader-content">
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
    <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
-   <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2><p>分類をひらいて、説明や回答を読む。</p></div>
+   <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
     <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}" name="categories-${w.id}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
   </div>
