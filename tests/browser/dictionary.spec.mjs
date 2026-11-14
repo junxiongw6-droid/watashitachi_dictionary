@@ -24,7 +24,7 @@ for(const width of [375,390,430,768,1280]) {
   await page.goForward();await expect(page.locator('.word-entry')).toHaveCount(3);await expect(page.locator('.site-header nav')).toBeVisible();
   await page.evaluate(()=>document.fonts.ready);
   await expect(page.locator('.contents-page img')).toHaveCount(0);
-  await expect(page.locator('.site-header nav a')).toHaveText(['辞典の目次','言葉','検索','この辞典について']);
+  await expect(page.locator('.site-header nav a')).toHaveText(['目次','言葉','検索','この辞典について']);
   await expect(page.locator('[data-nav="home"]')).toHaveAttribute('aria-current','page');
   if(width<=430){
    const bottom=await page.locator('.word-entry.jiyuu').evaluate(el=>el.getBoundingClientRect().bottom);

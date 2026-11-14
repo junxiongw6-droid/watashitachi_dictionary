@@ -149,7 +149,7 @@ test('every category contains all its original answers and names without a repre
 test('contents stays text-only while entry illustrations use subpath-safe URLs',async()=>{
  const s=await setup({hash:'#/contents'});try{
  assert.equal(s.q('.contents-page img'),null);
- assert.equal(s.q('[data-nav="home"]').textContent,'辞典の目次');
+ assert.equal(s.q('[data-nav="home"]').textContent,'目次');
  assert.equal(s.q('[data-nav="home"]').getAttribute('href'),'#/contents');
  for(const word of fixture.editorial.words){
   await s.navigate('#/'+word.id);
@@ -181,7 +181,7 @@ test('word changes preserve the reading panel and reset word-specific filters',a
 
 test('four main navigation links distinguish contents from word pages and return to the last word view',async()=>{
  const s=await setup({hash:'#/contents'});try{
- assert.deepEqual([...s.w.document.querySelectorAll('.site-header nav a')].map(a=>a.textContent),['辞典の目次','言葉','検索','この辞典について']);
+ assert.deepEqual([...s.w.document.querySelectorAll('.site-header nav a')].map(a=>a.textContent),['目次','言葉','検索','この辞典について']);
  assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
  await s.followLink('[data-nav="words"]');assert.equal(s.w.location.hash,'#/kazoku');
  assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'words');assert.equal(s.q('[data-nav="home"]').hasAttribute('aria-current'),false);
