@@ -110,7 +110,7 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 .search-page .search-people-link{display:inline-flex;align-items:center;min-height:44px;font-size:13px;text-decoration:underline;text-underline-offset:5px;color:var(--sage);margin:8px 0 10px}
 .search-page .result-count:empty{display:none}
 .contents-page{padding-bottom:30px}.contents-page .entries{padding-bottom:20px}
-@media(max-width:560px){.search-page .simple-header h1{font-size:30px}.search-page .search-hint,.search-page .search-people-link,.search-page .field-label{font-size:14px}.search-page .simple-header>p:last-child{font-size:16px}}
+@media(max-width:560px){.search-page .simple-header h1{font-size:clamp(44px,12vw,50px);font-weight:500;line-height:1.35;letter-spacing:.1em}.search-page .search-hint,.search-page .search-people-link,.search-page .field-label{font-size:14px}.search-page .simple-header>p:last-child{font-size:16px}}
 
 /* A complete headword query opens a single dictionary entry instead of listing answers. */
 .search-entry{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:24px 0;padding:23px 26px;min-height:100px;border:1px solid #bcc9b6;background:#edf0e6}
