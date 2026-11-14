@@ -138,3 +138,15 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 /* Portrait artwork retains the quiet botanical corners on narrow screens. */
 @media(max-width:700px){body:before{background-image:url('../assets/backgrounds/washi-botanical-mobile.webp');background-size:100% 100%}}
 @media print{body:before{display:none}}
+
+/* Keep a calm title rhythm after removing the breadcrumb rows. */
+.entry-page,.search-page,.about-page{padding-top:28px}
+.entry-page .word-header{padding-top:8px;padding-bottom:24px}
+.search-page .simple-header,.about-page .simple-header{padding:20px 0 26px}
+.search-page .simple-header h1,.about-page .simple-header h1{margin:12px 0 0}
+.about-page .prose>h2:first-child{margin-top:8px}
+@media(max-width:560px){
+ .entry-page,.search-page,.about-page{padding-top:22px}
+ .entry-page .word-header{padding:8px 0 20px;gap:20px}
+ .search-page .simple-header,.about-page .simple-header{padding:12px 0 26px}
+}
