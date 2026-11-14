@@ -22,8 +22,9 @@ async function setup({hash='#/',data=structuredClone(fixture),fail=false,clipboa
  const click=s=>{assert.ok(q(s),`Missing ${s}`);q(s).click();};
  const input=(s,text)=>{q(s).value=text;q(s).dispatchEvent(new w.Event('input',{bubbles:true}));};
  const navigate=async hash=>{if(w.location.hash===hash)return;const changed=new Promise(resolve=>w.addEventListener('hashchange',resolve,{once:true}));w.location.hash=hash;await changed;};
+ const back=async()=>{const changed=new Promise(resolve=>w.addEventListener('hashchange',resolve,{once:true}));w.history.back();await changed;};
  const followLink=async selector=>{const changed=new Promise(resolve=>w.addEventListener('hashchange',resolve,{once:true}));click(selector);await changed;};
- return {w,q,click,input,navigate,followLink,close:()=>w.close(),copied:()=>copied,scroll:()=>scroll};
+ return {w,q,click,input,navigate,followLink,back,close:()=>w.close(),copied:()=>copied,scroll:()=>scroll};
 }
 test('home, three entry links, direct routes, tab switches, unknown route',async()=>{
  const s=await setup();try{
@@ -57,19 +58,19 @@ test('search is separate from catalogue and supports names, keywords and clearin
  const s=await setup({hash:'#/contents'});try{
  assert.equal(s.q('#home-search'),null);assert.equal(s.q('.search-panel'),null);assert.equal(s.q('.about-teaser'),null);
  assert.equal(s.q('.site-header [data-nav="search"]').textContent,'検索');assert.equal(s.q('.site-header a[href="#/people"]'),null);
- s.click('.site-header [data-nav="search"]');await tick();
+ await s.followLink('.site-header [data-nav="search"]');
  assert.match(s.q('h1').textContent,/検索/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);
  s.input('#response-query',fixture.respondents[0].name);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
  s.input('#response-query','かぞく');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.equal(s.q('.search-entry').getAttribute('href'),'#/kazoku');
- s.click('.search-entry');await tick();assert.equal(s.w.location.hash,'#/kazoku');assert.equal(s.scroll(),0);
- s.w.history.back();await tick();assert.equal(s.q('#response-query').value,'かぞく');assert.ok(s.q('.search-entry'));
+ await s.followLink('.search-entry');assert.equal(s.w.location.hash,'#/kazoku');assert.equal(s.scroll(),0);
+ await s.back();assert.equal(s.q('#response-query').value,'かぞく');assert.ok(s.q('.search-entry'));
  s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,0);assert.equal(s.q('.search-placeholder'),null);assert.equal(s.q('#response-list').textContent,'');
  }finally{s.close();}
 });
 test('browser history restores category, query and scroll',async()=>{
  const s=await setup({hash:'#/ai'});try{
  s.input('#response-query','見返り');s.click('[data-category="unconditional"]');s.w.scrollTo({top:900});s.w.dispatchEvent(new s.w.Event('scroll'));
- s.click('.word-tabs a[data-word="jiyuu"]');await tick();s.w.history.back();await tick();
+ await s.followLink('.word-tabs a[data-word="jiyuu"]');await s.back();
  assert.equal(s.q('#response-query').value,'見返り');assert.equal(s.q('[data-category="unconditional"]').getAttribute('aria-pressed'),'true');assert.equal(s.scroll(),900);
  s.click('#top');assert.equal(s.scroll(),0);
  }finally{s.close();}
@@ -95,7 +96,7 @@ test('entry panels reveal one reading group and preserve filters across panel an
  s.click('#reader-tab-answers');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#reader-panel-overview').hidden,true);
  s.input('#response-query','見返り');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,2);
  s.click('#reader-tab-analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
- s.w.history.back();await tick();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#response-query').value,'見返り');
+ await s.back();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#response-query').value,'見返り');
  s.click('#reader-tab-overview');s.click('[data-category-id="attachment"] > summary');assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('[data-category-id="attachment"]').querySelectorAll('.response-card').length,1);
  await s.navigate('#/kazoku?person=p01');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  s.click('#reader-tab-overview');s.q('#reader-tab-overview').dispatchEvent(new s.w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert.equal(s.q('#reader-panel-analysis').hidden,false);assert.equal(s.w.document.activeElement.id,'reader-tab-analysis');
@@ -172,7 +173,7 @@ test('word changes preserve the reading panel and reset word-specific filters',a
  }
  s.click('#reader-tab-analysis');s.click('.word-tabs [data-word="kazoku"]');await tick();
  assert.equal(s.w.location.hash,'#/kazoku?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
- s.w.history.back();await tick();assert.equal(s.w.location.hash,'#/ai?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
+ await s.back();assert.equal(s.w.location.hash,'#/ai?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
  s.click('#reader-tab-overview');s.click('.word-tabs [data-word="jiyuu"]');await tick();
  assert.equal(s.w.location.hash,'#/jiyuu');assert.equal(s.q('#reader-panel-overview').hidden,false);
  }finally{s.close();}
