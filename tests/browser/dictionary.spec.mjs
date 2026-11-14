@@ -52,7 +52,10 @@ for(const width of [375,390,430,768,1280]) {
   await page.screenshot({path:testInfo.outputPath('ai.png'),fullPage:true});
   await expect(page.locator('.category-row[open]')).toHaveCount(0);
   await page.locator('.category-row summary').first().click();await expect(page.locator('.category-row').first()).toHaveAttribute('open','');
-  await page.locator('.category-row summary').nth(1).click();await expect(page.locator('.category-row[open]')).toHaveCount(1);
+  await page.locator('.category-row summary').nth(1).click();await expect(page.locator('.category-row[open]')).toHaveCount(2);
+  await expect(page.locator('.category-row').first()).toHaveAttribute('open','');
+  await page.locator('.category-row summary').first().click();await expect(page.locator('.category-row[open]')).toHaveCount(1);
+  await expect(page.locator('.category-row').nth(1)).toHaveAttribute('open','');
   await expect(page.locator('.category-row').first()).not.toHaveAttribute('open','');
   await expect(page.getByText('言葉を選ぶ',{exact:true})).toBeVisible();
   await expect(page.getByText('読む内容',{exact:true})).toBeVisible();

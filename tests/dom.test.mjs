@@ -103,13 +103,16 @@ test('entry panels reveal one reading group and preserve filters across panel an
  }finally{s.close();}
 });
 
-test('category index starts compact and expands only the selected category',async()=>{
+test('categories start collapsed and can expand and collapse independently',async()=>{
  const s=await setup({hash:'#/ai'});try{
  const items=[...s.w.document.querySelectorAll('.category-row')];assert.equal(items.length,7);
  assert.equal(items.filter(el=>el.open).length,0);
  s.click('[data-category-id="care"] > summary');await tick();assert.equal(items[0].open,true);
- s.click('[data-category-id="connection"] > summary');await tick();assert.equal(items[0].open,false);assert.equal(items.filter(el=>el.open).length,1);
+ s.click('[data-category-id="connection"] > summary');await tick();assert.equal(items[0].open,true);assert.equal(items.filter(el=>el.open).length,2);
  s.click('[data-category-id="attachment"] > summary');await tick();
+ assert.equal(items.filter(el=>el.open).length,3);
+ s.click('[data-category-id="care"] > summary');await tick();
+ assert.equal(items[0].open,false);assert.equal(s.q('[data-category-id="connection"]').open,true);assert.equal(s.q('[data-category-id="attachment"]').open,true);
  assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('[data-category-id="attachment"]').querySelectorAll('.response-card').length,1);
  }finally{s.close();}
 });

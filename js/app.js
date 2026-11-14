@@ -51,7 +51,7 @@ function wordPage(w) {
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
    <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
-    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}" name="categories-${w.id}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
+    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
@@ -165,11 +165,6 @@ main.addEventListener('click',event=>{
  }
  if(button.id==='retry')load();
 });
-main.addEventListener('toggle',event=>{
- const item=event.target;
- if(!item.isConnected || !item.matches('details.category-row') || !item.open)return;
- for(const sibling of item.parentElement.children)if(sibling!==item && sibling.matches('details.category-row'))sibling.open=false;
-},true);
 main.addEventListener('keydown',event=>{
  const current=event.target.closest('.reader-tabs [role="tab"]');
  if(!current || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
