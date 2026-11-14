@@ -21,8 +21,9 @@ async function setup({hash='#/',data=structuredClone(fixture),fail=false,clipboa
  const q=s=>w.document.querySelector(s);
  const click=s=>{assert.ok(q(s),`Missing ${s}`);q(s).click();};
  const input=(s,text)=>{q(s).value=text;q(s).dispatchEvent(new w.Event('input',{bubbles:true}));};
- const navigate=async hash=>{w.location.hash=hash;await tick();};
- return {w,q,click,input,navigate,close:()=>w.close(),copied:()=>copied,scroll:()=>scroll};
+ const navigate=async hash=>{if(w.location.hash===hash)return;const changed=new Promise(resolve=>w.addEventListener('hashchange',resolve,{once:true}));w.location.hash=hash;await changed;};
+ const followLink=async selector=>{const changed=new Promise(resolve=>w.addEventListener('hashchange',resolve,{once:true}));click(selector);await changed;};
+ return {w,q,click,input,navigate,followLink,close:()=>w.close(),copied:()=>copied,scroll:()=>scroll};
 }
 test('home, three entry links, direct routes, tab switches, unknown route',async()=>{
  const s=await setup();try{
@@ -182,12 +183,12 @@ test('four main navigation links distinguish contents from word pages and return
  const s=await setup({hash:'#/contents'});try{
  assert.deepEqual([...s.w.document.querySelectorAll('.site-header nav a')].map(a=>a.textContent),['辞典の目次','言葉','検索','この辞典について']);
  assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
- s.click('[data-nav="words"]');await tick();assert.equal(s.w.location.hash,'#/kazoku');
+ await s.followLink('[data-nav="words"]');assert.equal(s.w.location.hash,'#/kazoku');
  assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'words');assert.equal(s.q('[data-nav="home"]').hasAttribute('aria-current'),false);
- await s.navigate('#/ai?view=answers');s.click('[data-nav="search"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'search');
- s.click('[data-nav="words"]');await tick();assert.equal(s.w.location.hash,'#/ai?view=answers');assert.equal(s.q('#reader-panel-answers').hidden,false);
- s.click('[data-nav="about"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'about');
- s.click('[data-nav="home"]');await tick();assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
+ await s.navigate('#/ai?view=answers');await s.followLink('[data-nav="search"]');assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'search');
+ await s.followLink('[data-nav="words"]');assert.equal(s.w.location.hash,'#/ai?view=answers');assert.equal(s.q('#reader-panel-answers').hidden,false);
+ await s.followLink('[data-nav="about"]');assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'about');
+ await s.followLink('[data-nav="home"]');assert.equal(s.q('.site-header nav [aria-current]').dataset.nav,'home');
  await s.navigate('#/');assert.equal(s.q('.site-header nav').hidden,true);
  }finally{s.close();}
 });
