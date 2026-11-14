@@ -140,7 +140,8 @@ test('entry reading tabs support deep links, keyboard control and inline categor
 
 test('printable class review contains all exact originals and unfilled confirmation fields',async({page},testInfo)=>{
  await page.goto('./#/about');
- await page.getByRole('link',{name:'確認用シートをひらく ↗'}).click();
+ await expect(page.getByRole('link',{name:'確認用シートをひらく ↗'})).toHaveCount(0);
+ await page.goto('./review/index.html');
  await expect(page.getByRole('heading',{level:1})).toContainText('クラスで確かめる');
  await expect(page.getByText('確認状況：未確認。本人・クラスによる確認は、これから行います。',{exact:true})).toBeVisible();
  await expect(page.locator('tr[data-record]')).toHaveCount(source.responses.length);
