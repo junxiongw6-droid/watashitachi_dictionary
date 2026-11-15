@@ -485,6 +485,6 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 }
 
 /* A softly tinted glass button complements the cover's natural palette. */
-.cover-route .cover-open{background:rgba(205,190,169,.82);color:#342f29;border:1px solid rgba(255,255,255,.65);border-radius:9px;box-shadow:0 8px 24px rgba(51,69,48,.12),inset 0 1px 0 rgba(255,255,255,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease}
-.cover-route .cover-open:hover{background:rgba(190,173,151,.9);border-color:rgba(255,255,255,.85);color:#342f29;box-shadow:0 10px 26px rgba(51,69,48,.16),inset 0 1px 0 rgba(255,255,255,.8)}
+.cover-route .cover-open{background:rgba(250,248,242,.58);color:#303a2b;border:1px solid rgba(96,112,96,.5);border-radius:9px;box-shadow:0 4px 14px rgba(51,69,48,.06),inset 0 1px 0 rgba(255,255,255,.65);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease}
+.cover-route .cover-open:hover{background:rgba(232,237,228,.8);border-color:rgba(96,112,96,.75);color:#303a2b;box-shadow:0 7px 18px rgba(51,69,48,.1),inset 0 1px 0 rgba(255,255,255,.8)}
 .cover-route .cover-open:focus-visible{outline:2px solid #756858;outline-offset:3px}
