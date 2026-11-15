@@ -313,3 +313,15 @@ body:before{opacity:.6}
  .cover-route .hero-foot{width:calc(100% - 48px);padding:11px 0;color:#283627;background:rgba(250,248,241,.65)}
 }
 @media(max-height:700px) and (max-width:700px){.cover-route .hero-copy{padding-top:16px}.cover-route .hero h1{margin:8px 0}.cover-route .hero-intro{margin-top:10px;gap:5px}.cover-route .cover-open{margin-top:10px}}
+
+/* Keep the cover's header, text and image in one calm composition. */
+.cover-route .site-header{background:#f6f3eb;border-bottom-color:rgba(89,108,93,.12)}
+.cover-route .hero{background-image:linear-gradient(180deg,rgba(246,243,235,.22),transparent 15%),linear-gradient(90deg,rgba(250,248,241,.94) 0%,rgba(250,248,241,.76) 30%,rgba(250,248,241,.08) 68%),url('../assets/backgrounds/cover-lifestyle-desktop.webp')}
+.cover-route .hero-copy{max-width:none;padding-left:max(7vw,calc((100vw - 1280px)/2 + 56px))}
+.cover-route .hero-foot{width:100%;padding:14px max(7vw,calc((100vw - 1280px)/2 + 56px));border:0;background:linear-gradient(90deg,rgba(247,245,238,.72),transparent 65%);color:#485447;text-shadow:none}
+@media(max-width:700px){
+ .cover-route .site-header{background:#f6f3eb}
+ .cover-route .hero{background-image:linear-gradient(180deg,rgba(246,243,235,.72) 0%,rgba(250,248,241,.4) 45%,rgba(250,248,241,.02) 72%),url('../assets/backgrounds/cover-lifestyle-mobile.webp')}
+ .cover-route .hero-copy{padding-left:24px;padding-right:24px}
+ .cover-route .hero-foot{width:100%;padding:12px 24px;color:#fff;background:linear-gradient(0deg,rgba(40,38,29,.62),rgba(40,38,29,.18) 70%,transparent);text-shadow:0 1px 3px rgba(0,0,0,.55)}
+}
