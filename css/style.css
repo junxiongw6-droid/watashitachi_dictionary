@@ -374,3 +374,7 @@ body:before{opacity:.6}
  .cover-route .hero-intro p+p{line-height:1.9}
  .cover-route .cover-open{margin-top:14px}
 }
+
+/* Light window and flower shadows on interior reading pages. */
+body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-desktop.webp');opacity:.85}
+@media(max-width:700px){body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-mobile.webp')}}
