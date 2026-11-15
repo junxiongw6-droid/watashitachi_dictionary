@@ -464,34 +464,13 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:no-preference){.contents-page .word-entry:hover:before,.contents-page .word-entry:focus-visible:before{animation:spot-glint 4s linear infinite}}
 @media(prefers-reduced-motion:reduce){.contents-page .word-entry:before,.contents-page .word-entry:after{transition:none!important;animation:none!important}}
 
-/* Subtle local motion uses the same cover image, never moving the copy. */
+/* Render the cover once; no moving copies over stationary flower/page edges. */
 .cover-route .hero{isolation:isolate}
-.cover-motion{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--flower-duration:7.5s;--flower-sway:.8deg;--flower-return:-.55deg;--page-duration:8s;--page-lift:.96}
-.cover-motion>span{position:absolute;inset:0;display:block;background:inherit;pointer-events:none}
-.cover-motion{background:inherit}
-.cover-motion-flowers{
- -webkit-mask-image:radial-gradient(ellipse 22% 35% at 84% 23%,#000 28%,transparent 100%);
- mask-image:radial-gradient(ellipse 22% 35% at 84% 23%,#000 28%,transparent 100%);
- transform-origin:92% 55%;
-}
-.cover-motion-page{
- -webkit-mask-image:radial-gradient(ellipse 13% 8% at 76% 80%,#000 25%,transparent 100%);
- mask-image:radial-gradient(ellipse 13% 8% at 76% 80%,#000 25%,transparent 100%);
- transform-origin:65% 70%;
-}
-@media(max-width:700px){
- .cover-motion-flowers{-webkit-mask-image:radial-gradient(ellipse 31% 25% at 82% 47%,#000 25%,transparent 100%);mask-image:radial-gradient(ellipse 31% 25% at 82% 47%,#000 25%,transparent 100%);transform-origin:91% 66%}
- .cover-motion-page{-webkit-mask-image:radial-gradient(ellipse 20% 7% at 69% 83%,#000 22%,transparent 100%);mask-image:radial-gradient(ellipse 20% 7% at 69% 83%,#000 22%,transparent 100%);transform-origin:55% 73%}
-}
-@media(prefers-reduced-motion:no-preference){
- .cover-motion-flowers{animation:cover-flower-breeze var(--flower-duration) ease-in-out infinite}
- .cover-motion-page{animation:cover-page-breeze var(--page-duration) ease-in-out infinite}
-}
-@keyframes cover-flower-breeze{0%,100%{transform:rotate(0deg)}35%{transform:rotate(var(--flower-sway))}70%{transform:rotate(var(--flower-return))}}
-@keyframes cover-page-breeze{0%,12%,100%{transform:scaleY(1)}45%{transform:scaleY(var(--page-lift))}65%{transform:scaleY(.98)}}
+.cover-motion{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;visibility:hidden}
+.cover-motion[data-ready="true"]{visibility:visible}
+.cover-motion canvas{display:block;width:100%;height:100%}
+.cover-motion:after{content:'';position:absolute;inset:0;background-image:var(--cover-grade);pointer-events:none}
 @media(prefers-reduced-motion:reduce),print{.cover-motion{display:none}}
-
-@supports not ((mask-image:radial-gradient(black,transparent)) or (-webkit-mask-image:radial-gradient(black,transparent))){.cover-motion{display:none}}
 
 /* Keep the whole desktop cover scene visible down to the book. */
 @media(min-width:701px){

@@ -17,7 +17,8 @@ async function setup({hash='#/',data=structuredClone(fixture),fail=false,clipboa
  const context=dom.getInternalVMContext();
  const core=new vm.SourceTextModule(file('../js/core.mjs'),{context});
  const app=new vm.SourceTextModule(file('../js/app.js'),{context,initializeImportMeta:meta=>meta.url='https://example.test/dictionary/js/app.js'});
- await app.link(()=>core);await app.evaluate();await tick();
+ const motion=new vm.SourceTextModule(file('../js/cover-motion.mjs'),{context});
+ await app.link(specifier=>specifier==='./cover-motion.mjs'?motion:core);await app.evaluate();await tick();
  const q=s=>w.document.querySelector(s);
  const click=s=>{assert.ok(q(s),`Missing ${s}`);q(s).click();};
  const input=(s,text)=>{q(s).value=text;q(s).dispatchEvent(new w.Event('input',{bubbles:true}));};

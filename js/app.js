@@ -1,3 +1,5 @@
+import {mountCoverMotion} from './cover-motion.mjs';
+let disposeCoverMotion=()=>{};
 import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData, findEntryMatch, highlightMatches} from './core.mjs';
 const main=document.querySelector('main');
 let data, warnings=[], route, previousHash='', resetWordScrollFor='';
@@ -22,7 +24,7 @@ function responseCard(r, showWord=false, showCategory=true, query='') {
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
- return `<section class="hero"><div class="cover-motion" aria-hidden="true"><span class="cover-motion-flowers"></span><span class="cover-motion-page"></span></div><div class="hero-copy"><img class="cover-vignette" src="${e(coverImage)}" alt="" aria-hidden="true" width="720" height="480" decoding="async" fetchpriority="high"><p class="eyebrow"><span></span> A DICTIONARY WOVEN BY US</p><h1>私たちの<br>言葉辞典</h1><div class="hero-intro"><p>同じ言葉でも、<br>思い浮かべる景色は一人ひとり違う。</p><p>クラスのみんなが、自分の言葉で綴った<br class="desktop-break">小さな辞典です。</p></div><a class="cover-open" id="open-dictionary" href="#/contents">辞典をひらく <span aria-hidden="true">→</span></a></div><div class="hero-art" aria-hidden="true"><p class="vertical-poem">言葉の向こうに、<br>一人ひとりの景色。</p><span class="red-seal">私たち<br>の言葉</span></div><div class="hero-foot"><span>WA-08クラス 共同編纂プロジェクト</span></div></section>`;
+ return `<section class="hero"><div class="cover-motion" aria-hidden="true"><canvas></canvas></div><div class="hero-copy"><img class="cover-vignette" src="${e(coverImage)}" alt="" aria-hidden="true" width="720" height="480" decoding="async" fetchpriority="high"><p class="eyebrow"><span></span> A DICTIONARY WOVEN BY US</p><h1>私たちの<br>言葉辞典</h1><div class="hero-intro"><p>同じ言葉でも、<br>思い浮かべる景色は一人ひとり違う。</p><p>クラスのみんなが、自分の言葉で綴った<br class="desktop-break">小さな辞典です。</p></div><a class="cover-open" id="open-dictionary" href="#/contents">辞典をひらく <span aria-hidden="true">→</span></a></div><div class="hero-art" aria-hidden="true"><p class="vertical-poem">言葉の向こうに、<br>一人ひとりの景色。</p><span class="red-seal">私たち<br>の言葉</span></div><div class="hero-foot"><span>WA-08クラス 共同編纂プロジェクト</span></div></section>`;
 }
 
 function contentsPage() {
@@ -132,6 +134,7 @@ function updateParams(updates, {push=false}={}) {
 function reset() {const input=document.querySelector('#response-query');if(input)input.value='';updateParams({q:'',category:'',person:''});}
 function render() {
  if(!data)return;
+ disposeCoverMotion();
  route=parseRoute(location.hash);
  document.body.classList.toggle('cover-route',route.path==='/');
  document.querySelector('.site-header nav').hidden=route.path==='/';
@@ -150,6 +153,7 @@ function render() {
  resetWordScrollFor='';
  window.scrollTo({top:saved || 0,behavior:'instant'});
  main.focus({preventScroll:true});
+ disposeCoverMotion=mountCoverMotion(main.querySelector('.hero'));
  previousHash=location.hash;
 }
 main.addEventListener('pointermove',event=>{

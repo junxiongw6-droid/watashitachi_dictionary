@@ -14,8 +14,7 @@ for(const width of [375,390,430,768,1280]) {
   const backgroundResponse=await page.request.get(backgroundURL);expect(backgroundResponse.status()).toBe(200);expect(backgroundResponse.headers()['content-type']).toContain('image/webp');
   const coverMotion=page.locator('.cover-motion');
   await expect(coverMotion).toHaveAttribute('aria-hidden','true');
-  expect(await page.locator('.cover-motion-flowers').evaluate(el=>getComputedStyle(el).animationName)).toBe('cover-flower-breeze');
-  expect(await page.locator('.cover-motion-page').evaluate(el=>getComputedStyle(el).animationName)).toBe('cover-page-breeze');
+  await expect(coverMotion.locator('canvas')).toHaveCount(1);
   await page.emulateMedia({reducedMotion:'reduce'});await expect(coverMotion).toBeHidden();
   await page.emulateMedia({reducedMotion:'no-preference'});
   const coverBackground=await page.locator('.hero').evaluate(el=>getComputedStyle(el).backgroundImage);
@@ -247,4 +246,41 @@ test('words navigation returns to the previous entry and reading view',async({pa
  await page.locator('[data-nav="words"]').click();await expect(page).toHaveURL(/#\/ai\?view=answers$/);await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await page.locator('[data-nav="home"]').click();await expect(page).toHaveURL(/#\/contents$/);await expect(page.locator('[data-nav="home"]')).toHaveAttribute('aria-current','page');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+for(const width of [390,1280])test(`${width}px cover warps flowers and the right leaf on one surface while the vase stays still`,async({page,browserName})=>{
+ test.skip(browserName!=='chromium','Deterministic pixel check uses Chromium WebGL.');
+ await page.setViewportSize({width,height:844});
+ await page.goto('./');
+ await expect(page.locator('.cover-motion')).toHaveAttribute('data-ready','true');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const changes=await page.locator('.cover-motion canvas').evaluate(canvas=>{
+  const gl=canvas.getContext('webgl'),program=gl.getParameter(gl.CURRENT_PROGRAM);
+  const time=gl.getUniformLocation(program,'time');
+  const rect=gl.getUniform(program,gl.getUniformLocation(program,'rect'));
+  const size=gl.getUniform(program,gl.getUniformLocation(program,'size'));
+  const capture=t=>{gl.uniform1f(time,t);gl.drawArrays(gl.TRIANGLES,0,6);const pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);return pixels;};
+  const a=capture(0),b=capture(4);
+  const mobile=gl.getUniform(program,gl.getUniformLocation(program,'mobile'))===1;
+  const regions=mobile?{flowers:[.52,.42,.90,.57],page:[.60,.80,.86,.90],vase:[.76,.63,.86,.73]}:{flowers:[.72,.05,.97,.3],page:[.78,.70,.94,.88],vase:[.88,.44,.96,.61]};
+  return Object.fromEntries(Object.entries(regions).map(([name,r])=>{
+   let total=0,n=0;
+   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+    const px=(x/canvas.width*size[0]-rect[0])/rect[2],py=((1-y/canvas.height)*size[1]-rect[1])/rect[3];
+    if(px<r[0]||px>r[2]||py<r[1]||py>r[3])continue;
+    const i=(y*canvas.width+x)*4;for(let c=0;c<3;c++){total+=Math.abs(a[i+c]-b[i+c]);n++;}
+   }
+   return [name,total/Math.max(n,1)];
+  }));
+ });
+ expect(changes.flowers).toBeGreaterThan(.1);expect(changes.page).toBeGreaterThan(.1);expect(changes.vase).toBe(0);
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.locator('#open-dictionary').click();await expect(page.locator('.cover-motion')).toHaveCount(0);
+ await page.goBack();await expect(page.locator('.cover-motion')).toHaveAttribute('data-ready','true');
+});
+
+test('cover retains its static image when WebGL is unavailable',async({page})=>{
+ await page.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl'?null:original.call(this,type,...args);};});
+ await page.goto('./');await expect(page.locator('#open-dictionary')).toBeVisible();await expect(page.locator('.cover-motion')).toBeHidden();
+ expect(await page.locator('.hero').evaluate(el=>getComputedStyle(el).backgroundImage)).toContain('cover-lifestyle-desktop.webp');
 });

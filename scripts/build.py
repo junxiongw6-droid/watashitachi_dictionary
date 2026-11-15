@@ -51,6 +51,7 @@ def main():
         return hashlib.sha256((dist/path).read_bytes()).hexdigest()[:16]
     app=dist/'js/app.js'
     app_text=app.read_text()
+    app_text=app_text.replace("'./cover-motion.mjs'", "'./cover-motion.mjs?v="+version('js/cover-motion.mjs')+"'")
     app_text=app_text.replace("'./core.mjs'", "'./core.mjs?v="+version('js/core.mjs')+"'")
     app_text=app_text.replace("'../data/dictionary.json'", "'../data/dictionary.json?v="+version('data/dictionary.json')+"'")
     app_text=app_text.replace('href="./review/index.html"', 'href="./review/index.html?v='+version('review/index.html')+'"')
