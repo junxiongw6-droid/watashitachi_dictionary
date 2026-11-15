@@ -359,3 +359,18 @@ body:before{opacity:.6}
  .cover-route .hero-intro p+p{line-height:1.9}
  .cover-route .cover-open{margin-top:12px}
 }
+
+/* Let the mobile cover read like an open book rather than one dense line. */
+@media(max-width:700px){
+ .cover-route .hero h1{font-size:clamp(32px,9vw,40px);line-height:1.5;letter-spacing:.08em;margin:20px 0 25px}
+ .cover-route .hero h1 br{display:block}
+ .cover-route .hero-intro{max-width:21em;gap:20px;line-height:2.15;letter-spacing:.035em}
+ .cover-route .hero-intro p+p{line-height:2.15}
+ .cover-route .cover-open{margin-top:26px}
+}
+@media(max-height:700px) and (max-width:700px){
+ .cover-route .hero h1{font-size:clamp(30px,8vw,36px);line-height:1.35;margin:12px 0 14px}
+ .cover-route .hero-intro{gap:10px;line-height:1.9}
+ .cover-route .hero-intro p+p{line-height:1.9}
+ .cover-route .cover-open{margin-top:14px}
+}
