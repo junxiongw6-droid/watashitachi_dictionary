@@ -448,3 +448,18 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:no-preference){.entry-page .word-switcher .word-tabs a:hover:before,.entry-page .word-switcher .word-tabs a:focus-visible:before{animation:spot-glint 4s linear infinite}}
 @keyframes spot-glint{to{--spot-angle:360deg}}
 @media(prefers-reduced-motion:reduce){.entry-page .word-switcher .word-tabs a:before,.entry-page .word-switcher .word-tabs a:after{transition:none!important;animation:none!important}}
+
+/* Pointer-following light inside the contents cards, with a soft rim glint. */
+.contents-page .word-entry{isolation:isolate;--spot-x:50%;--spot-y:50%}
+.contents-page .word-entry:before,.contents-page .word-entry:after{content:'';display:block;position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s ease}
+.contents-page .word-entry:before{
+ z-index:2;padding:1.5px;border:0;
+ background:conic-gradient(from var(--spot-angle),transparent 4%,rgba(105,143,112,.8) 14%,rgba(255,255,255,.98) 20%,transparent 34%,transparent 100%);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+ mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+}
+.contents-page .word-entry:after{z-index:1;background:radial-gradient(circle 170px at var(--spot-x) var(--spot-y),rgba(143,181,151,.34),rgba(191,215,193,.18) 38%,transparent 75%)}
+@media(hover:hover){.contents-page .word-entry:hover:before,.contents-page .word-entry:hover:after{opacity:1}}
+.contents-page .word-entry:focus-visible:before,.contents-page .word-entry:focus-visible:after,.contents-page .word-entry:active:before,.contents-page .word-entry:active:after{opacity:1}
+@media(prefers-reduced-motion:no-preference){.contents-page .word-entry:hover:before,.contents-page .word-entry:focus-visible:before{animation:spot-glint 4s linear infinite}}
+@media(prefers-reduced-motion:reduce){.contents-page .word-entry:before,.contents-page .word-entry:after{transition:none!important;animation:none!important}}

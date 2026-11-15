@@ -225,3 +225,14 @@ test('word selector spotlight follows the pointer without changing navigation',a
  assert.equal(s.w.location.hash,'#/ai');
  }finally{s.close();}
 });
+
+test('contents card spotlight follows pointer while card navigation remains usable',async()=>{
+ const s=await setup({hash:'#/contents'});try{
+ const card=s.q('.word-entry.ai');
+ card.dispatchEvent(new s.w.MouseEvent('pointermove',{bubbles:true,clientX:36,clientY:42}));
+ assert.equal(card.style.getPropertyValue('--spot-x'),'36px');
+ assert.equal(card.style.getPropertyValue('--spot-y'),'42px');
+ await s.followLink('.word-entry.ai');
+ assert.equal(s.w.location.hash,'#/ai');
+ }finally{s.close();}
+});

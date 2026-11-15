@@ -153,7 +153,7 @@ function render() {
  previousHash=location.hash;
 }
 main.addEventListener('pointermove',event=>{
- const link=event.target.closest('.word-switcher .word-tabs a');
+ const link=event.target.closest('.word-switcher .word-tabs a, .contents-page .word-entry');
  if(!link || event.pointerType==='touch')return;
  const rect=link.getBoundingClientRect();
  link.style.setProperty('--spot-x',`${event.clientX-rect.left}px`);
