@@ -458,7 +458,7 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
 }
-.contents-page .word-entry:after{z-index:1;background:radial-gradient(circle 170px at var(--spot-x) var(--spot-y),rgba(143,181,151,.34),rgba(191,215,193,.18) 38%,transparent 75%)}
+.contents-page .word-entry:after{z-index:1;background:radial-gradient(circle clamp(240px,26vw,360px) at var(--spot-x) var(--spot-y),rgba(143,181,151,.34),rgba(173,201,177,.22) 38%,rgba(191,215,193,.08) 72%,transparent 100%)}
 @media(hover:hover){.contents-page .word-entry:hover:before,.contents-page .word-entry:hover:after{opacity:1}}
 .contents-page .word-entry:focus-visible:before,.contents-page .word-entry:focus-visible:after,.contents-page .word-entry:active:before,.contents-page .word-entry:active:after{opacity:1}
 @media(prefers-reduced-motion:no-preference){.contents-page .word-entry:hover:before,.contents-page .word-entry:focus-visible:before{animation:spot-glint 4s linear infinite}}
