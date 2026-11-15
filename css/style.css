@@ -334,3 +334,13 @@ body:before{opacity:.6}
 }
 @keyframes page-appear{from{opacity:0}to{opacity:1}}
 @media print{.site-header,#main>*,.reader-panel{animation:none!important}}
+
+/* Let the cover scene appear first, followed by its text and button. */
+@media(prefers-reduced-motion:no-preference){
+ .cover-route #main>.hero{animation:none;isolation:isolate}
+ .cover-route .hero:before{content:'';position:absolute;inset:0;background:#f6f3eb;pointer-events:none;z-index:0;animation:cover-veil .65s ease-out both}
+ .cover-route .hero-copy{animation:page-appear .55s ease-out .22s both}
+ .cover-route .hero-foot{position:relative;z-index:1;animation:page-appear .55s ease-out .3s both}
+}
+@keyframes cover-veil{from{opacity:1}to{opacity:0}}
+@media print{.cover-route .hero:before{display:none}.cover-route .hero-copy,.cover-route .hero-foot{animation:none!important}}
