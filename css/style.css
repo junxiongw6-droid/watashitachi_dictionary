@@ -498,3 +498,10 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(min-width:701px){
  .cover-route .hero-copy{position:relative;top:calc(-1 * clamp(24px,5vh,58px))}
 }
+
+/* A restrained spring response, independent of the cover entrance animation. */
+@media(prefers-reduced-motion:no-preference){
+ .cover-route .cover-open{transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,scale .5s cubic-bezier(.2,1.45,.35,1)}
+ @media(hover:hover){.cover-route .cover-open:hover{scale:1.025}}
+ .cover-route .cover-open:active{scale:.97;transition-duration:.12s}
+}
