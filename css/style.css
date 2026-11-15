@@ -325,3 +325,12 @@ body:before{opacity:.6}
  .cover-route .hero-copy{padding-left:24px;padding-right:24px}
  .cover-route .hero-foot{width:100%;padding:12px 24px;color:#fff;background:linear-gradient(0deg,rgba(40,38,29,.62),rgba(40,38,29,.18) 70%,transparent);text-shadow:0 1px 3px rgba(0,0,0,.55)}
 }
+
+/* A brief, quiet entrance for each page and reading tab. */
+@media(prefers-reduced-motion:no-preference){
+ .site-header{animation:page-appear .55s ease-out both}
+ #main> :not(.loading){animation:page-appear .6s ease-out both}
+ .reader-panel:not([hidden]){animation:page-appear .4s ease-out both}
+}
+@keyframes page-appear{from{opacity:0}to{opacity:1}}
+@media print{.site-header,#main>*,.reader-panel{animation:none!important}}
