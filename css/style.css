@@ -292,3 +292,24 @@ body:before{opacity:.6}
  .entry-page .word-switcher .word-tabs a[aria-current]{padding:7px 8px}
 }
 @media(max-height:700px){.cover-vignette{width:160px}}
+
+/* Lifestyle cover: one continuous scene, composed separately for each screen. */
+.cover-route .hero{width:100%;max-width:none;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;padding:0;position:relative;background:linear-gradient(90deg,rgba(250,248,241,.94) 0%,rgba(250,248,241,.76) 30%,rgba(250,248,241,.08) 68%),url('../assets/backgrounds/cover-lifestyle-desktop.webp') center/cover no-repeat}
+.cover-route .hero-copy{max-width:680px;padding:45px 20px 45px clamp(36px,7vw,110px);position:relative;z-index:1}
+.cover-route .hero h1{font-size:clamp(38px,4.4vw,62px);letter-spacing:.06em;line-height:1.4;margin:22px 0 20px;color:#303a2b}
+.cover-route .hero-intro{color:#303a2b;max-width:520px;text-shadow:0 1px 14px rgba(250,248,241,.8)}
+.cover-route .hero-intro p+p{color:#485447}
+.cover-route .cover-open{background:#465b3f;border-color:#465b3f;color:#fff}
+.cover-route .cover-open:hover{background:#607759;border-color:#607759}
+.cover-route .cover-vignette,.cover-route .hero-art .vertical-poem,.cover-route .hero-art .red-seal{display:none}
+.cover-route .hero-art:before{display:none}
+.cover-route .hero-foot{width:calc(100% - 14vw);margin:0 auto;color:#3e4b3b;border-color:rgba(70,91,63,.3);text-shadow:0 1px 8px #f7f5ef}
+@media(max-width:700px){
+ .cover-route .hero{width:100%;grid-template-columns:1fr;grid-template-rows:1fr auto;padding:0;background:linear-gradient(180deg,rgba(250,248,241,.7) 0%,rgba(250,248,241,.35) 48%,rgba(250,248,241,.02) 76%),url('../assets/backgrounds/cover-lifestyle-mobile.webp') center bottom/cover no-repeat}
+ .cover-route .hero-copy{align-self:start;max-width:100%;padding:clamp(28px,6vh,55px) 24px 24px}
+ .cover-route .hero h1{font-size:clamp(28px,7.5vw,38px);white-space:normal;line-height:1.45;margin:16px 0 15px}
+ .cover-route .hero-intro{font-size:15px;line-height:1.9;margin-top:18px}
+ .cover-route .cover-open{margin-top:18px}
+ .cover-route .hero-foot{width:calc(100% - 48px);padding:11px 0;color:#283627;background:rgba(250,248,241,.65)}
+}
+@media(max-height:700px) and (max-width:700px){.cover-route .hero-copy{padding-top:16px}.cover-route .hero h1{margin:8px 0}.cover-route .hero-intro{margin-top:10px;gap:5px}.cover-route .cover-open{margin-top:10px}}
