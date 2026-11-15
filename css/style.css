@@ -439,3 +439,19 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 }
 @media(max-width:560px){.contents-page .word-entry{border-radius:16px}}
 @media(prefers-reduced-motion:reduce){.contents-page .word-entry,.contents-page .word-entry:hover,.contents-page .word-entry:active{transition:none!important;transform:none!important}}
+
+/* Match the word selector to the softly rounded frosted cards. */
+.entry-page .word-switcher .word-tabs a{
+ border:1px solid rgba(255,255,255,.8);border-radius:14px;
+ background:rgba(240,242,234,.66);color:var(--ink);
+ box-shadow:0 5px 16px rgba(73,75,57,.08),inset 0 1px 0 rgba(255,255,255,.72);
+ -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+ transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,transform .45s cubic-bezier(.22,1.42,.42,1);
+}
+.entry-page .word-switcher .word-tabs a[data-word="ai"]{background:rgba(242,235,229,.7)}
+.entry-page .word-switcher .word-tabs a[data-word="jiyuu"]{background:rgba(228,236,227,.72)}
+.entry-page .word-switcher .word-tabs a[aria-current]{border:1px solid #819787;background:rgba(220,232,218,.88);box-shadow:0 5px 16px rgba(73,75,57,.10),inset 0 1px 0 rgba(255,255,255,.8)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.entry-page .word-switcher .word-tabs a:hover{transform:translateY(-2px);border-color:#9aae9a;box-shadow:0 8px 18px rgba(73,75,57,.13)}}
+@media(prefers-reduced-motion:no-preference){.entry-page .word-switcher .word-tabs a:active{transform:scale(.97);transition-duration:.12s}}
+@media(max-width:560px){.entry-page .word-switcher .word-tabs a{border-radius:12px}}
+@media(prefers-reduced-motion:reduce){.entry-page .word-switcher .word-tabs a,.entry-page .word-switcher .word-tabs a:hover,.entry-page .word-switcher .word-tabs a:active{transition:none!important;transform:none!important}}
