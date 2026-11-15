@@ -344,3 +344,18 @@ body:before{opacity:.6}
 }
 @keyframes cover-veil{from{opacity:1}to{opacity:0}}
 @media print{.cover-route .hero:before{display:none}.cover-route .hero-copy,.cover-route .hero-foot{animation:none!important}}
+
+/* Give the cover introduction a comfortable reading measure on phones. */
+@media(max-width:700px){
+ .cover-route .hero h1{margin-bottom:20px}
+ .cover-route .hero-intro{max-width:23em;gap:15px;line-height:2.05;letter-spacing:.025em}
+ .cover-route .hero-intro p+p{font-size:14px;line-height:2.05}
+ .cover-route .hero .desktop-break{display:inline}
+ .cover-route .cover-open{margin-top:20px}
+}
+@media(max-height:700px) and (max-width:700px){
+ .cover-route .hero h1{margin-bottom:10px}
+ .cover-route .hero-intro{gap:8px;line-height:1.9}
+ .cover-route .hero-intro p+p{line-height:1.9}
+ .cover-route .cover-open{margin-top:12px}
+}
