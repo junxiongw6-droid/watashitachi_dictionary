@@ -226,3 +226,37 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 
 /* Search emphasis retains the original type and line spacing. */
 .search-match{background:#e9ddb3;color:inherit;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* A quieter, consistent editorial rhythm throughout the dictionary. */
+:root{--ink:#303c35;--muted:#65736a;--sage:#607a6b;--line:#d9ddd3;--soft:#edf0e8}
+.cover-route .hero-copy{max-width:620px}
+.cover-route .hero-intro{border-color:#b9c6b9;letter-spacing:.055em}
+.contents-heading .page-title,.simple-header .page-title{letter-spacing:.08em}
+.entry-page .word-header{gap:28px;padding-bottom:20px}
+.entry-page .word-switcher{margin-top:0;margin-bottom:23px}
+.word-entry,.word-entry.ai,.word-entry.jiyuu{border-color:rgba(96,122,107,.16)}
+.word-entry:before,.word-entry.ai:before,.word-entry.jiyuu:before{border-color:rgba(96,122,107,.12)}
+.entry-bottom,.response-card{border-color:rgba(96,122,107,.18)}
+.entry-page .category-body{background:rgba(230,235,224,.64)}
+.entry-page .category-body .response-card{padding-left:0;padding-right:0}
+.response-meta{gap:12px}
+.word-illustration img{aspect-ratio:2/1;object-fit:contain;-webkit-mask-image:radial-gradient(ellipse at center,#000 50%,rgba(0,0,0,.92) 66%,transparent 100%);mask-image:radial-gradient(ellipse at center,#000 50%,rgba(0,0,0,.92) 66%,transparent 100%)}
+@media(hover:hover){
+ .word-entry{transition:background-color .25s ease,border-color .25s ease,transform .25s ease}
+ .word-entry:hover{transform:translateY(-2px)}
+ .circle-arrow{transition:transform .25s ease,border-color .25s ease}
+ .word-entry:hover .circle-arrow{transform:translate(2px,-2px);border-color:var(--sage)}
+ .cover-open{transition:background-color .25s ease,border-color .25s ease}
+}
+@media(max-width:700px){
+ .cover-route .hero-copy{align-self:start;padding-top:clamp(24px,5vh,44px)}
+ .cover-route .hero-intro{letter-spacing:.02em}
+}
+@media(max-width:560px){
+ .entry-page .word-header{gap:16px;padding-bottom:18px}
+ .entry-page .detail-illustration{max-width:340px;margin-bottom:0}
+ .entry-page .word-switcher{margin-bottom:20px}
+ .entry-page .response-card blockquote{line-height:2;letter-spacing:.025em}
+}
+@media(max-height:700px) and (max-width:700px){.cover-route .hero-copy{padding-top:8px}}
+@media(prefers-reduced-motion:reduce){.word-entry,.circle-arrow,.cover-open{transition:none!important}.word-entry:hover,.word-entry:hover .circle-arrow{transform:none}}
