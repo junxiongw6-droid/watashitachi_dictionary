@@ -131,9 +131,10 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
 @media(prefers-reduced-motion:reduce){.word-illustration img{transition:none}}
 
 /* A small watercolor book gives the cover a quiet focal point. */
-.cover-vignette{display:block;width:210px;max-width:65%;height:auto;aspect-ratio:3/2;object-fit:contain;margin:0 0 20px;opacity:.92;pointer-events:none}
-@media(max-width:700px){.cover-route .hero{padding-top:16px}.cover-route .hero-copy{padding-top:0}.cover-vignette{width:190px;margin:0 0 20px}.cover-route .hero h1{margin-top:16px}.cover-route .hero-intro{margin-top:21px}.cover-route .cover-open{margin-top:22px}}
-@media(max-height:700px){.cover-vignette{width:140px;margin-bottom:12px}}
+.cover-vignette{display:block;width:clamp(220px,22vw,280px);max-width:75%;height:auto;aspect-ratio:3/2;object-fit:contain;margin:0 0 12px clamp(40px,7vw,100px);opacity:.92;pointer-events:none}
+@media(max-width:700px){.cover-route .hero{padding-top:16px}.cover-route .hero-copy{padding-top:0}.cover-vignette{width:clamp(200px,58vw,240px);max-width:75%;margin:0 auto 14px}.cover-route .hero h1{margin-top:16px}.cover-route .hero-intro{margin-top:21px}.cover-route .cover-open{margin-top:22px}}
+@media(max-height:700px){.cover-vignette{width:180px;margin-bottom:10px}}
+@media(max-width:700px) and (max-height:700px){.cover-vignette{width:160px;margin-bottom:10px}}
 
 /* Portrait artwork retains the quiet botanical corners on narrow screens. */
 @media(max-width:700px){body:before{background-image:url('../assets/backgrounds/washi-botanical-mobile.webp');background-size:100% 100%}}
