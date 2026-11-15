@@ -379,3 +379,19 @@ body:before{opacity:.6}
 /* Light window and flower shadows on interior reading pages. */
 body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-desktop.webp');opacity:.85;filter:saturate(.55) brightness(1.04)}
 @media(max-width:700px){body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-mobile.webp')}}
+
+/* Reveal the cover text in a calm, staggered sequence. */
+@media(prefers-reduced-motion:no-preference){
+ .cover-route .hero-copy{animation:none}
+ .cover-route .hero-copy>.eyebrow,
+ .cover-route .hero-copy>h1,
+ .cover-route .hero-intro>p,
+ .cover-route .hero-copy>.cover-open{animation:cover-text-rise .95s cubic-bezier(.25,.1,.25,1) both}
+ .cover-route .hero-copy>.eyebrow{animation-delay:.32s}
+ .cover-route .hero-copy>h1{animation-delay:.48s}
+ .cover-route .hero-intro>p:first-child{animation-delay:.68s}
+ .cover-route .hero-intro>p+p{animation-delay:.84s}
+ .cover-route .hero-copy>.cover-open{animation-delay:1s}
+ .cover-route .hero-foot{animation-delay:1.08s}
+}
+@media print{.cover-route .hero-copy>.eyebrow,.cover-route .hero-copy>h1,.cover-route .hero-intro>p,.cover-route .hero-copy>.cover-open{animation:none!important}}
