@@ -56,7 +56,7 @@ function wordPage(w) {
    </section>
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
-   <section id="responses"><div class="section-top"><h2>みんなの回答</h2><span class="total-badge">全 ${total} 件</span></div><p class="section-description">表記や空白を含め、回答原文をそのまま掲載しています。</p>
+   <section id="responses"><div class="section-top"><h2>みんなの回答</h2><span class="total-badge">全 ${total} 件</span></div>
     <div class="response-tools">${searchInput()}${filterBar(w)}<div id="person-filter"></div></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div>
    </section>
 
