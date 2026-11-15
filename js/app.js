@@ -59,7 +59,7 @@ function wordPage(w) {
    <section id="responses"><div class="section-top"><h2>みんなの回答</h2><span class="total-badge">全 ${total} 件</span></div><p class="section-description">表記や空白を含め、回答原文をそのまま掲載しています。</p>
     <div class="response-tools">${searchInput()}${filterBar(w)}<div id="person-filter"></div></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div>
    </section>
-   <div class="reader-next"><span>共通点や違いから、言葉をもう少し深く。</span><button data-view="analysis">分析・まとめを読む →</button></div>
+
   </div>
   <div id="reader-panel-analysis" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-analysis" tabindex="0" hidden>
    <section class="reader-analysis"><p class="analysis-label">共通点と違い</p><h2>${e(w.common.title)}</h2><p>${e(w.common.text)}</p>${evidence(w.common.evidenceIds)}</section>

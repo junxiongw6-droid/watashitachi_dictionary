@@ -159,3 +159,7 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
  .cover-route .hero-art .red-seal{bottom:24px;left:17px}
 }
 @media(min-width:701px) and (max-width:900px){.cover-route .hero-art{height:360px}.cover-route .hero-art .vertical-poem{top:20px}.cover-route .hero-art .red-seal{left:5px;bottom:15px}}
+
+/* Give the answers a quiet ending without a duplicate navigation strip. */
+.entry-page{padding-bottom:32px}
+@media(max-width:560px){.entry-page{padding-bottom:24px}}
