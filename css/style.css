@@ -376,5 +376,5 @@ body:before{opacity:.6}
 }
 
 /* Light window and flower shadows on interior reading pages. */
-body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-desktop.webp');opacity:.85}
+body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-desktop.webp');opacity:.85;filter:saturate(.55) brightness(1.04)}
 @media(max-width:700px){body:not(.cover-route):before{background-image:url('../assets/backgrounds/window-shadow-mobile.webp')}}
