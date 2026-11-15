@@ -419,3 +419,23 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
  .people-page .breadcrumb,.people-page>.field-label,.people-page>select,.people-page>.people-grid,.people-page>.person-answers,
  .entry-page .word-header>div,.entry-page .detail-illustration,.entry-page .word-switcher,.entry-page .reader-caption,.entry-page .reader-tabs,.reader-panel{animation:none!important}
 }
+
+/* Frosted word cards with a restrained spring-like response. */
+.contents-page .word-entry{
+ border:1px solid rgba(255,255,255,.72);border-radius:18px;
+ background:rgba(237,239,230,.72);
+ box-shadow:0 10px 26px rgba(73,75,57,.10),inset 0 1px 0 rgba(255,255,255,.65);
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+ transition:transform .5s cubic-bezier(.22,1.42,.42,1),box-shadow .4s ease,border-color .4s ease,background-color .4s ease;
+}
+.contents-page .word-entry.ai{background:rgba(242,235,229,.72);border-color:rgba(255,255,255,.72)}
+.contents-page .word-entry.jiyuu{background:rgba(228,236,227,.74);border-color:rgba(255,255,255,.72)}
+.contents-page .word-entry:before{display:none}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .contents-page .word-entry:hover{transform:translateY(-4px) scale(1.008);box-shadow:0 16px 30px rgba(73,75,57,.15),inset 0 1px 0 rgba(255,255,255,.8);border-color:rgba(255,255,255,.95)}
+}
+@media(prefers-reduced-motion:no-preference){
+ .contents-page .word-entry:active{transform:scale(.985);transition-duration:.12s;box-shadow:0 5px 14px rgba(73,75,57,.10),inset 0 1px 0 rgba(255,255,255,.65)}
+}
+@media(max-width:560px){.contents-page .word-entry{border-radius:16px}}
+@media(prefers-reduced-motion:reduce){.contents-page .word-entry,.contents-page .word-entry:hover,.contents-page .word-entry:active{transition:none!important;transform:none!important}}
