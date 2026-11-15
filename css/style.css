@@ -339,10 +339,11 @@ body:before{opacity:.6}
 @media(prefers-reduced-motion:no-preference){
  .cover-route #main>.hero{animation:none;isolation:isolate}
  .cover-route .hero:before{content:'';position:absolute;inset:0;background:#f6f3eb;pointer-events:none;z-index:0;animation:cover-veil .65s ease-out both}
- .cover-route .hero-copy{animation:page-appear .9s ease-out .48s both}
+ .cover-route .hero-copy{animation:cover-text-rise 1s cubic-bezier(.22,1,.36,1) .48s both}
  .cover-route .hero-foot{position:relative;z-index:1;animation:page-appear .9s ease-out .55s both}
 }
 @keyframes cover-veil{from{opacity:1}to{opacity:0}}
+@keyframes cover-text-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media print{.cover-route .hero:before{display:none}.cover-route .hero-copy,.cover-route .hero-foot{animation:none!important}}
 
 /* Give the cover introduction a comfortable reading measure on phones. */
