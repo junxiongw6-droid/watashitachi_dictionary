@@ -505,3 +505,8 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
  @media(hover:hover){.cover-route .cover-open:hover{scale:1.025}}
  .cover-route .cover-open:active{scale:.97;transition-duration:.12s}
 }
+
+@media(min-width:701px){
+ .cover-route .hero-intro{max-width:100%}
+ .cover-route .hero .desktop-break{display:none}
+}
