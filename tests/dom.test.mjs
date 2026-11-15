@@ -214,3 +214,14 @@ test('search emphasis updates and clears without changing answer text or leaking
  s.input('#response-query','ZZZZZZ');assert.equal(s.q('#response-list mark'),null);
  }finally{s.close();}
 });
+
+test('word selector spotlight follows the pointer without changing navigation',async()=>{
+ const s=await setup({hash:'#/kazoku'});try{
+ const link=s.q('.word-switcher [data-word="ai"]');
+ link.dispatchEvent(new s.w.MouseEvent('pointermove',{bubbles:true,clientX:24,clientY:18}));
+ assert.equal(link.style.getPropertyValue('--spot-x'),'24px');
+ assert.equal(link.style.getPropertyValue('--spot-y'),'18px');
+ await s.followLink('.word-switcher [data-word="ai"]');
+ assert.equal(s.w.location.hash,'#/ai');
+ }finally{s.close();}
+});

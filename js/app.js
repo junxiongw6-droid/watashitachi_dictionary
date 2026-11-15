@@ -152,6 +152,13 @@ function render() {
  main.focus({preventScroll:true});
  previousHash=location.hash;
 }
+main.addEventListener('pointermove',event=>{
+ const link=event.target.closest('.word-switcher .word-tabs a');
+ if(!link || event.pointerType==='touch')return;
+ const rect=link.getBoundingClientRect();
+ link.style.setProperty('--spot-x',`${event.clientX-rect.left}px`);
+ link.style.setProperty('--spot-y',`${event.clientY-rect.top}px`);
+});
 main.addEventListener('input',event=>{if(event.target.id==='response-query')updateParams({q:event.target.value});});
 main.addEventListener('change',event=>{if(event.target.id==='person-select')location.hash=`#/people${event.target.value?'?id='+event.target.value:''}`;});
 main.addEventListener('click',event=>{
