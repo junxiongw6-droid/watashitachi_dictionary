@@ -77,8 +77,9 @@ for(const width of [375,390,430,768,1280]) {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath('ai-answers.png'),fullPage:true});
   await page.locator('#response-query').fill('執念');await expect(page.locator('#response-list .response-card')).toHaveCount(1);
+  await expect(page.locator('#response-list blockquote mark')).toHaveText('執念');
   await page.locator('#response-query').fill('ZZZZZZ');await expect(page.getByText('該当する回答が見つかりませんでした。')).toBeVisible();
-  await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
+  await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);await expect(page.locator('#response-list mark')).toHaveCount(0);
   await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(3);
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);

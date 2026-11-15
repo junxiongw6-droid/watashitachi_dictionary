@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {filterResponses,categoryCounts,parseRoute,escapeHTML,normalize,inspectData,findEntryMatch} from '../js/core.mjs';
+import {filterResponses,categoryCounts,parseRoute,escapeHTML,normalize,inspectData,findEntryMatch,highlightMatches} from '../js/core.mjs';
 const data=JSON.parse(readFileSync(new URL('../data/dictionary.json',import.meta.url)));
 test('all 54 original responses are discoverable',()=>assert.equal(filterResponses(data).length,54));
 test('each word and every primary category have exact counts',()=>{
@@ -36,4 +36,16 @@ test('malformed top-level data is rejected clearly',()=>assert.throws(()=>inspec
 test('complete dictionary terms and kana resolve to one entry; ordinary queries remain response searches',()=>{
  for(const [query,id] of [['家族','kazoku'],[' 愛 ','ai'],['自由','jiyuu'],['かぞく','kazoku'],['あい','ai'],['じゆう','jiyuu'],['カゾク','kazoku'],['ｶｿﾞｸ','kazoku']])assert.equal(findEntryMatch(data,query)?.id,id);
  for(const query of ['', '家', '支える', '家族 愛', data.respondents[0].name])assert.equal(findEntryMatch(data,query),null);
+});
+
+test('search highlights preserve originals across normalization, overlaps, and HTML characters',()=>{
+ const plain=html=>html.replace(/<[^>]*>/g,'');
+ const original='    ＡＢＣ　ｶﾞ ガ か\u3099 😀';
+ const highlighted=highlightMatches(original,'abc ガ が 😀');
+ assert.equal(plain(highlighted),original);
+ for(const match of ['ＡＢＣ','ｶﾞ','ガ','か\u3099','😀'])assert.ok(highlighted.includes('>'+match+'</mark>'));
+ assert.equal(highlightMatches('愛情と愛','愛 愛情'),'<mark class="search-match">愛情</mark>と<mark class="search-match">愛</mark>');
+ assert.equal(highlightMatches('a   b','a b').replace(/<[^>]*>/g,''),'a   b');
+ assert.equal(highlightMatches('<img onerror="x"> & [a]','<img [a]'),'<mark class="search-match">&lt;img</mark> onerror=&quot;x&quot;&gt; &amp; <mark class="search-match">[a]</mark>');
+ assert.equal(highlightMatches('  原文  ',''),'  原文  ');
 });

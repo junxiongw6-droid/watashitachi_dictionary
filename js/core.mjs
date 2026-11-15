@@ -1,5 +1,46 @@
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const normalize = value => String(value ?? '').normalize('NFKC').toLocaleLowerCase('ja').replace(/\s+/g,' ').trim();
+// Match normalized search terms while rendering the original characters and spacing.
+export function highlightMatches(value, query='') {
+  const original=String(value ?? '');
+  const terms=[...new Set(normalize(query).split(' ').filter(Boolean))];
+  if(!terms.length)return escapeHTML(original);
+  let searchable='';
+  const offsets=[];
+  for(const {segment,index} of new Intl.Segmenter('ja',{granularity:'grapheme'}).segment(original)) {
+    const normalized=segment.normalize('NFKC').toLocaleLowerCase('ja');
+    for(const character of normalized) {
+      const part=/\s/u.test(character)?' ':character;
+      if(part===' ' && searchable.endsWith(' ')) {
+        offsets[offsets.length-1][1]=index+segment.length;
+        continue;
+      }
+      searchable+=part;
+      for(let unit=0;unit<part.length;unit++)offsets.push([index,index+segment.length]);
+    }
+  }
+  const ranges=[];
+  for(const term of terms) {
+    let from=0, found;
+    while((found=searchable.indexOf(term,from))!==-1) {
+      ranges.push([offsets[found][0],offsets[found+term.length-1][1]]);
+      from=found+1;
+    }
+  }
+  ranges.sort((a,b)=>a[0]-b[0] || a[1]-b[1]);
+  const merged=[];
+  for(const range of ranges) {
+    const last=merged[merged.length-1];
+    if(last && range[0]<=last[1])last[1]=Math.max(last[1],range[1]);
+    else merged.push([...range]);
+  }
+  let html='', cursor=0;
+  for(const [start,end] of merged) {
+    html+=escapeHTML(original.slice(cursor,start))+`<mark class="search-match">${escapeHTML(original.slice(start,end))}</mark>`;
+    cursor=end;
+  }
+  return html+escapeHTML(original.slice(cursor));
+}
 export function findEntryMatch(data, query) {
   const key=value=>normalize(value).replace(/[\u30a1-\u30f6]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60));
   const input=key(query);

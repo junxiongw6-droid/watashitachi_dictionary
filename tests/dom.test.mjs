@@ -198,3 +198,19 @@ test('four main navigation links distinguish contents from word pages and return
  await s.navigate('#/');assert.equal(s.q('.site-header nav').hidden,true);
  }finally{s.close();}
 });
+
+test('search emphasis updates and clears without changing answer text or leaking into categories',async()=>{
+ const s=await setup({hash:'#/ai?view=answers'});try{
+ s.input('#response-query','執着');
+ const quote=s.q('#response-list blockquote');
+ assert.equal(quote.textContent,fixture.responses.find(r=>r.wordId==='ai' && r.text.includes('執着')).text);
+ assert.equal(quote.querySelector('mark').textContent,'執着');
+ assert.equal(s.q('.category-body mark'),null);
+ s.input('#response-query',fixture.respondents[0].name);
+ assert.ok(s.q('#response-list .response-meta mark'));
+ s.click('#clear-search');assert.equal(s.q('#response-list mark'),null);
+ await s.navigate('#/search?q='+encodeURIComponent('執着'));
+ assert.equal(s.q('#response-list blockquote mark').textContent,'執着');
+ s.input('#response-query','ZZZZZZ');assert.equal(s.q('#response-list mark'),null);
+ }finally{s.close();}
+});

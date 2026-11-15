@@ -222,3 +222,6 @@ body.cover-route{min-height:100vh;min-height:100svh;display:flex;flex-direction:
  }
 }
 @keyframes category-reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Search emphasis retains the original type and line spacing. */
+.search-match{background:#e9ddb3;color:inherit;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}

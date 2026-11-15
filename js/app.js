@@ -1,4 +1,4 @@
-import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData, findEntryMatch} from './core.mjs';
+import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData, findEntryMatch, highlightMatches} from './core.mjs';
 const main=document.querySelector('main');
 let data, warnings=[], route, previousHash='', resetWordScrollFor='';
 const positions=new Map();
@@ -14,11 +14,11 @@ const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
 function evidence(ids=[]) {return `<details class="evidence"><summary>根拠となる回答を見る</summary><div>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div></details>`;}
-function responseCard(r, showWord=false, showCategory=true) {
+function responseCard(r, showWord=false, showCategory=true, query='') {
   const w=data.editorial.words.find(w=>w.id===r.wordId);
   const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
   const context=[showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a>`:'',showCategory?e(c?.title || '分類情報なし'):''].filter(Boolean).join(' · ');
-  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')}</a>${context?`<span>${context}</span>`:''}</div><blockquote>${e(r.text)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
+  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${highlightMatches(person(r.respondentId)?.name || '回答者',query)}</a>${context?`<span>${context}</span>`:''}</div><blockquote>${highlightMatches(r.text,query)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
@@ -116,7 +116,7 @@ function updateResponses() {
   }
  }
  const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
- list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
+ list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord,!isWord,route.params.get('q') || '')).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===(route.params.get('category') || ''))));
  const personFilter=document.querySelector('#person-filter');
