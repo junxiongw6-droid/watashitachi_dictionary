@@ -329,8 +329,8 @@ body:before{opacity:.6}
 /* A brief, quiet entrance for each page and reading tab. */
 @media(prefers-reduced-motion:no-preference){
  .site-header{animation:page-appear .55s ease-out both}
- #main> :not(.loading){animation:page-appear .6s ease-out both}
- .reader-panel:not([hidden]){animation:page-appear .4s ease-out both}
+ #main> :not(.loading){animation:page-appear 1s ease-out both}
+ .reader-panel:not([hidden]){animation:page-appear 1s ease-out both}
 }
 @keyframes page-appear{from{opacity:0}to{opacity:1}}
 @media print{.site-header,#main>*,.reader-panel{animation:none!important}}
@@ -395,30 +395,6 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
  .cover-route .hero-foot{animation-delay:1.08s}
 }
 @media print{.cover-route .hero-copy>.eyebrow,.cover-route .hero-copy>h1,.cover-route .hero-intro>p,.cover-route .hero-copy>.cover-open{animation:none!important}}
-
-/* Give interior pages the same layered, gentle entrance as the cover. */
-@media(prefers-reduced-motion:no-preference){
- .contents-heading .eyebrow,.contents-heading .page-title,
- .contents-page .entries>.section-top,.contents-page .word-grid,
- .simple-header>.eyebrow,.simple-header>.page-title,
- .search-page .search-panel,.about-page .prose,
- .people-page .breadcrumb,.people-page>.field-label,.people-page>select,.people-page>.people-grid,.people-page>.person-answers,
- .entry-page .word-header>div,.entry-page .detail-illustration,.entry-page .word-switcher,.entry-page .reader-caption{
-  animation:cover-text-rise .85s cubic-bezier(.25,.1,.25,1) backwards
- }
- .contents-heading .eyebrow,.simple-header>.eyebrow,.people-page .breadcrumb,.entry-page .word-header>div{animation-delay:.12s}
- .contents-heading .page-title,.simple-header>.page-title,.entry-page .detail-illustration{animation-delay:.25s}
- .contents-page .entries>.section-top,.entry-page .word-switcher,.people-page>.field-label{animation-delay:.4s}
- .contents-page .word-grid,.search-page .search-panel,.about-page .prose,.people-page>select,.people-page>.people-grid,.people-page>.person-answers,.entry-page .reader-caption{animation-delay:.55s}
- .entry-page .reader-tabs{animation:page-appear .7s ease-out .55s backwards}
- .reader-panel:not([hidden]){animation:cover-text-rise .7s cubic-bezier(.25,.1,.25,1) backwards}
-}
-@media print{
- .contents-heading .eyebrow,.contents-heading .page-title,.contents-page .entries>.section-top,.contents-page .word-grid,
- .simple-header>.eyebrow,.simple-header>.page-title,.search-page .search-panel,.about-page .prose,
- .people-page .breadcrumb,.people-page>.field-label,.people-page>select,.people-page>.people-grid,.people-page>.person-answers,
- .entry-page .word-header>div,.entry-page .detail-illustration,.entry-page .word-switcher,.entry-page .reader-caption,.entry-page .reader-tabs,.reader-panel{animation:none!important}
-}
 
 /* Frosted word cards with a restrained spring-like response. */
 .contents-page .word-entry{
