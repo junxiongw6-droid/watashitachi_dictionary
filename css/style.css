@@ -510,3 +510,9 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
  .cover-route .hero-intro{max-width:100%}
  .cover-route .hero .desktop-break{display:none}
 }
+
+/* A quiet underline marks the current page in the mobile navigation. */
+@media(max-width:700px){
+ .site-header nav a[aria-current]{background:transparent;color:#303a2b;font-weight:600}
+ .site-header nav a[aria-current]:after{background:#857b6d;height:2px;width:20px}
+}
