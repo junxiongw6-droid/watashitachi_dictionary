@@ -14,10 +14,11 @@ const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
 function evidence(ids=[]) {return `<details class="evidence"><summary>根拠となる回答を見る</summary><div>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div></details>`;}
-function responseCard(r, showWord=false) {
+function responseCard(r, showWord=false, showCategory=true) {
   const w=data.editorial.words.find(w=>w.id===r.wordId);
   const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
-  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')}</a><span>${showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a> · `:''}${e(c?.title || '分類情報なし')}</span></div><blockquote>${e(r.text)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
+  const context=[showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a>`:'',showCategory?e(c?.title || '分類情報なし'):''].filter(Boolean).join(' · ');
+  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')}</a>${context?`<span>${context}</span>`:''}</div><blockquote>${e(r.text)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
@@ -51,7 +52,7 @@ function wordPage(w) {
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
    <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
-    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
+    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id),false,false):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>

@@ -138,6 +138,8 @@ test('every category contains all its original answers and names without a repre
    const row=s.q(`[data-category-id="${category.id}"]`);
    const cards=[...row.querySelectorAll('.category-responses .response-card')];
    assert.equal(cards.length,category.responseIds.length);
+   assert.equal(row.querySelectorAll('.response-meta > span').length,0);
+   assert.equal(s.q('#response-list .response-meta > span').textContent.length>0,true);
    for(const [index,id] of category.responseIds.entries()){
     const answer=fixture.responses.find(r=>r.id===id);
     const author=fixture.respondents.find(p=>p.id===answer.respondentId);

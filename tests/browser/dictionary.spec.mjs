@@ -203,6 +203,7 @@ test('category expansion displays every original answer inline on mobile',async(
    await row.locator('summary').click();
    const cards=row.locator('.category-responses .response-card');
    await expect(cards).toHaveCount(category.responseIds.length);
+   await expect(row.locator('.response-meta > span')).toHaveCount(0);
    await expect(cards.last()).toBeVisible();
    expect(await cards.locator('blockquote').allTextContents()).toEqual(category.responseIds.map(id=>source.responses.find(r=>r.id===id).text));
    await expect(row.locator('[data-open-category]')).toHaveCount(0);
