@@ -492,3 +492,15 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:reduce),print{.cover-motion{display:none}}
 
 @supports not ((mask-image:radial-gradient(black,transparent)) or (-webkit-mask-image:radial-gradient(black,transparent))){.cover-motion{display:none}}
+
+/* Keep the whole desktop cover scene visible down to the book. */
+@media(min-width:701px){
+ .cover-route .hero{
+  background-color:#f5f1e8;
+  background-image:linear-gradient(180deg,rgba(246,243,235,.22),transparent 15%),linear-gradient(90deg,#f5f1e8 0%,#f5f1e8 32%,rgba(245,241,232,.8) 45%,rgba(245,241,232,.08) 70%),url('../assets/backgrounds/cover-lifestyle-desktop.webp');
+  background-size:100% 100%,100% 100%,auto 100%;
+  background-position:center,center,right bottom;
+  background-repeat:no-repeat;
+ }
+ .cover-route .hero-foot{font-size:13px;color:#364637}
+}
