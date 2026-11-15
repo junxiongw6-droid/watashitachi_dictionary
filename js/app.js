@@ -116,7 +116,7 @@ function updateResponses() {
   }
  }
  const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
- list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
+ list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord,!isWord)).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===(route.params.get('category') || ''))));
  const personFilter=document.querySelector('#person-filter');
