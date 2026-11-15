@@ -5,3 +5,5 @@
 - `cover-lifestyle-desktop.webp`, `cover-lifestyle-mobile.webp`: generated landscape and portrait cover scenes for the lifestyle homepage.
 
 - `window-shadow-desktop.webp`, `window-shadow-mobile.webp`: generated paper and window-light backgrounds for interior pages. Previous botanical files are retained for easy rollback.
+
+- 封面花枝与书页使用原图的局部遮罩图层和 CSS 动画，不需要额外动画图片或 GIF；静止原图保留为基础画面。

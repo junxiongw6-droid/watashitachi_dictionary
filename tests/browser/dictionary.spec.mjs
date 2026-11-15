@@ -12,6 +12,12 @@ for(const width of [375,390,430,768,1280]) {
   expect(background).toContain(width<=700?'washi-botanical-mobile.webp':'washi-botanical.webp');
   const backgroundURL=background.match(/url\(["']?(.*?)["']?\)/)[1];
   const backgroundResponse=await page.request.get(backgroundURL);expect(backgroundResponse.status()).toBe(200);expect(backgroundResponse.headers()['content-type']).toContain('image/webp');
+  const coverMotion=page.locator('.cover-motion');
+  await expect(coverMotion).toHaveAttribute('aria-hidden','true');
+  expect(await page.locator('.cover-motion-flowers').evaluate(el=>getComputedStyle(el).animationName)).toBe('cover-flower-breeze');
+  expect(await page.locator('.cover-motion-page').evaluate(el=>getComputedStyle(el).animationName)).toBe('cover-page-breeze');
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(coverMotion).toBeHidden();
+  await page.emulateMedia({reducedMotion:'no-preference'});
   const coverBackground=await page.locator('.hero').evaluate(el=>getComputedStyle(el).backgroundImage);
   expect(coverBackground).toContain(width<=700?'cover-lifestyle-mobile.webp':'cover-lifestyle-desktop.webp');
   const coverURL=coverBackground.match(/url\(["']?(.*?)["']?\)/)[1];

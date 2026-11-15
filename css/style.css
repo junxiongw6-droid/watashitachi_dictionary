@@ -463,3 +463,32 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 .contents-page .word-entry:focus-visible:before,.contents-page .word-entry:focus-visible:after,.contents-page .word-entry:active:before,.contents-page .word-entry:active:after{opacity:1}
 @media(prefers-reduced-motion:no-preference){.contents-page .word-entry:hover:before,.contents-page .word-entry:focus-visible:before{animation:spot-glint 4s linear infinite}}
 @media(prefers-reduced-motion:reduce){.contents-page .word-entry:before,.contents-page .word-entry:after{transition:none!important;animation:none!important}}
+
+/* Subtle local motion uses the same cover image, never moving the copy. */
+.cover-route .hero{isolation:isolate}
+.cover-motion{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--flower-duration:9s;--flower-sway:.18deg;--flower-return:-.12deg;--page-duration:11s;--page-lift:.996}
+.cover-motion>span{position:absolute;inset:0;display:block;background:inherit;pointer-events:none}
+.cover-motion{background:inherit}
+.cover-motion-flowers{
+ -webkit-mask-image:radial-gradient(ellipse 22% 35% at 84% 23%,#000 28%,transparent 100%);
+ mask-image:radial-gradient(ellipse 22% 35% at 84% 23%,#000 28%,transparent 100%);
+ transform-origin:92% 55%;
+}
+.cover-motion-page{
+ -webkit-mask-image:radial-gradient(ellipse 13% 8% at 76% 80%,#000 25%,transparent 100%);
+ mask-image:radial-gradient(ellipse 13% 8% at 76% 80%,#000 25%,transparent 100%);
+ transform-origin:65% 80%;
+}
+@media(max-width:700px){
+ .cover-motion-flowers{-webkit-mask-image:radial-gradient(ellipse 31% 25% at 82% 47%,#000 25%,transparent 100%);mask-image:radial-gradient(ellipse 31% 25% at 82% 47%,#000 25%,transparent 100%);transform-origin:91% 66%}
+ .cover-motion-page{-webkit-mask-image:radial-gradient(ellipse 20% 7% at 69% 83%,#000 22%,transparent 100%);mask-image:radial-gradient(ellipse 20% 7% at 69% 83%,#000 22%,transparent 100%);transform-origin:55% 84%}
+}
+@media(prefers-reduced-motion:no-preference){
+ .cover-motion-flowers{animation:cover-flower-breeze var(--flower-duration) ease-in-out infinite}
+ .cover-motion-page{animation:cover-page-breeze var(--page-duration) ease-in-out infinite}
+}
+@keyframes cover-flower-breeze{0%,100%{transform:rotate(0deg)}35%{transform:rotate(var(--flower-sway))}70%{transform:rotate(var(--flower-return))}}
+@keyframes cover-page-breeze{0%,20%,100%{transform:scaleY(1)}45%{transform:scaleY(var(--page-lift))}65%{transform:scaleY(.998)}}
+@media(prefers-reduced-motion:reduce),print{.cover-motion{display:none}}
+
+@supports not ((mask-image:radial-gradient(black,transparent)) or (-webkit-mask-image:radial-gradient(black,transparent))){.cover-motion{display:none}}
