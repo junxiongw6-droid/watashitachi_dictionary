@@ -1,5 +1,3 @@
-import {mountCoverMotion} from './cover-motion.mjs';
-let disposeCoverMotion=()=>{};
 import {escapeHTML as e, filterResponses, categoryCounts, parseRoute, inspectData, findEntryMatch, highlightMatches} from './core.mjs';
 const main=document.querySelector('main');
 let data, warnings=[], route, previousHash='', resetWordScrollFor='';
@@ -134,7 +132,6 @@ function updateParams(updates, {push=false}={}) {
 function reset() {const input=document.querySelector('#response-query');if(input)input.value='';updateParams({q:'',category:'',person:''});}
 function render() {
  if(!data)return;
- disposeCoverMotion();
  route=parseRoute(location.hash);
  document.body.classList.toggle('cover-route',route.path==='/');
  document.querySelector('.site-header nav').hidden=route.path==='/';
@@ -153,7 +150,6 @@ function render() {
  resetWordScrollFor='';
  window.scrollTo({top:saved || 0,behavior:'instant'});
  main.focus({preventScroll:true});
- disposeCoverMotion=mountCoverMotion(main.querySelector('.hero'));
  previousHash=location.hash;
 }
 main.addEventListener('pointermove',event=>{
