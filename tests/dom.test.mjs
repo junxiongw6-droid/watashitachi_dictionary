@@ -32,7 +32,7 @@ test('home, three entry links, direct routes, tab switches, unknown route',async
  assert.equal(s.w.document.querySelectorAll('.word-entry').length,0);assert.ok(s.q('#open-dictionary'));assert.equal(s.q('.search-panel'),null);
  s.click('#open-dictionary');await tick();assert.equal(s.w.document.querySelectorAll('.word-entry').length,3);assert.equal(s.q('.hero'),null);
  s.click('.word-entry.kazoku');await tick();assert.match(s.q('h1').textContent,/家族/);
- for(const key of ['ai','jiyuu','kazoku']){await s.navigate('#/'+key);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);assert.ok(s.q('.definition-text').textContent);}
+ for(const key of ['ai','jiyuu','kazoku']){await s.navigate('#/'+key);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);assert.ok(s.q('.definition-text').textContent);}
  await s.navigate('#/not-a-page');assert.match(s.q('main').textContent,/ページが見つかりません/);
  }finally{s.close();}
 });
@@ -40,9 +40,9 @@ test('live search, empty state, clear, category filtering and category expansion
  const s=await setup({hash:'#/ai'});try{
  s.input('#response-query','執着');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  s.input('#response-query','ZZZZZZ');assert.match(s.q('#response-list').textContent,/該当する回答が見つかりませんでした/);
- s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
- s.click('[data-category="unconditional"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,3);
- s.click('[data-category=""]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
+ s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
+ s.click('[data-category="unconditional"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,4);
+ s.click('[data-category=""]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
  assert.equal(s.w.document.querySelector('details').open,false);s.click('summary');assert.equal(s.w.document.querySelector('details').open,true);
  }finally{s.close();}
 });
@@ -88,7 +88,7 @@ test('zero responses, missing categories, long HTML-like text remain readable',a
  }finally{s.close();}
 });
 test('fast route changes finish on the last requested word',async()=>{
- const s=await setup();try{for(const key of ['kazoku','ai','jiyuu','kazoku','jiyuu'])s.w.location.hash='#/'+key;await tick();assert.match(s.q('h1').textContent,/自由/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);}finally{s.close();}
+ const s=await setup();try{for(const key of ['kazoku','ai','jiyuu','kazoku','jiyuu'])s.w.location.hash='#/'+key;await tick();assert.match(s.q('h1').textContent,/自由/);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);}finally{s.close();}
 });
 
 test('entry panels reveal one reading group and preserve filters across panel and history changes',async()=>{
@@ -175,7 +175,7 @@ test('word changes preserve the reading panel and reset word-specific filters',a
   s.click(`.word-tabs [data-word="${key}"]`);await tick();
   assert.equal(s.w.location.hash,`#/${key}?view=answers`);
   assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#reader-panel-overview').hidden,true);
-  assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,18);
+  assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
  }
  s.click('#reader-tab-analysis');s.click('.word-tabs [data-word="kazoku"]');await tick();
  assert.equal(s.w.location.hash,'#/kazoku?view=analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);

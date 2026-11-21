@@ -44,9 +44,9 @@ for(const width of [375,390,430,768,1280]) {
    expect(bottom).toBeLessThanOrEqual(844);
   }
   await page.screenshot({path:testInfo.outputPath('contents.png'),fullPage:true});
-  await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);
+  await page.locator('.word-entry.kazoku').click();await expect(page.locator('#response-list .response-card')).toHaveCount(22);
   for(const key of ['kazoku','ai','jiyuu']) {
-   await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(18);
+   await page.goto('./#/'+key);await expect(page.locator('#response-list .response-card')).toHaveCount(22);
    await expect(page.locator('#response-list .response-meta > span')).toHaveCount(0);
    await expect(page.locator('.word-header .eyebrow, #share, .method-details, .page-navigation, #reader-panel-overview .reader-next')).toHaveCount(0);
    await expect(page.locator('[data-nav="words"]')).toHaveAttribute('aria-current','page');
@@ -57,7 +57,7 @@ for(const width of [375,390,430,768,1280]) {
    if(width<=430)expect(imageBox.y).toBeGreaterThanOrEqual(titleBox.y+titleBox.height);
    else if(width>=768)expect(imageBox.x).toBeGreaterThanOrEqual(titleBox.x+titleBox.width);
    const counts=await page.locator('.category-summary-count').allTextContents();
-   const numbers=counts.map(n=>parseInt(n,10));expect(numbers).toEqual([...numbers].sort((a,b)=>b-a));expect(numbers.reduce((sum,n)=>sum+n,0)).toBe(18);
+   const numbers=counts.map(n=>parseInt(n,10));expect(numbers).toEqual([...numbers].sort((a,b)=>b-a));expect(numbers.reduce((sum,n)=>sum+n,0)).toBe(22);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.goto('./#/ai');
@@ -84,8 +84,8 @@ for(const width of [375,390,430,768,1280]) {
   await page.locator('#response-query').fill('執念');await expect(page.locator('#response-list .response-card')).toHaveCount(1);
   await expect(page.locator('#response-list blockquote mark')).toHaveText('執念');
   await page.locator('#response-query').fill('ZZZZZZ');await expect(page.getByText('該当する回答が見つかりませんでした。')).toBeVisible();
-  await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(18);await expect(page.locator('#response-list mark')).toHaveCount(0);
-  await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(3);
+  await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(22);await expect(page.locator('#response-list mark')).toHaveCount(0);
+  await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(4);
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
   await page.locator('.word-tabs a[data-word="jiyuu"]').click();await page.goBack();
@@ -230,7 +230,7 @@ test('changing words keeps answers selected and browser back restores the previo
   await expect(page).toHaveURL(new RegExp('#/'+id+'\\?view=answers$'));
   await expect(page.locator('#reader-tab-answers')).toHaveAttribute('aria-selected','true');
   await expect(page.locator('#reader-panel-answers')).toBeVisible();await expect(page.locator('#reader-panel-overview')).toBeHidden();
-  await expect(page.locator('#response-list .response-card')).toHaveCount(18);await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+  await expect(page.locator('#response-list .response-card')).toHaveCount(22);await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
  }
  await page.goBack();await expect(page).toHaveURL(/#\/jiyuu\?view=answers$/);await expect(page.locator('#reader-panel-answers')).toBeVisible();
  await page.locator('#reader-tab-analysis').click();await page.locator('.word-tabs [data-word="kazoku"]').click();

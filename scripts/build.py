@@ -4,7 +4,7 @@ import hashlib
 import json
 import shutil
 from pathlib import Path
-from convert_excel import ROOT, read_workbook, find_source
+from convert_excel import ROOT, read_dictionary_source
 from validate_data import validate
 from generate_review import render_review
 
@@ -26,7 +26,7 @@ def main():
     args=parser.parse_args()
     if args.mode=='full' and not (args.consent_confirmed or settings.get('publicationApproved') is True):
         parser.error('Full mode requires --consent-confirmed; obtain permission first')
-    raw=read_workbook(find_source())
+    raw=read_dictionary_source()
     editorial=json.loads((ROOT/'data/editorial.json').read_text())
     data=assemble(raw,editorial,args.mode)
     data['nameKind']=settings.get('nameKind','unspecified') if args.mode=='full' else 'anonymous'

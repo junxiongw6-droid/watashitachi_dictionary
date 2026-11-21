@@ -3,14 +3,14 @@ import argparse
 import json
 from collections import Counter
 from pathlib import Path
-from convert_excel import ROOT, read_workbook, find_source
+from convert_excel import ROOT, read_dictionary_source
 
 
 def validate(raw, editorial, public=None):
     errors = []
     def require(ok, message):
         if not ok: errors.append(message)
-    require(editorial.get('sourceSHA256') == raw['sourceSHA256'], 'Workbook changed: review editorial content and update editorial.sourceSHA256 only after review')
+    require(editorial.get('sourceSHA256') == raw['sourceSHA256'], 'Source data changed: review editorial content and update editorial.sourceSHA256 only after review')
     ids = {r['id']: r for r in raw['responses']}
     require(len(ids) == len(raw['responses']), 'Duplicate response ID')
     require(len({p['id'] for p in raw['respondents']}) == len(raw['respondents']), 'Duplicate respondent ID')
@@ -47,7 +47,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--data', type=Path, default=ROOT/'data/dictionary.json')
     args=parser.parse_args()
-    report=validate(read_workbook(find_source()), json.loads((ROOT/'data/editorial.json').read_text()), json.loads(args.data.read_text()))
+    report=validate(read_dictionary_source(), json.loads((ROOT/'data/editorial.json').read_text()), json.loads(args.data.read_text()))
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 if __name__=='__main__':main()

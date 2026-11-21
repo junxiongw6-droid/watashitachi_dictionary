@@ -6,14 +6,14 @@ import unittest
 from pathlib import Path
 from openpyxl import Workbook
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'scripts'))
-from convert_excel import ROOT, read_workbook, find_source
+from convert_excel import ROOT, read_workbook, read_dictionary_source
 from build import assemble
 from validate_data import validate
 
 class DataTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.raw=read_workbook(find_source())
+        cls.raw=read_dictionary_source()
         cls.editorial=json.loads((ROOT/'data/editorial.json').read_text())
 
     def workbook(self, rows):
@@ -25,9 +25,9 @@ class DataTests(unittest.TestCase):
 
     def test_counts_and_exact_roundtrip(self):
         public=assemble(self.raw,self.editorial)
-        self.assertEqual(validate(self.raw,self.editorial,public)['responses'],54)
+        self.assertEqual(validate(self.raw,self.editorial,public)['responses'],66)
         self.assertEqual(public['responses'],self.raw['responses'])
-        self.assertEqual(len(public['respondents']),18)
+        self.assertEqual(len(public['respondents']),22)
 
     def test_anonymous_names_consistent_and_removed(self):
         public=assemble(self.raw,self.editorial)
