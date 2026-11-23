@@ -545,4 +545,3 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:reduce){
  .person-word .person-word-link{transition:none}
 }
-.definition[tabindex="-1"] {scroll-margin-top:4rem}
