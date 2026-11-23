@@ -50,7 +50,7 @@ function wordPage(w) {
  </div>
  <div class="reader-content">
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
-   <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
+   <section class="definition" tabindex="-1"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
     <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id),false,false):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
@@ -88,7 +88,7 @@ function syncReaderView() {
 function peoplePage() {
  const selected=route.params.get('id');
  const p=person(selected);
- return `<div class="page-wrap narrow people-page"><header class="simple-header"><p class="eyebrow">THE PEOPLE BEHIND THE WORDS</p><h1 class="page-title">回答者から探す</h1></header><label class="field-label" for="person-select">回答者を選ぶ（${data.respondents.length}人）</label><select id="person-select"><option value="">選択してください</option>${data.respondents.map(p=>`<option value="${p.id}" ${selected===p.id?'selected':''}>${e(p.name)}</option>`).join('')}</select>${p?`<section class="person-answers"><h2>${e(p.name)} の言葉</h2>${data.editorial.words.map(w=>{const rs=filterResponses(data,{wordId:w.id,personId:p.id});return `<section class="person-word"><h3><a href="#/${w.id}">${w.title} <small>${w.reading}</small> ↗</a></h3>${rs.length?rs.map(r=>responseCard(r,false,false)).join(''):'<p class="empty">回答なし</p>'}</section>`;}).join('')}</section>`:`<div class="people-grid">${data.respondents.map(p=>`<a href="#/people?id=${p.id}">${e(p.name)} <span>↗</span></a>`).join('')}</div>`}</div>`;
+ return `<div class="page-wrap narrow people-page"><header class="simple-header"><p class="eyebrow">THE PEOPLE BEHIND THE WORDS</p><h1 class="page-title">回答者から探す</h1></header><label class="field-label" for="person-select">回答者を選ぶ（${data.respondents.length}人）</label><select id="person-select"><option value="">選択してください</option>${data.respondents.map(p=>`<option value="${p.id}" ${selected===p.id?'selected':''}>${e(p.name)}</option>`).join('')}</select>${p?`<section class="person-answers"><h2>${e(p.name)} の言葉</h2>${data.editorial.words.map(w=>{const rs=filterResponses(data,{wordId:w.id,personId:p.id});return `<section class="person-word"><h3><a class="person-word-link" href="${wordLink(w)}?view=overview&amp;section=definition">${w.title}<small>${w.reading}</small><span aria-hidden="true">↗</span></a></h3>${rs.length?rs.map(r=>responseCard(r,false,false)).join(''):'<p class="empty">回答なし</p>'}</section>`;}).join('')}</section>`:`<div class="people-grid">${data.respondents.map(p=>`<a href="#/people?id=${p.id}">${e(p.name)} <span>↗</span></a>`).join('')}</div>`}</div>`;
 }
 function searchPage() {
  return `<div class="page-wrap narrow search-page"><header class="simple-header"><p class="eyebrow">FIND A VOICE</p><h1 class="page-title">検索</h1></header><section class="search-panel" aria-label="回答を検索">${searchInput()}<p class="search-hint">「家族」「自由」などの言葉や、回答者の名前で探せます。</p><a class="search-people-link" href="#/people">回答者の一覧を見る →</a><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div></section></div>`;
@@ -146,10 +146,18 @@ function render() {
  const navKey=titles[route.path.slice(1)]?'words':route.path==='/contents'?'home':(route.path==='/people'||route.path==='/search')?'search':route.path==='/about'?'about':'';
  document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===navKey)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  updateResponses();
- const saved=resetWordScrollFor===location.hash?0:positions.get(location.hash);
+ const freshNavigation=resetWordScrollFor===location.hash;
+ const saved=freshNavigation?undefined:positions.get(location.hash);
  resetWordScrollFor='';
- window.scrollTo({top:saved || 0,behavior:'instant'});
- main.focus({preventScroll:true});
+ const definition=route.params.get('section')==='definition' && route.params.get('view')==='overview'
+  ? main.querySelector('.definition') : null;
+ if(definition && saved===undefined){
+  definition.scrollIntoView({block:'start',behavior:'instant'});
+  definition.focus({preventScroll:true});
+ }else{
+  window.scrollTo({top:saved || 0,behavior:'instant'});
+  main.focus({preventScroll:true});
+ }
  previousHash=location.hash;
 }
 main.addEventListener('pointermove',event=>{
@@ -166,7 +174,7 @@ main.addEventListener('click',event=>{
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
  if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});
  if(button.hasAttribute('data-view')){
-  updateParams({view:button.dataset.view},{push:true});
+  updateParams({view:button.dataset.view,section:null},{push:true});
   document.querySelector('.reader-tabs').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   document.querySelector(`#reader-tab-${button.dataset.view}`).focus({preventScroll:true});
   announce(document.querySelector(`#reader-tab-${button.dataset.view}`).textContent.trim()+'を表示しました。');
@@ -183,7 +191,7 @@ main.addEventListener('keydown',event=>{
 document.addEventListener('click',event=>{
  const a=event.target.closest('a');if(!a)return;
  const href=a.getAttribute('href');
- if(a.matches('.word-tabs a, .search-entry') && event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.defaultPrevented){
+ if(a.matches('.word-tabs a, .search-entry, .person-word-link') && event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.defaultPrevented){
   event.preventDefault();positions.set(location.hash,scrollY);
   if(location.hash===href){
    positions.set(href,0);window.scrollTo({top:0,behavior:'instant'});main.focus({preventScroll:true});
