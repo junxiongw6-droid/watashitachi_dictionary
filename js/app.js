@@ -18,7 +18,7 @@ function responseCard(r, showWord=false, showCategory=true, query='') {
   const w=data.editorial.words.find(w=>w.id===r.wordId);
   const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
   const context=[showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a>`:'',showCategory?e(c?.title || '分類情報なし'):''].filter(Boolean).join(' · ');
-  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${highlightMatches(person(r.respondentId)?.name || '回答者',query)}</a>${context?`<span>${context}</span>`:''}</div><blockquote>${highlightMatches(r.text,query)}</blockquote>${(data.editorial.tags?.[r.id] || []).length?`<div class="tags">${data.editorial.tags[r.id].map(t=>`<span>${e(t)}</span>`).join('')}</div>`:''}${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
+  return `<article class="response-card" data-record="${e(r.id)}"><div class="response-meta"><a href="#/people?id=${r.respondentId}">${highlightMatches(person(r.respondentId)?.name || '回答者',query)}</a>${context?`<span>${context}</span>`:''}</div><blockquote>${highlightMatches(r.text,query)}</blockquote>${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
