@@ -579,3 +579,13 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 .entry-page .response-tools .filter-chips{margin:0;gap:8px}
 .entry-page .result-count{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .entry-page .response-list{margin-top:24px}
+
+/* Answer cards read like dictionary citations: the answer first, then "— name" set right in small grey type. */
+.response-card blockquote{margin-top:0;margin-bottom:0}
+.response-card .response-meta{justify-content:flex-end;gap:4px 14px;margin:6px 0 0}
+.response-card .response-meta>a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s ease}
+.response-card .response-meta>a:before{content:'\2014\00a0';display:inline-block}
+.response-card .response-meta>a:hover{color:var(--sage);text-decoration:underline;text-underline-offset:4px}
+.response-card .response-meta>span{font-size:12px}
+.response-card .editor-note{margin-top:10px}
+@media(prefers-reduced-motion:reduce){.response-card .response-meta>a{transition:none}}
