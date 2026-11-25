@@ -72,7 +72,9 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('.category-row').nth(1)).toHaveAttribute('open','');
   await expect(page.locator('.category-row').first()).not.toHaveAttribute('open','');
   await expect(page.getByText('言葉を選ぶ',{exact:true})).toBeVisible();
-  await expect(page.getByText('読む内容',{exact:true})).toBeVisible();
+  await expect(page.getByText('読む内容',{exact:true})).toHaveCount(0);
+  await expect(page.getByRole('heading',{name:'私たちの定義',exact:true})).toHaveCount(0);
+  await expect(page.locator('.definition-text')).toBeVisible();
   if(width<=430){
    expect(await page.locator('#reader-tab-answers').evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
    expect(await page.locator('#reader-tab-answers').evaluate(el=>el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48);

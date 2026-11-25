@@ -42,7 +42,6 @@ function wordPage(w) {
  return `<div class="page-wrap entry-page">
  <header class="word-header"><div><h1>${w.title}<span>${w.reading}</span></h1><p>${e(w.intro)}</p></div>${wordIllustration(w)}</header>
  <div class="word-switcher"><p class="nav-caption">言葉を選ぶ</p><nav class="word-tabs" aria-label="言葉の切り替え">${data.editorial.words.map(other=>`<a href="#/${other.id}" data-word="${other.id}" ${other.id===w.id?'aria-current="page"':''}>${other.title}<small>${other.reading}</small></a>`).join('')}</nav></div>
- <p class="nav-caption reader-caption">読む内容</p>
  <div class="reader-tabs" role="tablist" aria-label="読む内容の切り替え">
   <button type="button" id="reader-tab-overview" role="tab" aria-controls="reader-panel-overview" data-view="overview">定義・分類</button>
   <button type="button" id="reader-tab-answers" role="tab" aria-controls="reader-panel-answers" data-view="answers">みんなの回答</button>
@@ -50,7 +49,7 @@ function wordPage(w) {
  </div>
  <div class="reader-content">
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
-   <section class="definition"><h2>私たちの定義</h2><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
+   <section class="definition" aria-label="私たちの定義"><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
     <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の説明を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><p class="category-description">${e(c.description)}</p><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id),false,false):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
