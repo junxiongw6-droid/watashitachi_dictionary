@@ -24,7 +24,7 @@ function home() {
 
 function contentsPage() {
  return `<div class="contents-page"><header class="contents-heading"><div><p class="eyebrow">CONTENTS</p><h1 class="page-title">目次</h1></div></header>
- <section class="entries" id="entries"><div class="section-top"><div><h2>言葉をひらく</h2></div></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom"><span class="circle-arrow" aria-hidden="true">↗</span></div></a>`).join('')}</div></section></div>`;
+ <section class="entries" id="entries"><div class="section-top"><div><h2>言葉をひらく</h2></div></div><div class="word-grid">${data.editorial.words.map(w=>`<a class="word-entry ${w.id}" href="${wordLink(w)}"><div class="entry-title"><h3>${w.title}</h3><span>${w.reading}</span></div><p>${e(w.intro)}</p><div class="entry-bottom" aria-hidden="true"><span class="circle-arrow">↗</span></div><span class="entry-ribbon" aria-hidden="true"></span></a>`).join('')}</div></section></div>`;
 }
 
 function filterBar(word) {

@@ -588,3 +588,17 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 .response-card .response-meta>span{font-size:12px}
 .response-card .editor-note{margin-top:10px}
 @media(prefers-reduced-motion:reduce){.response-card .response-meta>a{transition:none}}
+
+/* 目次 cards: a bookmark ribbon (栞) in each word's colour hangs from the top edge instead of an arrow. */
+.contents-page .word-entry{position:relative}
+/* The bottom row stays (invisibly) so the cards keep their original height. */
+.contents-page .entry-bottom{border-top-color:transparent}
+.contents-page .entry-bottom .circle-arrow{visibility:hidden}
+.contents-page .entry-ribbon{position:absolute;z-index:3;top:-1px;right:30px;width:15px;height:58px;background:#8ea494;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);pointer-events:none;transition:height .3s ease}
+.contents-page .word-entry.ai .entry-ribbon{background:#c7a097}
+.contents-page .word-entry.jiyuu .entry-ribbon{background:#8fae93}
+@media(hover:hover){.contents-page .word-entry:hover .entry-ribbon{height:68px}}
+.contents-page .word-entry:focus-visible .entry-ribbon{height:68px}
+@media(max-width:700px){.contents-page .entry-ribbon{right:22px;height:46px}.contents-page .word-entry:focus-visible .entry-ribbon{height:54px}}
+@media(forced-colors:active){.contents-page .entry-ribbon{background:CanvasText}}
+@media(prefers-reduced-motion:reduce){.contents-page .entry-ribbon{transition:none}}
