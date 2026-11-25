@@ -14,11 +14,8 @@ const person=id=>data.respondents.find(p=>p.id===id);
 const response=id=>data.responses.find(r=>r.id===id);
 const announce=text=>document.querySelector('#announcement').textContent=text;
 function evidence(ids=[]) {return `<details class="evidence"><summary>根拠となる回答を見る</summary><div>${ids.map(id=>{const r=response(id); return r?`<a href="#/${r.wordId}?person=${r.respondentId}">${e(person(r.respondentId)?.name || '回答者')} ↗</a>`:'';}).join('')}</div></details>`;}
-function responseCard(r, showWord=false, showCategory=true, query='') {
-  const w=data.editorial.words.find(w=>w.id===r.wordId);
-  const c=w?.categories.find(c=>c.responseIds?.includes(r.id));
-  const context=[showWord?`<a href="#/${r.wordId}">${e(w?.title)}</a>`:'',showCategory?e(c?.title || '分類情報なし'):''].filter(Boolean).join(' · ');
-  return `<article class="response-card" data-record="${e(r.id)}"><blockquote>${highlightMatches(r.text,query)}</blockquote><div class="response-meta"><a href="#/people?id=${r.respondentId}">${highlightMatches(person(r.respondentId)?.name || '回答者',query)}</a>${context?`<span>${context}</span>`:''}</div>${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
+function responseCard(r, query='') {
+  return `<article class="response-card" data-record="${e(r.id)}"><blockquote>${highlightMatches(r.text,query)}</blockquote><div class="response-meta"><a href="#/people?id=${r.respondentId}">${highlightMatches(person(r.respondentId)?.name || '回答者',query)}</a></div>${data.editorial.notes?.[r.id]?`<p class="editor-note">編者注：${e(data.editorial.notes[r.id])}</p>`:''}</article>`;
 }
 function home() {
  const coverImage=new URL('../assets/illustrations/cover-book.webp',import.meta.url).href;
@@ -51,7 +48,7 @@ function wordPage(w) {
   <div id="reader-panel-overview" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-overview" tabindex="0">
    <section class="definition" aria-label="私たちの定義"><p class="definition-text">${e(w.definition)}</p><p class="editor-caption">${e(data.editorial.notice)}</p></section>
    <section class="content-section"><div class="section-top"><h2>意味のまとまり</h2></div>
-    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の回答を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id),false,false):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
+    <div class="category-list">${counts.map(c=>`<details class="category-row" data-category-id="${e(c.id)}"><summary aria-label="${e(c.title)}（${c.count}人）の回答を見る"><span class="category-summary-title">${e(c.title)}</span><span class="category-summary-count">${c.count}<small>人</small></span><span class="category-chevron" aria-hidden="true"></span></summary><div class="category-body"><div class="bar-track" aria-hidden="true"><span style="width:${total?c.count/total*100:0}%"></span></div><div class="category-responses"><h3>この分類の回答</h3>${(c.responseIds || []).map(id=>response(id)?responseCard(response(id)):'').join('')}</div></div></details>`).join('') || '<p>分類情報は準備中です。みんなの回答から原文をお読みください。</p>'}</div>
    </section>
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
@@ -87,7 +84,7 @@ function syncReaderView() {
 function peoplePage() {
  const selected=route.params.get('id');
  const p=person(selected);
- return `<div class="page-wrap narrow people-page"><header class="simple-header"><p class="eyebrow">THE PEOPLE BEHIND THE WORDS</p><h1 class="page-title">回答者から探す</h1></header><select id="person-select" aria-label="回答者"><option value="">選択してください</option>${data.respondents.map(p=>`<option value="${p.id}" ${selected===p.id?'selected':''}>${e(p.name)}</option>`).join('')}</select>${p?`<section class="person-answers"><h2>${e(p.name)} の言葉</h2>${data.editorial.words.map(w=>{const rs=filterResponses(data,{wordId:w.id,personId:p.id});return `<section class="person-word"><h3><a class="person-word-link" href="${wordLink(w)}?view=overview">${w.title}<small>${w.reading}</small><span aria-hidden="true">↗</span></a></h3>${rs.length?rs.map(r=>responseCard(r,false,false)).join(''):'<p class="empty">回答なし</p>'}</section>`;}).join('')}</section>`:`<div class="people-grid">${data.respondents.map(p=>`<a href="#/people?id=${p.id}">${e(p.name)} <span>↗</span></a>`).join('')}</div>`}</div>`;
+ return `<div class="page-wrap narrow people-page"><header class="simple-header"><p class="eyebrow">THE PEOPLE BEHIND THE WORDS</p><h1 class="page-title">回答者から探す</h1></header><select id="person-select" aria-label="回答者"><option value="">選択してください</option>${data.respondents.map(p=>`<option value="${p.id}" ${selected===p.id?'selected':''}>${e(p.name)}</option>`).join('')}</select>${p?`<section class="person-answers"><h2>${e(p.name)} の言葉</h2>${data.editorial.words.map(w=>{const rs=filterResponses(data,{wordId:w.id,personId:p.id});return `<section class="person-word"><h3><a class="person-word-link" href="${wordLink(w)}?view=overview">${w.title}<small>${w.reading}</small><span aria-hidden="true">↗</span></a></h3>${rs.length?rs.map(r=>responseCard(r)).join(''):'<p class="empty">回答なし</p>'}</section>`;}).join('')}</section>`:`<div class="people-grid">${data.respondents.map(p=>`<a href="#/people?id=${p.id}">${e(p.name)} <span>↗</span></a>`).join('')}</div>`}</div>`;
 }
 function searchPage() {
  return `<div class="page-wrap narrow search-page"><header class="simple-header"><p class="eyebrow">FIND A VOICE</p><h1 class="page-title">検索</h1></header><section class="search-panel" aria-label="回答を検索">${searchInput()}<p class="search-hint">「家族」「自由」などの言葉や、回答者の名前で探せます。</p><a class="search-people-link" href="#/people">回答者の一覧を見る →</a><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div></section></div>`;
@@ -115,7 +112,7 @@ function updateResponses() {
   }
  }
  const results=filterResponses(data,{wordId:isWord?wordId:'',category:route.params.get('category') || '',query:route.params.get('q') || '',personId:route.params.get('person') || ''});
- list.innerHTML=results.length?results.map(r=>responseCard(r,!isWord,!isWord,route.params.get('q') || '')).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
+ list.innerHTML=results.length?results.map(r=>responseCard(r,route.params.get('q') || '')).join(''):'<div class="empty"><span aria-hidden="true">○</span><p>該当する回答が見つかりませんでした。</p><button data-reset>すべて表示</button></div>';
  document.querySelector('#result-count').textContent=`${results.length} 件の回答${route.params.get('q')?` ／「${route.params.get('q')}」`:''}`;
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===(route.params.get('category') || ''))));
  const personFilter=document.querySelector('#person-filter');

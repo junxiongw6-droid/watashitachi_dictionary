@@ -101,7 +101,8 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('#response-list .response-card')).toHaveCount(0);
   await page.locator('#response-query').fill(source.respondents[0].name);
   await expect(page.locator('#response-list .response-card')).toHaveCount(3);
-  await page.locator('#response-list .response-meta span a').first().click();await page.goBack();
+  await expect(page.locator('#response-list .response-meta > span')).toHaveCount(0);
+  await page.locator('#response-list .response-meta > a').first().click();await page.goBack();
   await expect(page.locator('#response-query')).toHaveValue(source.respondents[0].name);
   await expect(page.locator('#response-list .response-card')).toHaveCount(3);
   await page.locator('#response-query').fill('家族');
