@@ -545,3 +545,31 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:reduce){
  .person-word .person-word-link{transition:none}
 }
+/* Reading tabs: mark the selected section with an underline instead of a solid block,
+   so they read differently from the word pills above. */
+.entry-page .reader-tabs button{
+ color:var(--muted);
+ transition:color .2s ease,box-shadow .2s ease;
+}
+.entry-page .reader-tabs button[aria-selected=true]{
+ background:transparent;
+ border-color:transparent;
+ color:var(--ink);
+ font-weight:600;
+ box-shadow:inset 0 -3px 0 var(--sage);
+}
+.entry-page .reader-tabs button[aria-selected=true]>span,
+.entry-page .reader-tabs button[aria-selected=true]>small{color:var(--muted)}
+@media(hover:hover){
+ .entry-page .reader-tabs button[aria-selected=false]:hover{
+  background:transparent;
+  color:var(--ink);
+  box-shadow:inset 0 -1px 0 #9aae9a;
+ }
+}
+@media(forced-colors:active){
+ .entry-page .reader-tabs button[aria-selected=true]{border-bottom:3px solid Highlight}
+}
+@media(prefers-reduced-motion:reduce){
+ .entry-page .reader-tabs button{transition:none}
+}
