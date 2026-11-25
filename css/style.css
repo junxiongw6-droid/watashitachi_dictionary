@@ -573,3 +573,9 @@ body:not(.cover-route):before{background-image:url('../assets/backgrounds/window
 @media(prefers-reduced-motion:reduce){
  .entry-page .reader-tabs button{transition:none}
 }
+
+/* Category filters form a compact row on the word answers page. */
+.entry-page .response-tools{background:transparent;padding:0;margin:22px 0 0}
+.entry-page .response-tools .filter-chips{margin:0;gap:8px}
+.entry-page .result-count{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.entry-page .response-list{margin-top:24px}

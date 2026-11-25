@@ -57,7 +57,7 @@ function wordPage(w) {
   </div>
   <div id="reader-panel-answers" class="reader-panel" role="tabpanel" aria-labelledby="reader-tab-answers" tabindex="0" hidden>
    <section id="responses"><div class="section-top"><h2>みんなの回答</h2><span class="total-badge">全 ${total} 件</span></div>
-    <div class="response-tools">${searchInput()}${filterBar(w)}<div id="person-filter"></div></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div>
+    <div class="response-tools">${filterBar(w)}<div id="person-filter"></div></div><p id="result-count" class="result-count" aria-live="polite"></p><div id="response-list" class="response-list"></div>
    </section>
 
   </div>
@@ -164,7 +164,7 @@ main.addEventListener('change',event=>{if(event.target.id==='person-select')loca
 main.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;
  if(button.id==='clear-search' || button.hasAttribute('data-reset'))reset();
- if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category});
+ if(button.hasAttribute('data-category'))updateParams({category:button.dataset.category,q:'',person:''});
  if(button.hasAttribute('data-view')){
   updateParams({view:button.dataset.view},{push:true});
   document.querySelector('.reader-tabs').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});

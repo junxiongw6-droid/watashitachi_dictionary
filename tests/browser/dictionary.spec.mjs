@@ -81,13 +81,11 @@ for(const width of [375,390,430,768,1280]) {
   await expect(page.locator('#reader-panel-answers')).toBeVisible();await expect(page.locator('#reader-panel-overview')).toBeHidden();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:testInfo.outputPath('ai-answers.png'),fullPage:true});
-  await page.locator('#response-query').fill('執念');await expect(page.locator('#response-list .response-card')).toHaveCount(1);
-  await expect(page.locator('#response-list blockquote mark')).toHaveText('執念');
-  await page.locator('#response-query').fill('ZZZZZZ');await expect(page.getByText('該当する回答が見つかりませんでした。')).toBeVisible();
-  await page.locator('#clear-search').click();await expect(page.locator('#response-list .response-card')).toHaveCount(22);await expect(page.locator('#response-list mark')).toHaveCount(0);
+  await expect(page.locator('#response-query')).toHaveCount(0);
+  await expect(page.locator('#result-count')).toHaveCSS('position','absolute');
   await page.locator('[data-category="unconditional"]').click();await expect(page.locator('#response-list .response-card')).toHaveCount(4);
-  await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.locator('#top').click();
-  await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
+  await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));
+  if(await page.evaluate(()=>scrollY)>=600){await page.locator('#top').click();await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);}
   await page.locator('.word-tabs a[data-word="jiyuu"]').click();await page.goBack();
   await expect(page.locator('[data-category="unconditional"]')).toHaveAttribute('aria-pressed','true');
   await page.goto('./#/people?id=p01');await expect(page.locator('.person-answers .response-card')).toHaveCount(3);

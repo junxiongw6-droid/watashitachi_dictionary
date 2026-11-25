@@ -38,9 +38,7 @@ test('home, three entry links, direct routes, tab switches, unknown route',async
 });
 test('live search, empty state, clear, category filtering and category expansion',async()=>{
  const s=await setup({hash:'#/ai'});try{
- s.input('#response-query','執着');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
- s.input('#response-query','ZZZZZZ');assert.match(s.q('#response-list').textContent,/該当する回答が見つかりませんでした/);
- s.click('#clear-search');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
+ assert.equal(s.q('#response-query'),null);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
  s.click('[data-category="unconditional"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,4);
  s.click('[data-category=""]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,22);
  assert.equal(s.w.document.querySelector('details').open,false);s.click('summary');assert.equal(s.w.document.querySelector('details').open,true);
@@ -70,9 +68,9 @@ test('search is separate from catalogue and supports names, keywords and clearin
 });
 test('browser history restores category, query and scroll',async()=>{
  const s=await setup({hash:'#/ai'});try{
- s.input('#response-query','見返り');s.click('[data-category="unconditional"]');s.w.scrollTo({top:900});s.w.dispatchEvent(new s.w.Event('scroll'));
+ s.click('[data-category="unconditional"]');s.w.scrollTo({top:900});s.w.dispatchEvent(new s.w.Event('scroll'));
  await s.followLink('.word-tabs a[data-word="jiyuu"]');await s.back();
- assert.equal(s.q('#response-query').value,'見返り');assert.equal(s.q('[data-category="unconditional"]').getAttribute('aria-pressed'),'true');assert.equal(s.scroll(),900);
+ assert.equal(s.q('[data-category="unconditional"]').getAttribute('aria-pressed'),'true');assert.equal(s.scroll(),900);
  s.click('#top');assert.equal(s.scroll(),0);
  }finally{s.close();}
 });
@@ -95,9 +93,9 @@ test('entry panels reveal one reading group and preserve filters across panel an
  const s=await setup({hash:'#/ai'});try{
  assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('#reader-panel-answers').hidden,true);assert.equal(s.q('#reader-panel-analysis').hidden,true);
  s.click('#reader-tab-answers');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#reader-panel-overview').hidden,true);
- s.input('#response-query','見返り');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,2);
+ s.click('[data-category="unconditional"]');assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,4);
  s.click('#reader-tab-analysis');assert.equal(s.q('#reader-panel-analysis').hidden,false);
- await s.back();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('#response-query').value,'見返り');
+ await s.back();assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.q('[data-category="unconditional"]').getAttribute('aria-pressed'),'true');
  s.click('#reader-tab-overview');s.click('[data-category-id="attachment"] > summary');assert.equal(s.q('#reader-panel-overview').hidden,false);assert.equal(s.q('[data-category-id="attachment"]').querySelectorAll('.response-card').length,1);
  await s.navigate('#/kazoku?person=p01');assert.equal(s.q('#reader-panel-answers').hidden,false);assert.equal(s.w.document.querySelectorAll('#response-list .response-card').length,1);
  s.click('#reader-tab-overview');s.q('#reader-tab-overview').dispatchEvent(new s.w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert.equal(s.q('#reader-panel-analysis').hidden,false);assert.equal(s.w.document.activeElement.id,'reader-tab-analysis');
@@ -200,19 +198,14 @@ test('four main navigation links distinguish contents from word pages and return
  }finally{s.close();}
 });
 
-test('search emphasis updates and clears without changing answer text or leaking into categories',async()=>{
- const s=await setup({hash:'#/ai?view=answers'});try{
- s.input('#response-query','執着');
+test('search emphasis preserves answer text on the search page',async()=>{
+ const s=await setup({hash:'#/search?q='+encodeURIComponent('執着')});try{
  const quote=s.q('#response-list blockquote');
  assert.equal(quote.textContent,fixture.responses.find(r=>r.wordId==='ai' && r.text.includes('執着')).text);
  assert.equal(quote.querySelector('mark').textContent,'執着');
- assert.equal(s.q('.category-body mark'),null);
  s.input('#response-query',fixture.respondents[0].name);
  assert.ok(s.q('#response-list .response-meta mark'));
  s.click('#clear-search');assert.equal(s.q('#response-list mark'),null);
- await s.navigate('#/search?q='+encodeURIComponent('執着'));
- assert.equal(s.q('#response-list blockquote mark').textContent,'執着');
- s.input('#response-query','ZZZZZZ');assert.equal(s.q('#response-list mark'),null);
  }finally{s.close();}
 });
 
